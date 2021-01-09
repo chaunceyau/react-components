@@ -1,10 +1,4 @@
-import * as React from 'react'
-import styles from './styles.module.css'
-
-interface Props {
-  text: string
-}
-
-export const ExampleComponent = ({ text }: Props) => {
-  return <div className={styles.test}>Example Component: {text}</div>
-}
+export { Form } from './components/form'
+export { FormInput } from './components/form/elements/input'
+export { FormUpload } from './components/form/elements/upload'
+export { FormOptions } from './components/form/elements/options'
