@@ -29,17 +29,21 @@ export function FileListItem(props: FileListItemProps) {
 
   const liClasses = ['flex items-center']
 
+  if (pendingRemoval) {
+    liClasses.push('line-through')
+  }
+
   if (pendingRemoval || formState.isSubmitting) {
-    liClasses.push('line-through text-gray-300')
+    liClasses.push('text-gray-300')
   } else if (state.error) {
     liClasses.push('text-red-500')
+  } else if (!props.file || state.progress === 100) {
+    liClasses.push('text-green-500')
   } else {
-    liClasses.push(
-      !props.file || state.progress === 100 ? 'text-green-500' : 'text-gray-400'
-    )
+    liClasses.push('text-gray-400')
   }
-  // TODO: error on liClasses... i.e. progress not 100 and error
 
+  // TODO: error on liClasses... i.e. progress not 100 and error
   const showLoading = !state.error && props.file && state.progress !== 100
 
   return (
@@ -94,7 +98,7 @@ export function FileListItem(props: FileListItemProps) {
       {!pendingRemoval ? (
         <button
           type='button'
-          className='ml-4'
+          className={`ml-4 ${formState.isSubmitting ? '' : 'text-red-500'}`}
           disabled={formState.isSubmitting}
           onClick={() => {
             setValue(

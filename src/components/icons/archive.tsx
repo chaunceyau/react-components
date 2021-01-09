@@ -6,7 +6,7 @@ export const ArchiveSvg = () => (
     fill="none"
     viewBox="0 0 24 24"
     stroke="currentColor"
-    className="-mt-px mb-px h-4 w-auto flex-shrink-0 text-red-500"
+    className="-mt-px mb-px h-4 w-auto flex-shrink-0"
   >
     <path
       strokeLinecap="round"
