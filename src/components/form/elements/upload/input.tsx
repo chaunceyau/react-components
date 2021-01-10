@@ -14,7 +14,7 @@ export function UploadInput(props: UploadInputProps) {
 
   const svgClasses = ["text-gray-400"];
   const flexWrapper = ["flex items-center space-x-2"];
-  const containerClasses = ["border rounded-md flex cursor-pointer rounded-lg"];
+  const containerClasses = ["border rounded-md flex cursor-pointer rounded-lg shadow-sm"];
 
   if (props.horizontal) {
     containerClasses.push("justify-start pl-4 py-4");

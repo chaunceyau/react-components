@@ -27,8 +27,8 @@ export function FormOptions(props: FormOptionsProps) {
   return (
     <fieldset>
       <FormLabel name={props.label} label={props.label} error={false} />
-      {/* <legend className="sr-only">Pricing plans</legend> */}
-      <ul className='relative bg-white rounded-md -space-y-px'>
+      <legend className="sr-only">{props.label}</legend>
+      <ul className='relative bg-white rounded-md -space-y-px shadow-sm'>
         {props.options.map((option, index) => (
           <Option
             variableName={props.variableName}

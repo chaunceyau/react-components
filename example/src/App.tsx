@@ -18,7 +18,7 @@ const App = () => {
       setTimeout(() => {
         console.log(data)
         res(data)
-      }, 500)
+      }, 2500)
     })
   }
 
@@ -87,8 +87,8 @@ const App = () => {
           registerOptions={{ required: 'You must provide information' }}
         />
         <FormOptions
-          label='Subscription Type'
           variableName='subscriptionType'
+          label='Subscription Type'
           options={options}
         />
         <FormToggle

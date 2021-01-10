@@ -3,9 +3,9 @@ import { useDropzone } from 'react-dropzone'
 import { Controller, useFormContext } from 'react-hook-form'
 //
 import { FileListItem } from './li'
+import { UploadInput } from './input'
 import { Button } from '../../../button'
 import { FormLabel } from '../misc/label'
-import { UploadInput } from './input'
 
 type FormUploadProps = FormUploadBasics & Partial<HTMLInputElement>
 
@@ -68,56 +68,19 @@ function FormUploadComponent(props: any) {
     multiple: !!inputProps.multiple
   })
 
-  const onClickAddImageButton = React.useCallback(
-    () => inputRef?.current?.click(),
-    [inputRef]
-  )
-
-  const { formState } = useFormContext()
-
-  const ulClasses = ['space-y-4']
-
-  if (!inputProps.multiple || formState.isSubmitting) {
-    ulClasses.push('mb-1')
-  } else {
-    ulClasses.push('mb-5')
-  }
-
-  const wrapperClasses = ['w-full px-6 py-4 border rounded-lg']
-  if (formState.isSubmitting) {
-    wrapperClasses.push('bg-gray-200')
-  }
-
   return (
     <div>
       <FormLabel name={props.name} label={props.label} error={props.error} />
+      <ExistingFiles
+        name={name}
+        value={value}
+        onChange={onChange}
+        uploadInputRef={inputRef}
+        onDeleteMutation={onDeleteMutation}
+        onUploadComplete={onUploadComplete}
+        allowMultipleFiles={!!props.multiple}
+      />
 
-      {props.value.length ? (
-        <div className={wrapperClasses.join(' ')}>
-          <ul className={ulClasses.join(' ')}>
-            {props.value.map((file: FileState) => (
-              <FileListItem
-                key={file.id}
-                file={file.file}
-                status={file.status}
-                remoteFileId={file.id}
-                fileName={file.fileName}
-                variableName={props.name}
-                onUploadComplete={onUploadComplete}
-              />
-            ))}
-          </ul>
-          {formState.isSubmitting || !inputProps.multiple ? null : (
-            <Button
-              fluid
-              type='button'
-              color='light'
-              content='Add another file'
-              onClick={onClickAddImageButton}
-            />
-          )}
-        </div>
-      ) : null}
       <UploadInput
         hidden={!!props.value.length}
         getRootProps={getRootProps}
@@ -125,4 +88,61 @@ function FormUploadComponent(props: any) {
       />
     </div>
   )
+}
+
+function ExistingFiles(props: {
+  name: any
+  value: any
+  onChange: any
+  uploadInputRef: any
+  onDeleteMutation: any
+  onUploadComplete: any
+  allowMultipleFiles: boolean
+}) {
+  const { formState } = useFormContext()
+
+  const onClickAddImageButton = React.useCallback(
+    () => props.uploadInputRef.current?.click(),
+    [props.uploadInputRef]
+  )
+
+  const ulClasses = ['space-y-4']
+
+  if (!props.allowMultipleFiles || formState.isSubmitting) {
+    ulClasses.push('mb-1')
+  } else {
+    ulClasses.push('mb-5')
+  }
+
+  const wrapperClasses = ['w-full px-6 py-4 border rounded-lg shadow-sm']
+  if (formState.isSubmitting) {
+    wrapperClasses.push('bg-gray-200')
+  }
+
+  return props.value.length ? (
+    <div className={wrapperClasses.join(' ')}>
+      <ul className={ulClasses.join(' ')}>
+        {props.value.map((file: FileState) => (
+          <FileListItem
+            key={file.id}
+            file={file.file}
+            status={file.status}
+            remoteFileId={file.id}
+            fileName={file.fileName}
+            variableName={props.name}
+            onUploadComplete={props.onUploadComplete}
+          />
+        ))}
+      </ul>
+      {formState.isSubmitting || !props.allowMultipleFiles ? null : (
+        <Button
+          fluid
+          type='button'
+          color='light'
+          content='Add another file'
+          onClick={onClickAddImageButton}
+        />
+      )}
+    </div>
+  ) : null
 }
