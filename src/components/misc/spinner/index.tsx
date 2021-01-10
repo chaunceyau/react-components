@@ -26,7 +26,7 @@ export function LoadingSpinner({ color }: LoadingSpinnerProps) {
   return (
     <svg className={svgClasses} viewBox='0 0 50 50'>
       <circle
-        className='path'
+        className={styles.path}
         cx='25'
         cy='25'
         r='20'
