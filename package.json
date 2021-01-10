@@ -1,7 +1,7 @@
 {
   "name": "@chaunceyau/react-components",
-  "version": "1.0.0",
-  "description": "component library to be used with react applications",
+  "version": "1.0.1",
+  "description": "Easy-to-use react component library",
   "author": "chaunceyau",
   "license": "MIT",
   "repository": "chaunceyau/react-components",
