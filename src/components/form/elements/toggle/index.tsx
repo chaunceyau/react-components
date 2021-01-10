@@ -44,13 +44,13 @@ function Toggle({
     'transform ring-0 transition ease-in-out duration-200'
   ]
 
-  btnClasses.push(value ? 'bg-indigo-600' : 'bg-gray-200')
+  btnClasses.push(value ? 'bg-indigo-600' : 'bg-gray-300')
   circleClasses.push(value ? 'translate-x-4' : 'translate-x-0')
 
   return (
     <div className='flex flex-col justify-between'>
-      <span className='flex-grow flex justify-between items-end' id={name}>
-        <FormLabel name={name} label={label} error={false} />
+      <FormLabel name={name} label={label} error={false} />
+      <div className='rounded-lg flex items-center justify-between border rounded-lg py-3 px-4 shadow-sm'>
         <button
           type='button'
           aria-pressed={value}
@@ -60,10 +60,8 @@ function Toggle({
           <span className='sr-only'>Use setting</span>
           <span aria-hidden={!value} className={circleClasses.join(' ')}></span>
         </button>
-      </span>
-      <div className='-mt-1 rounded-lg flex items-end justify-between'>
         {description ? (
-          <span className='text-sm leading-normal text-gray-700 tracking-wide'>
+          <span className='text-sm leading-normal text-gray-600 tracking-wide'>
             {description}
           </span>
         ) : null}
