@@ -1,9 +1,30 @@
 import * as React from 'react'
 import styles from './styles.module.css'
 
-export function LoadingSpinner() {
+interface LoadingSpinnerProps {
+  color?: 'white' | 'dark' | 'currentColor'
+}
+
+export function LoadingSpinner({ color }: LoadingSpinnerProps) {
+  const svgClasses = React.useMemo(() => {
+    const arr = [styles.spinner, 'w-4 h-4']
+
+    switch (color) {
+      case 'white': {
+        arr.push('text-white')
+        break
+      }
+      case 'dark': {
+        arr.push('text-gray-800')
+        break
+      }
+    }
+
+    return arr.join(' ')
+  }, [color])
+
   return (
-    <svg className={styles.spinner + ' w-4 h-4'} viewBox='0 0 50 50'>
+    <svg className={svgClasses} viewBox='0 0 50 50'>
       <circle
         className='path'
         cx='25'

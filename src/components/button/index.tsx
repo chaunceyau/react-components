@@ -38,7 +38,7 @@ export function Button(props: ButtonProps) {
 
   const spinner = (
     <div className='flex items-center absolute inset-y-1/2 mx-auto'>
-      <LoadingSpinner />
+      <LoadingSpinner color='white' />
     </div>
   )
 
@@ -99,7 +99,6 @@ function getButtonClasses({
     'justify-center',
     // text
     'text-sm',
-    'text-white',
     'font-medium',
     // misc
     'shadow-sm',
@@ -121,7 +120,7 @@ function getButtonClasses({
     }
 
     case 'default': {
-      buttonBaseClasses.push('bg-gray-400')
+      buttonBaseClasses.push('bg-gray-400 text-gray-600')
       if (!disabled) {
         buttonBaseClasses.push('hover:bg-gray-600')
       }
@@ -130,7 +129,7 @@ function getButtonClasses({
 
     case 'primary':
     default: {
-      buttonBaseClasses.push('bg-indigo-600')
+      buttonBaseClasses.push('bg-indigo-600 text-white')
       if (!disabled) {
         buttonBaseClasses.push('hover:bg-indigo-700')
       }

@@ -7,9 +7,9 @@ export interface FieldLabelProps {
 }
 
 export function FieldLabel({ name, label, error }: FieldLabelProps) {
-  const classes = ["block text-sm font-bold mb-2"];
+  const classes = ["block text-sm font-bold mb-2 tracking-wide"];
 
-  classes.push(error ? "text-red-600" : "text-gray-700");
+  classes.push(error ? "text-red-600" : "text-gray-800");
 
   return (
     <label htmlFor={name} className={classes.join(" ")}>

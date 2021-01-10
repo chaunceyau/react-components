@@ -17,7 +17,7 @@ const App = () => {
       setTimeout(() => {
         console.log(data)
         res(data)
-      }, 2000)
+      }, 50000)
     })
   }
 
@@ -45,8 +45,8 @@ const App = () => {
 
   const defaults = React.useMemo(
     () => ({
-      firstName: 'first',
-      lastName: 'test',
+      firstName: 'austin',
+      lastName: 'chauncey',
       profilePhoto: [
         {
           id: '8cd306aa-9fe1-445b-bb45-56e49786a317',
@@ -64,7 +64,7 @@ const App = () => {
   )
 
   return (
-    <div className='max-w-2xl mx-auto py-24'>
+    <div className='max-w-2xl mx-auto py-8'>
       <Form
         styled
         onSubmit={onSubmit}
