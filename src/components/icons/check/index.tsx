@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './style.css'
+import styles from './styles.module.css'
 
 export const CheckIcon = () => (
   <svg
