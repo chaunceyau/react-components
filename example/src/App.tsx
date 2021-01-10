@@ -4,7 +4,8 @@ import {
   Form,
   FormInput,
   FormOptions,
-  FormUpload
+  FormUpload,
+  FormToggle
 } from '@chaunceyau/react-components'
 
 import './assets/generated/style.css'
@@ -17,7 +18,7 @@ const App = () => {
       setTimeout(() => {
         console.log(data)
         res(data)
-      }, 50000)
+      }, 500)
     })
   }
 
@@ -47,6 +48,7 @@ const App = () => {
     () => ({
       firstName: 'austin',
       lastName: 'chauncey',
+      allowNotifications: false,
       profilePhoto: [
         {
           id: '8cd306aa-9fe1-445b-bb45-56e49786a317',
@@ -88,6 +90,11 @@ const App = () => {
           label='Subscription Type'
           variableName='subscriptionType'
           options={options}
+        />
+        <FormToggle
+          name='allowNotifications'
+          label='Allow Notifications'
+          description='This will allow mobile phone notifications'
         />
         <FormUpload
           name='profilePhoto'

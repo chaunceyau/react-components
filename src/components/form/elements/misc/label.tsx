@@ -1,12 +1,12 @@
 import * as React from "react";
 
-export interface FieldLabelProps {
+export interface FormLabelProps {
   name: string;
   label: string;
   error: boolean;
 }
 
-export function FieldLabel({ name, label, error }: FieldLabelProps) {
+export function FormLabel({ name, label, error }: FormLabelProps) {
   const classes = ["block text-sm font-bold mb-2 tracking-wide"];
 
   classes.push(error ? "text-red-600" : "text-gray-800");

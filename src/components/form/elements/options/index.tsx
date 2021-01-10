@@ -1,7 +1,7 @@
 import React from 'react'
 import { useFormContext } from 'react-hook-form'
 
-import { FieldLabel } from '../misc/label'
+import { FormLabel } from '../misc/label'
 
 interface FormOptionsProps {
   label: string
@@ -26,7 +26,7 @@ export function FormOptions(props: FormOptionsProps) {
 
   return (
     <fieldset>
-      <FieldLabel name={props.label} label={props.label} error={false} />
+      <FormLabel name={props.label} label={props.label} error={false} />
       {/* <legend className="sr-only">Pricing plans</legend> */}
       <ul className='relative bg-white rounded-md -space-y-px'>
         {props.options.map((option, index) => (

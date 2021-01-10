@@ -1,6 +1,6 @@
 import React from 'react'
 import * as RHForm from 'react-hook-form'
-import { FieldLabel } from '../misc/label'
+import { FormLabel } from '../misc/label'
 
 export interface FormComponentProps {
   name: string
@@ -19,7 +19,7 @@ export const FormInput = (props: FormComponentProps) => {
 
   return (
     <div className={styles.textColor}>
-      <FieldLabel
+      <FormLabel
         name={props.name}
         label={props.label}
         error={!!ctx.errors[props.name]}

@@ -4,7 +4,7 @@ import { Controller, useFormContext } from 'react-hook-form'
 //
 import { FileListItem } from './li'
 import { Button } from '../../../button'
-import { FieldLabel } from '../misc/label'
+import { FormLabel } from '../misc/label'
 import { UploadInput } from './input'
 
 type FormUploadProps = FormUploadBasics & Partial<HTMLInputElement>
@@ -90,7 +90,7 @@ function FormUploadComponent(props: any) {
 
   return (
     <div>
-      <FieldLabel name={props.name} label={props.label} error={props.error} />
+      <FormLabel name={props.name} label={props.label} error={props.error} />
 
       {props.value.length ? (
         <div className={wrapperClasses.join(' ')}>
