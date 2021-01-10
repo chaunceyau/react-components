@@ -37,7 +37,7 @@ export function Button(props: ButtonProps) {
   })
 
   const spinner = (
-    <div className='flex items-center absolute inset-y-1/2 mx-auto'>
+    <div className='absolute w-full h-full flex items-center justify-center -mt-2'>
       <LoadingSpinner color='white' />
     </div>
   )

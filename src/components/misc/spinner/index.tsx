@@ -7,7 +7,7 @@ interface LoadingSpinnerProps {
 
 export function LoadingSpinner({ color }: LoadingSpinnerProps) {
   const svgClasses = React.useMemo(() => {
-    const arr = [styles.spinner, 'w-4 h-4']
+    const arr = [styles.spinner, 'w-4 h-4', '-mt-px']
 
     switch (color) {
       case 'white': {

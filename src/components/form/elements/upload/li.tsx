@@ -48,7 +48,7 @@ export function FileListItem(props: FileListItemProps) {
 
   return (
     <li key={props.remoteFileId} className={liClasses.join(' ')}>
-      {showLoading ? <LoadingSpinner /> : <CheckIcon />}
+      {showLoading ? <LoadingSpinner color='currentColor' /> : <CheckIcon />}
 
       <p className='flex-shrink-0 flex-grow mr-8 ml-3 overflow-hidden text-sm tracking-wide'>
         {props.fileName.slice(0, 15)}
