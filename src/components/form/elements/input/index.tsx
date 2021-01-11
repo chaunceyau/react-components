@@ -12,6 +12,10 @@ export interface FormComponentProps {
 export const FormInput = (props: FormComponentProps) => {
   const ctx = RHForm.useFormContext()
 
+  if (ctx === undefined) {
+    throw new Error('FormInput must be rendered inside a Form component')
+  }
+
   const styles = getFormInputStyles({
     loading: ctx.formState.isSubmitting,
     error: ctx.errors[props.name]

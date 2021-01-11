@@ -47,13 +47,17 @@ function Toggle({
   btnClasses.push(value ? 'bg-indigo-600' : 'bg-gray-300')
   circleClasses.push(value ? 'translate-x-4' : 'translate-x-0')
 
-  const { formState } = useFormContext()
+  const ctx = useFormContext()
+
+  if (ctx === undefined) {
+    throw new Error('FormToggle must be rendered inside a Form component')
+  }
 
   const wrapperClasses = [
     'rounded-lg flex items-center justify-between border rounded-lg py-3 px-4 shadow-sm'
   ]
 
-  if (formState.isSubmitting) {
+  if (ctx.formState.isSubmitting) {
     wrapperClasses.push('bg-gray-200')
   }
 
@@ -66,7 +70,7 @@ function Toggle({
           aria-pressed={value}
           className={btnClasses.join(' ')}
           onClick={() => onChange(!value)}
-          disabled={formState.isSubmitting}
+          disabled={ctx.formState.isSubmitting}
         >
           <span className='sr-only'>Use setting</span>
           <span aria-hidden={!value} className={circleClasses.join(' ')}></span>

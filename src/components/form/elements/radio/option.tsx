@@ -1,51 +1,75 @@
-import React from "react"
-
-interface OptionProps {
-  checked: boolean
-  label: string
-  description: string
-  onToggle: (label: string) => void
+import React from 'react'
+import { useFormContext } from 'react-hook-form'
+export interface FormOption {
+  id: string
+  name: string
+  description?: string
 }
 
-export function Option({ checked, label, description, onToggle }: OptionProps) {
-  const wrapperClasses = [
-    "first:rounded-t-md",
-    "last:rounded-b-md",
-    "relative",
-    "border",
-    "border-gray-300",
-    "p-4",
-    "flex",
-  ]
-  const labelClasses = ["block", "text-sm", "font-medium"]
-  const descriptionClasses = ["block", "text-sm"]
+export function FormRadioOption(
+  props: FormOption & {
+    isFirst: boolean
+    isLast: boolean
+    variableName: string
+    value: string
+  }
+) {
+  const ctx = useFormContext()
 
-  if (checked) {
-    labelClasses.push("text-indigo-900")
-    descriptionClasses.push("text-indigo-600")
-    wrapperClasses.push("bg-indigo-100", "border-indigo-200", "z-10")
-  } else {
-    labelClasses.push("text-gray-900")
-    wrapperClasses.push("border-gray-200")
-    descriptionClasses.push("text-gray-500")
+  if (ctx === undefined) {
+    throw new Error('FormRadioOption must be rendered inside a Form component')
   }
 
+  const wrapperClasses = [
+    'relative border p-4 flex flex-col md:pl-4 md:pr-6 md:grid md:grid-cols-2'
+  ]
+
+  if (props.isFirst) {
+    wrapperClasses.push('rounded-tl-md rounded-tr-md')
+  }
+  if (props.isLast) {
+    wrapperClasses.push('rounded-bl-md rounded-br-md')
+  }
+
+  const inputClasses = [
+    'focus:ring-indigo-500 h-4 w-4 cursor-pointer border-gray-300'
+  ]
+  const labelClasses = ['flex items-center text-sm']
+
+  if (ctx.formState.isSubmitting) {
+    wrapperClasses.push('bg-gray-200 text-gray-400')
+    inputClasses.push('text-gray-400 cursor-not-allowed')
+    labelClasses.push('cursor-not-allowed')
+  } else {
+    wrapperClasses.push('bg-white')
+    inputClasses.push('text-indigo-600')
+    labelClasses.push('cursor-pointer')
+  }
+
+  {
+    /* <!-- On: "bg-indigo-50 border-indigo-200 z-10", Off: "border-gray-200" --> */
+  }
   return (
-    <div className={wrapperClasses.join(" ")}>
-      <div className="flex items-center h-5">
+    <li key={props.id} className={wrapperClasses.join(' ')}>
+      <label className={labelClasses.join(' ')}>
         <input
-          id={label}
-          name={label}
-          type="radio"
-          checked={checked}
-          onChange={() => onToggle(label)}
-          className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 cursor-pointer border-gray-300"
-          aria-describedby="plan-option-pricing-0 plan-option-limit-0" />
-      </div>
-      <label htmlFor={label} className="ml-3 flex flex-col cursor-pointer">
-        <span className={labelClasses.join(" ")}>{label}</span>
-        <span className={descriptionClasses.join(" ")}>{description}</span>
+          type='radio'
+          name={props.variableName}
+          value={props.name}
+          disabled={ctx.formState.isSubmitting}
+          ref={ctx.register({ required: true })}
+          className={inputClasses.join(' ')}
+          aria-describedby='plan-option-pricing-0 plan-option-limit-0'
+        />
+        <span className='ml-3 font-medium'>{props.name}</span>
       </label>
-    </div>
+      {/* <!-- On: "text-indigo-700", Off: "text-gray-500" --> */}
+      <p
+        id='plan-option-limit-0'
+        className='ml-6 pl-1 text-sm md:ml-0 md:pl-0 md:text-right text-gray-500'
+      >
+        Up to 5 active job postings
+      </p>
+    </li>
   )
 }

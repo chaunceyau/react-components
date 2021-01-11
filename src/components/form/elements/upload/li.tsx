@@ -17,7 +17,11 @@ interface FileListItemProps {
 }
 
 export function FileListItem(props: FileListItemProps) {
-  const { formState, setValue, getValues } = useFormContext()
+  const ctx = useFormContext()
+
+  if (ctx === undefined) {
+    throw new Error('FileListItem must be rendered inside a Form component')
+  }
 
   const pendingRemoval = props.status === 'PENDING_REMOVAL'
 
@@ -33,7 +37,7 @@ export function FileListItem(props: FileListItemProps) {
     liClasses.push('line-through')
   }
 
-  if (pendingRemoval || formState.isSubmitting) {
+  if (pendingRemoval || ctx.formState.isSubmitting) {
     liClasses.push('text-gray-300')
   } else if (state.error) {
     liClasses.push('text-red-500')
@@ -64,17 +68,19 @@ export function FileListItem(props: FileListItemProps) {
       {pendingRemoval ? (
         <button
           type='button'
-          disabled={formState.isSubmitting}
+          disabled={ctx.formState.isSubmitting}
           onClick={() => {
             // map through existing and update statuss
 
-            setValue(
+            ctx.setValue(
               props.variableName,
-              getValues()[props.variableName].map((val: any) =>
-                val.id === props.remoteFileId
-                  ? Object.assign({}, val, { status: 'IDLE' })
-                  : val
-              )
+              ctx
+                .getValues()
+                [props.variableName].map((val: any) =>
+                  val.id === props.remoteFileId
+                    ? Object.assign({}, val, { status: 'IDLE' })
+                    : val
+                )
             )
           }}
         >
@@ -98,17 +104,19 @@ export function FileListItem(props: FileListItemProps) {
       {!pendingRemoval ? (
         <button
           type='button'
-          className={`ml-4 ${formState.isSubmitting ? '' : 'text-red-500'}`}
-          disabled={formState.isSubmitting}
+          className={`ml-4 ${ctx.formState.isSubmitting ? '' : 'text-red-500'}`}
+          disabled={ctx.formState.isSubmitting}
           onClick={() => {
-            setValue(
+            ctx.setValue(
               props.variableName,
               // map through existing and update statuss
-              getValues()[props.variableName].map((val: any) =>
-                val.id === props.remoteFileId
-                  ? Object.assign({}, val, { status: 'PENDING_REMOVAL' })
-                  : val
-              )
+              ctx
+                .getValues()
+                [props.variableName].map((val: any) =>
+                  val.id === props.remoteFileId
+                    ? Object.assign({}, val, { status: 'PENDING_REMOVAL' })
+                    : val
+                )
             )
           }}
         >

@@ -10,7 +10,7 @@ interface UploadInputProps {
 }
 
 export function UploadInput(props: UploadInputProps) {
-  const { formState } = useFormContext();
+  const ctx = useFormContext();
 
   const svgClasses = ["text-gray-400"];
   const flexWrapper = ["flex items-center space-x-2"];
@@ -25,7 +25,7 @@ export function UploadInput(props: UploadInputProps) {
     flexWrapper.push("flex-col");
   }
 
-  if (formState.isSubmitting) {
+  if (ctx.formState.isSubmitting) {
     containerClasses.push("bg-gray-200 cursor-not-allowed");
     flexWrapper.push("opacity-25");
     svgClasses.push("opacity-25");
@@ -64,7 +64,7 @@ export function UploadInput(props: UploadInputProps) {
             type="file"
             className="sr-only"
             {...props.getInputProps()}
-            disabled={formState.isSubmitting}
+            disabled={ctx.formState.isSubmitting}
           />
           <p className="pl-1">or drag and drop</p>
         </div>

@@ -99,7 +99,11 @@ function ExistingFiles(props: {
   onUploadComplete: any
   allowMultipleFiles: boolean
 }) {
-  const { formState } = useFormContext()
+  const ctx = useFormContext()
+
+  if (ctx === undefined) {
+    throw new Error('FormToggle must be rendered inside a Form component')
+  }
 
   const onClickAddImageButton = React.useCallback(
     () => props.uploadInputRef.current?.click(),
@@ -108,14 +112,14 @@ function ExistingFiles(props: {
 
   const ulClasses = ['space-y-4']
 
-  if (!props.allowMultipleFiles || formState.isSubmitting) {
+  if (!props.allowMultipleFiles || ctx.formState.isSubmitting) {
     ulClasses.push('mb-1')
   } else {
     ulClasses.push('mb-5')
   }
 
   const wrapperClasses = ['w-full px-6 py-4 border rounded-lg shadow-sm']
-  if (formState.isSubmitting) {
+  if (ctx.formState.isSubmitting) {
     wrapperClasses.push('bg-gray-200')
   }
 
@@ -134,7 +138,7 @@ function ExistingFiles(props: {
           />
         ))}
       </ul>
-      {formState.isSubmitting || !props.allowMultipleFiles ? null : (
+      {ctx.formState.isSubmitting || !props.allowMultipleFiles ? null : (
         <Button
           fluid
           type='button'

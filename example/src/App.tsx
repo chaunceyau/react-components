@@ -48,7 +48,7 @@ const App = () => {
     () => ({
       firstName: 'austin',
       lastName: 'chauncey',
-      allowNotifications: false,
+      allowNotifications: true,
       profilePhoto: [
         {
           id: '8cd306aa-9fe1-445b-bb45-56e49786a317',
@@ -86,15 +86,15 @@ const App = () => {
           label='Last Name'
           registerOptions={{ required: 'You must provide information' }}
         />
-        <FormRadioGroup
-          variableName='subscriptionType'
-          label='Subscription Type'
-          options={options}
-        />
         <FormToggle
           name='allowNotifications'
           label='Allow Notifications'
           description='This will allow mobile phone notifications'
+        />
+        <FormRadioGroup
+          variableName='subscriptionType'
+          label='Subscription Type'
+          options={options}
         />
         <FormUpload
           name='profilePhoto'
