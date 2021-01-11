@@ -35,13 +35,16 @@ export function FormRadioOption(
     'focus:ring-indigo-500 h-4 w-4 cursor-pointer border-gray-300'
   ]
   const labelClasses = ['flex items-center text-sm']
+  const descriptionClasses = ['ml-6 pl-1 text-sm md:ml-0 md:pl-0 md:text-right']
 
   if (ctx.formState.isSubmitting) {
     wrapperClasses.push('bg-gray-200 text-gray-400')
     inputClasses.push('text-gray-400 cursor-not-allowed')
     labelClasses.push('cursor-not-allowed')
+    descriptionClasses.push('text-gray-400')
   } else {
     wrapperClasses.push('bg-white')
+    descriptionClasses.push('text-gray-500')
     inputClasses.push('text-indigo-600')
     labelClasses.push('cursor-pointer')
   }
@@ -64,12 +67,11 @@ export function FormRadioOption(
         <span className='ml-3 font-medium'>{props.name}</span>
       </label>
       {/* <!-- On: "text-indigo-700", Off: "text-gray-500" --> */}
-      <p
-        id='plan-option-limit-0'
-        className='ml-6 pl-1 text-sm md:ml-0 md:pl-0 md:text-right text-gray-500'
-      >
-        Up to 5 active job postings
-      </p>
+      {props.description ? (
+        <p id='plan-option-limit-0' className={descriptionClasses.join(' ')}>
+          {props.description}
+        </p>
+      ) : null}
     </li>
   )
 }

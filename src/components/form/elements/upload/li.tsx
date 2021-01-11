@@ -38,7 +38,7 @@ export function FileListItem(props: FileListItemProps) {
   }
 
   if (pendingRemoval || ctx.formState.isSubmitting) {
-    liClasses.push('text-gray-300')
+    liClasses.push('text-gray-400')
   } else if (state.error) {
     liClasses.push('text-red-500')
   } else if (!props.file || state.progress === 100) {

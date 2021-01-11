@@ -57,8 +57,13 @@ function Toggle({
     'rounded-lg flex items-center justify-between border rounded-lg py-3 px-4 shadow-sm'
   ]
 
+  const descriptionClasses = ['text-sm leading-normal tracking-wide']
+
   if (ctx.formState.isSubmitting) {
     wrapperClasses.push('bg-gray-200')
+    descriptionClasses.push('text-gray-400')
+  } else {
+    descriptionClasses.push('text-gray-500')
   }
 
   return (
@@ -76,9 +81,7 @@ function Toggle({
           <span aria-hidden={!value} className={circleClasses.join(' ')}></span>
         </button>
         {description ? (
-          <span className='text-sm leading-normal text-gray-500 tracking-wide'>
-            {description}
-          </span>
+          <span className={descriptionClasses.join(' ')}>{description}</span>
         ) : null}
       </div>
     </div>
