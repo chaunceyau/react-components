@@ -9,6 +9,7 @@ import { FormToggle } from './elements/toggle'
 import { FormUpload } from './elements/upload'
 import { FormRadioGroup } from './elements/radio'
 import { FormSubmitButton } from './elements/misc/submit'
+import { FormSelect } from './elements/select'
 
 interface FormProps {
   // children: React.ReactNode | React.ReactNode[];
@@ -30,7 +31,8 @@ const ValidFormComponents: any = [
   FormSubmitButton,
   FormRadioGroup,
   FormUpload,
-  FormToggle
+  FormToggle,
+  FormSelect
 ]
 
 function validateChildrenAndInitializeOptionForm(

@@ -4,6 +4,7 @@ import {
   Form,
   FormInput,
   FormUpload,
+  FormSelect,
   FormToggle,
   FormRadioGroup
 } from '@chaunceyau/react-components'
@@ -102,6 +103,14 @@ const App = () => {
           onDeleteMutation={onDelete}
           onUploadComplete={onUploadComplete}
           multiple={true}
+        />
+        <FormSelect
+          name='company'
+          label='Company Name'
+          options={[
+            { id: 'kl402kc', value: 'Apple Inc' },
+            { id: 'c340kc340', value: 'Google Inc' }
+          ]}
         />
       </Form>
     </div>
