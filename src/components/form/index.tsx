@@ -7,7 +7,7 @@ import { Toasts } from '../misc/toasts'
 import { FormInput } from './elements/input'
 import { FormToggle } from './elements/toggle'
 import { FormUpload } from './elements/upload'
-import { FormOptions } from './elements/options'
+import { FormRadioGroup } from './elements/radio'
 import { FormSubmitButton } from './elements/misc/submit'
 
 interface FormProps {
@@ -28,7 +28,7 @@ interface FormProps {
 const ValidFormComponents: any = [
   FormInput,
   FormSubmitButton,
-  FormOptions,
+  FormRadioGroup,
   FormUpload,
   FormToggle
 ]
@@ -51,7 +51,7 @@ function validateChildrenAndInitializeOptionForm(
     }
     // add default values if not provided for options
     switch (child.type) {
-      case FormOptions: {
+      case FormRadioGroup: {
         const noDefaultValueForOptions =
           !defaultValues || !defaultValues[child.props.variableName]
         if (noDefaultValueForOptions) {

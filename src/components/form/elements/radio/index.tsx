@@ -3,7 +3,7 @@ import { useFormContext } from 'react-hook-form'
 
 import { FormLabel } from '../misc/label'
 
-interface FormOptionsProps {
+interface FormRadioGroupProps {
   label: string
   options: FormOption[]
   // register?: any;
@@ -19,7 +19,7 @@ interface FormOption {
 
 // TODO: a11y friendly
 // generally < 5 choices
-export function FormOptions(props: FormOptionsProps) {
+export function FormRadioGroup(props: FormRadioGroupProps) {
   if (props.options.length === 0) {
     throw new Error('you must provide atleast one option')
   }
@@ -27,10 +27,10 @@ export function FormOptions(props: FormOptionsProps) {
   return (
     <fieldset>
       <FormLabel name={props.label} label={props.label} error={false} />
-      <legend className="sr-only">{props.label}</legend>
+      <legend className='sr-only'>{props.label}</legend>
       <ul className='relative bg-white rounded-md -space-y-px shadow-sm'>
         {props.options.map((option, index) => (
-          <Option
+          <FormRadioOption
             variableName={props.variableName}
             key={option.id}
             value={option.name}
@@ -44,7 +44,7 @@ export function FormOptions(props: FormOptionsProps) {
   )
 }
 
-function Option(
+function FormRadioOption(
   props: FormOption & {
     isFirst: boolean
     isLast: boolean

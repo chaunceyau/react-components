@@ -3,9 +3,9 @@ import * as React from 'react'
 import {
   Form,
   FormInput,
-  FormOptions,
   FormUpload,
-  FormToggle
+  FormToggle,
+  FormRadioGroup
 } from '@chaunceyau/react-components'
 
 import './assets/generated/style.css'
@@ -86,7 +86,7 @@ const App = () => {
           label='Last Name'
           registerOptions={{ required: 'You must provide information' }}
         />
-        <FormOptions
+        <FormRadioGroup
           variableName='subscriptionType'
           label='Subscription Type'
           options={options}
