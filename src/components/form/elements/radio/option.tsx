@@ -8,8 +8,6 @@ export interface FormOption {
 
 export function FormRadioOption(
   props: FormOption & {
-    isFirst: boolean
-    isLast: boolean
     variableName: string
     value: string
   }
@@ -21,32 +19,26 @@ export function FormRadioOption(
   }
 
   const wrapperClasses = [
-    'relative border p-4 flex flex-col md:pl-4 md:pr-6 md:grid md:grid-cols-2'
+    'relative border p-4 flex flex-col md:pl-4 md:pr-6 md:grid md:grid-cols-2',
+    'first:rounded-t-md last:rounded-b-md'
   ]
 
-  if (props.isFirst) {
-    wrapperClasses.push('rounded-tl-md rounded-tr-md')
-  }
-  if (props.isLast) {
-    wrapperClasses.push('rounded-bl-md rounded-br-md')
-  }
-
   const inputClasses = [
-    'focus:ring-indigo-500 h-4 w-4 cursor-pointer border-gray-300'
+    'focus:ring-indigo-500 h-5 w-5 cursor-pointer border-gray-300'
   ]
   const labelClasses = ['flex items-center text-sm']
   const descriptionClasses = ['ml-6 pl-1 text-sm md:ml-0 md:pl-0 md:text-right']
 
   if (ctx.formState.isSubmitting) {
-    wrapperClasses.push('bg-gray-200 text-gray-400')
-    inputClasses.push('text-gray-400 cursor-not-allowed')
     labelClasses.push('cursor-not-allowed')
     descriptionClasses.push('text-gray-400')
+    wrapperClasses.push('bg-gray-200 text-gray-400')
+    inputClasses.push('text-gray-400 cursor-not-allowed')
   } else {
     wrapperClasses.push('bg-white')
-    descriptionClasses.push('text-gray-500')
-    inputClasses.push('text-indigo-600')
     labelClasses.push('cursor-pointer')
+    inputClasses.push('text-indigo-600')
+    descriptionClasses.push('text-gray-500')
   }
 
   {

@@ -1,0 +1,45 @@
+import React from 'react'
+
+interface SectionHeadingProps {
+  title: string
+  description?: string
+  action?: {
+    label: string
+    onClick: () => void
+  }
+}
+
+const HeadingWrapper = ({ children }: any) => (
+  <div className='pb-5 border-b border-gray-200 flex justify-between'>{children}</div>
+)
+
+const Title = ({ title }: { title: string }) => (
+  <h3 className='text-lg leading-6 font-medium text-gray-900'>{title}</h3>
+)
+
+const Description = ({ description }: { description?: string }) => {
+  if (!description) {
+    return null
+  }
+  return <p className='mt-2 max-w-4xl text-sm text-gray-500'>{description}</p>
+}
+
+export function SectionHeading({
+  title,
+  description,
+  action
+}: SectionHeadingProps) {
+  return (
+    <HeadingWrapper>
+      <div className='flex flex-col'>
+        <Title title={title} />
+        <Description description={description} />
+      </div>
+      {action ? (
+        <button className='bg-indigo-600' onClick={action.onClick}>
+          {action.label}
+        </button>
+      ) : null}
+    </HeadingWrapper>
+  )
+}

@@ -20,13 +20,11 @@ export function FormRadioGroup(props: FormRadioGroupProps) {
       <FormLabel name={props.label} label={props.label} error={false} />
       <legend className='sr-only'>{props.label}</legend>
       <ul className='relative bg-white rounded-md -space-y-px shadow-sm'>
-        {props.options.map((option, index) => (
+        {props.options.map((option) => (
           <FormRadioOption
             variableName={props.variableName}
             key={option.id}
             value={option.name}
-            isFirst={index === 0}
-            isLast={index === props.options.length - 1}
             {...option}
           />
         ))}

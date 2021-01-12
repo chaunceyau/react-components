@@ -6,7 +6,8 @@ import {
   FormUpload,
   FormSelect,
   FormToggle,
-  FormRadioGroup
+  FormRadioGroup,
+  SectionHeading
 } from '@chaunceyau/react-components'
 
 import './assets/generated/style.css'
@@ -67,6 +68,11 @@ const App = () => {
   )
   return (
     <div className='max-w-2xl mx-auto py-8'>
+      <SectionHeading
+        title='Hello There'
+        description='lfmsdalfmds'
+        action={{ label: 'albemflsda', onClick: () => {} }}
+      />
       <Form
         styled
         onSubmit={onSubmit}
