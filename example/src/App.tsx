@@ -2,6 +2,7 @@ import * as React from 'react'
 
 import {
   Form,
+  TabsGroup,
   FormInput,
   FormUpload,
   FormSelect,
@@ -73,8 +74,9 @@ const App = () => {
       <SectionHeading
         title='Hello There'
         description='lfmsdalfmds'
-        action={{ label: 'albemflsda', onClick: () => {} }}
+        action={{ label: 'Create Something', onClick: () => {} }}
       />
+      <TabsGroup tabs={[]} inline />
       <Form
         styled
         onSubmit={onSubmit}

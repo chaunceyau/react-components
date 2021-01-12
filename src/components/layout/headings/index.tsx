@@ -37,14 +37,20 @@ export function SectionHeading({
   action
 }: SectionHeadingProps) {
   return (
-    <HeadingWrapper>
-      <div className='flex flex-col'>
-        <Title title={title} />
-        <Description description={description} />
-      </div>
-      {action ? (
-        <Button type='button' onClick={action.onClick} content={action.label} />
-      ) : null}
-    </HeadingWrapper>
+    <div>
+      <HeadingWrapper>
+        <div className='flex flex-col flex-grow'>
+          <Title title={title} />
+          <Description description={description} />
+        </div>
+        {action ? (
+          <Button
+            type='button'
+            onClick={action.onClick}
+            content={action.label}
+          />
+        ) : null}
+      </HeadingWrapper>
+    </div>
   )
 }
