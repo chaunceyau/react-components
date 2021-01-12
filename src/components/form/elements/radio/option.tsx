@@ -2,14 +2,14 @@ import React from 'react'
 import { useFormContext } from 'react-hook-form'
 export interface FormOption {
   id: string
-  name: string
-  description?: string
+  value: string
+  // more description info
+  extraDescription?: string
 }
 
 export function FormRadioOption(
   props: FormOption & {
     variableName: string
-    value: string
   }
 ) {
   const ctx = useFormContext()
@@ -50,18 +50,18 @@ export function FormRadioOption(
         <input
           type='radio'
           name={props.variableName}
-          value={props.name}
+          value={props.value}
           disabled={ctx.formState.isSubmitting}
           ref={ctx.register({ required: true })}
           className={inputClasses.join(' ')}
           aria-describedby='plan-option-pricing-0 plan-option-limit-0'
         />
-        <span className='ml-3 font-medium'>{props.name}</span>
+        <span className='ml-3 font-medium'>{props.value}</span>
       </label>
       {/* <!-- On: "text-indigo-700", Off: "text-gray-500" --> */}
-      {props.description ? (
+      {props.extraDescription ? (
         <p id='plan-option-limit-0' className={descriptionClasses.join(' ')}>
-          {props.description}
+          {props.extraDescription}
         </p>
       ) : null}
     </li>

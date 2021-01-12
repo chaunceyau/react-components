@@ -4,9 +4,9 @@ import { FormLabel } from '../misc/label'
 import { FormOption, FormRadioOption } from './option'
 
 interface FormRadioGroupProps {
+  name: string
   label: string
   options: FormOption[]
-  variableName: string
 }
 
 // TODO: a11y friendly
@@ -22,10 +22,9 @@ export function FormRadioGroup(props: FormRadioGroupProps) {
       <ul className='relative bg-white rounded-md -space-y-px shadow-sm'>
         {props.options.map((option) => (
           <FormRadioOption
-            variableName={props.variableName}
-            key={option.id}
-            value={option.name}
             {...option}
+            key={option.id}
+            variableName={props.name}
           />
         ))}
       </ul>
