@@ -1,4 +1,5 @@
 import React from 'react'
+import { Button } from '../../button'
 
 interface SectionHeadingProps {
   title: string
@@ -9,8 +10,14 @@ interface SectionHeadingProps {
   }
 }
 
-const HeadingWrapper = ({ children }: any) => (
-  <div className='pb-5 border-b border-gray-200 flex justify-between'>{children}</div>
+const HeadingWrapper = ({
+  children
+}: {
+  children: React.ReactNode | React.ReactNode[]
+}) => (
+  <div className='pb-5 border-b border-gray-200 flex justify-between items-start'>
+    {children}
+  </div>
 )
 
 const Title = ({ title }: { title: string }) => (
@@ -36,9 +43,7 @@ export function SectionHeading({
         <Description description={description} />
       </div>
       {action ? (
-        <button className='bg-indigo-600' onClick={action.onClick}>
-          {action.label}
-        </button>
+        <Button type='button' onClick={action.onClick} content={action.label} />
       ) : null}
     </HeadingWrapper>
   )
