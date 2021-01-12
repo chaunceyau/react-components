@@ -12,6 +12,7 @@ import {
 
 import './assets/generated/style.css'
 import '@chaunceyau/react-components/dist/index.css'
+import { FormOption } from '../../dist/components/form/elements/radio/option'
 
 const App = () => {
   async function onSubmit(data: any) {
@@ -30,16 +31,16 @@ const App = () => {
     return {}
   }, [])
 
-  const options = React.useMemo(
+  const options: FormOption[] = React.useMemo(
     () => [
       {
         id: '9ca87723-6c2c-434c-8572-0d64864825f6',
-        name: 'Monthly Subscription',
+        value: 'Monthly Subscription',
         description: '$5/mo'
       },
       {
         id: 'b5173512-423e-458d-b55c-151647652dc7',
-        name: 'Yearly Subscription',
+        value: 'Yearly Subscription',
         description: '$45/yr'
       }
     ],
@@ -66,6 +67,7 @@ const App = () => {
     }),
     []
   )
+
   return (
     <div className='max-w-2xl mx-auto py-8'>
       <SectionHeading
@@ -99,7 +101,7 @@ const App = () => {
           description='This will allow mobile phone notifications'
         />
         <FormRadioGroup
-          variableName='subscriptionType'
+          name='subscriptionType'
           label='Subscription Type'
           options={options}
         />

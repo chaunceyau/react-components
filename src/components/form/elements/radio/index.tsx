@@ -3,7 +3,7 @@ import React from 'react'
 import { FormLabel } from '../misc/label'
 import { FormOption, FormRadioOption } from './option'
 
-interface FormRadioGroupProps {
+export interface FormRadioGroupProps {
   name: string
   label: string
   options: FormOption[]

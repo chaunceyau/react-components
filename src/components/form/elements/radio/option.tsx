@@ -44,13 +44,16 @@ export function FormRadioOption(
   {
     /* <!-- On: "bg-indigo-50 border-indigo-200 z-10", Off: "border-gray-200" --> */
   }
+
+  console.log({ props })
+
   return (
     <li key={props.id} className={wrapperClasses.join(' ')}>
-      <label className={labelClasses.join(' ')}>
+      <label className={labelClasses.join(' ')} htmlFor={props.id}>
         <input
           type='radio'
+          value={props.id}
           name={props.variableName}
-          value={props.value}
           disabled={ctx.formState.isSubmitting}
           ref={ctx.register({ required: true })}
           className={inputClasses.join(' ')}

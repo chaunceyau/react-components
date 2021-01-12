@@ -7,7 +7,7 @@ import { Toasts } from '../misc/toasts'
 import { FormInput } from './elements/input'
 import { FormToggle } from './elements/toggle'
 import { FormUpload } from './elements/upload'
-import { FormRadioGroup } from './elements/radio'
+import { FormRadioGroup, FormRadioGroupProps } from './elements/radio'
 import { FormSubmitButton } from './elements/misc/submit'
 import { FormSelect } from './elements/select'
 
@@ -54,12 +54,15 @@ function validateChildrenAndInitializeOptionForm(
     // add default values if not provided for options
     switch (child.type) {
       case FormRadioGroup: {
-        const noDefaultValueForOptions =
-          !defaultValues || !defaultValues[child.props.variableName]
-        if (noDefaultValueForOptions) {
-          // default to first value
+        const props: FormRadioGroupProps = child.props
+
+        const noDefaultValueForRadioGroup =
+          !defaultValues || !defaultValues[props.name]
+
+        // default to first value
+        if (noDefaultValueForRadioGroup) {
           Object.assign(defaultValues, {
-            [child.props.variableName]: child.props.options[0].name
+            [props.name]: props.options[0].id
           })
         }
       }
