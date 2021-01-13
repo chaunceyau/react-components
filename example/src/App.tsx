@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import {
   Form,
-  TabsGroup,
+  Slideover,
   FormInput,
   FormUpload,
   FormSelect,
@@ -69,14 +69,10 @@ const App = () => {
     []
   )
 
+  const [isSlideoverOpen, setIsSlideoverOpen] = React.useState(true)
+
   return (
     <div className='max-w-2xl mx-auto py-8'>
-      <SectionHeading
-        title='Hello There'
-        description='lfmsdalfmds'
-        action={{ label: 'Create Something', onClick: () => {} }}
-      />
-      <TabsGroup tabs={[]} inline />
       <Form
         styled
         onSubmit={onSubmit}
@@ -123,6 +119,19 @@ const App = () => {
           ]}
         />
       </Form>
+      {isSlideoverOpen ? (
+        <Slideover
+          actions={[{ label: 'Create Example', onClick: () => {} }]}
+          onClose={() => setIsSlideoverOpen(!isSlideoverOpen)}
+        >
+          <span>flsmdaflmsd</span>
+        </Slideover>
+      ) : null}
+      <SectionHeading
+        title='Hello There'
+        description='lfmsdalfmds'
+        action={{ label: 'Create Something', onClick: () => {} }}
+      />
     </div>
   )
 }

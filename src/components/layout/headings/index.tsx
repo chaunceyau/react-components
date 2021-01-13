@@ -44,11 +44,7 @@ export function SectionHeading({
           <Description description={description} />
         </div>
         {action ? (
-          <Button
-            type='button'
-            onClick={action.onClick}
-            content={action.label}
-          />
+          <Button label={action.label} onClick={action.onClick} />
         ) : null}
       </HeadingWrapper>
     </div>

@@ -153,7 +153,7 @@ export function Form({
       >
         <Button
           loading={formState.isSubmitting}
-          content={saveMessage || 'Save'}
+          label={saveMessage || 'Save'}
           type='submit'
         />
       </div>

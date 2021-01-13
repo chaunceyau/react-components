@@ -2,7 +2,7 @@ import React from 'react'
 import { LoadingSpinner } from '../misc/spinner'
 
 interface ButtonBaseProps {
-  content: string
+  label: string
   className?: string
   // TODO: should seperate loading/disabled to either or
   loading?: boolean
@@ -21,7 +21,6 @@ interface SubmitButtonProps extends ButtonBaseProps {
 }
 
 interface NonSubmitButtonProps extends ButtonBaseProps {
-  type: 'button'
   onClick: () => void
 }
 
@@ -53,16 +52,18 @@ export function Button(props: ButtonProps) {
   return (
     <button {...buttonProps}>
       {props.loading ? spinner : null}
-      {
-        <span className={props.loading ? 'opacity-0' : ''}>
-          {props.content}
-        </span>
-      }
+      {<span className={props.loading ? 'opacity-0' : ''}>{props.label}</span>}
     </button>
   )
 }
 
-function getButtonProps({ type, className, disabled, loading, onClick }: any) {
+function getButtonProps({
+  type = 'button',
+  className,
+  disabled,
+  loading,
+  onClick
+}: any) {
   const buttonProps = {
     type,
     className,

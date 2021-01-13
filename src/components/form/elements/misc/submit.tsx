@@ -6,5 +6,5 @@ interface FormSubmitButtonProps {
 }
 
 export function FormSubmitButton(props: FormSubmitButtonProps) {
-  return <Button loading={props.loading} content="Submit" type="submit" />;
+  return <Button loading={props.loading} label="Submit" type="submit" />;
 }

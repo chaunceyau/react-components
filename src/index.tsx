@@ -7,7 +7,7 @@ export { FormSelect } from './components/form/elements/select'
 export { FormRadioGroup } from './components/form/elements/radio'
 //
 export { Statistic } from './components/statistic'
-export { TabsGroup } from './components/layout/tabs'
+export { Slideover } from './components/slideover'
 export { SectionHeading } from './components/layout/headings'
 //
 export { LoadingSpinner } from './components/misc/spinner'
