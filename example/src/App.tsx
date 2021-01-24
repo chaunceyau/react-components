@@ -69,64 +69,63 @@ const App = () => {
     []
   )
 
-  const [isSlideoverOpen, setIsSlideoverOpen] = React.useState(true)
+  // const [isSlideoverOpen, setIsSlideoverOpen] = React.useState(true)
 
   return (
     <div className='max-w-2xl mx-auto py-8'>
-      <Form
-        styled
-        onSubmit={onSubmit}
-        defaultValues={defaults}
-        title='User Information'
-        description='Basic information about user'
+      <Slideover
+        actions={[{ label: 'Create Example', onClick: () => {} }]}
+        // onClose={() => {
+        //   console.log('CLSOING')
+        //   setIsSlideoverOpen(!isSlideoverOpen)
+        // }}
+        trigger={<button className='bg-red-500'>slideover trigger</button>}
       >
-        <FormInput
-          name='firstName'
-          label='First Name'
-          registerOptions={{
-            minLength: { value: 2, message: 'Length must be at least 2' },
-            required: true
-          }}
-        />
-        <FormInput
-          name='lastName'
-          label='Last Name'
-          registerOptions={{ required: 'You must provide information' }}
-        />
-        <FormToggle
-          name='allowNotifications'
-          label='Allow Notifications'
-          description='This will allow mobile phone notifications'
-        />
-        <FormRadioGroup
-          name='subscriptionType'
-          label='Subscription Type'
-          options={options}
-        />
-        <FormUpload
-          name='profilePhoto'
-          label='Profile Photo'
-          onDeleteMutation={onDelete}
-          onUploadComplete={onUploadComplete}
-          multiple={true}
-        />
-        <FormSelect
-          name='company'
-          label='Company Name'
-          options={[
-            { id: 'kl402kc', value: 'Apple Inc' },
-            { id: 'c340kc340', value: 'Google Inc' }
-          ]}
-        />
-      </Form>
-      {isSlideoverOpen ? (
-        <Slideover
-          actions={[{ label: 'Create Example', onClick: () => {} }]}
-          onClose={() => setIsSlideoverOpen(!isSlideoverOpen)}
+        <Form
+          onSubmit={onSubmit}
+          defaultValues={defaults}
         >
-          <span>flsmdaflmsd</span>
-        </Slideover>
-      ) : null}
+          <FormInput
+            name='firstName'
+            label='First Name'
+            registerOptions={{
+              minLength: { value: 2, message: 'Length must be at least 2' },
+              required: true
+            }}
+          />
+          <FormInput
+            name='lastName'
+            label='Last Name'
+            registerOptions={{ required: 'You must provide information' }}
+          />
+          <FormToggle
+            name='allowNotifications'
+            label='Allow Notifications'
+            description='This will allow mobile phone notifications'
+          />
+          <FormRadioGroup
+            name='subscriptionType'
+            label='Subscription Type'
+            options={options}
+          />
+          <FormUpload
+            name='profilePhoto'
+            label='Profile Photo'
+            onDeleteMutation={onDelete}
+            onUploadComplete={onUploadComplete}
+            multiple={true}
+          />
+          <FormSelect
+            name='company'
+            label='Company Name'
+            options={[
+              { id: 'kl402kc', value: 'Apple Inc' },
+              { id: 'c340kc340', value: 'Google Inc' }
+            ]}
+          />
+        </Form>
+      </Slideover>
+
       <SectionHeading
         title='Hello There'
         description='lfmsdalfmds'

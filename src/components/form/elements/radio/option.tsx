@@ -59,7 +59,7 @@ export function FormRadioOption(
           className={inputClasses.join(' ')}
           aria-describedby='plan-option-pricing-0 plan-option-limit-0'
         />
-        <span className='ml-3 font-medium'>{props.value}</span>
+        <span className='ml-3 font-medium w-full'>{props.value}</span>
       </label>
       {/* <!-- On: "text-indigo-700", Off: "text-gray-500" --> */}
       {props.extraDescription ? (
