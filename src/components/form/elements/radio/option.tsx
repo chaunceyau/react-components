@@ -52,6 +52,7 @@ export function FormRadioOption(
       <label className={labelClasses.join(' ')} htmlFor={props.id}>
         <input
           type='radio'
+          id={props.id}
           value={props.id}
           name={props.variableName}
           disabled={ctx.formState.isSubmitting}
