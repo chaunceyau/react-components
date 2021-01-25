@@ -4,13 +4,14 @@ import * as RHForm from 'react-hook-form'
 
 //
 import { Toasts } from '../misc/toasts'
-import { FormUpload } from './elements/upload'
 import { FormButton } from './form-button'
-// import { FormInput } from './elements/input'
-// import { FormToggle } from './elements/toggle'
-// import { FormRadioGroup, FormRadioGroupProps } from './elements/radio'
-// import { FormSelect } from './elements/select'
-// import { FormDivider } from './elements/divider'
+import { FormUpload } from './elements/upload'
+import { FormHeader } from './elements/misc/header'
+import { FormInput } from './elements/input'
+import { FormToggle } from './elements/toggle'
+import { FormSelect } from './elements/select'
+import { FormDivider } from './elements/divider'
+import { FormRadioGroup, FormRadioGroupProps } from './elements/radio'
 
 interface FormProps {
   id: string
@@ -26,51 +27,63 @@ interface FormProps {
 }
 
 // TODO: am i using formsubmitbutton?
-// const ValidFormComponents: any = [
-//   FormInput,
-//   FormUpload,
-//   FormToggle,
-//   FormButton,
-//   FormSelect,
-//   FormDivider,
-//   FormRadioGroup
-// ]
+const ValidFormComponents: any = [
+  FormInput,
+  FormUpload,
+  FormToggle,
+  FormButton,
+  FormSelect,
+  FormDivider,
+  FormRadioGroup
+]
 
-// function validateChildrenAndInitializeOptionForm(
-//   children: React.ReactElement | React.ReactElement[],
-//   defaultValues?: { [key: string]: any }
-// ) {
-//   React.Children.map(children, (child) => {
-//     console.log(child)
-//     // make sure valid child
-//     if (!ValidFormComponents.includes(child.type)) {
-//       // fn = "Error: function FormHeader({ ...etc }) { }"
-//       const fn: string = child.type.toString()
-//       const firstParenthesisIndex = fn.indexOf('(')
-//       // 9 = "function ".length
-//       const componentName: string = fn.slice(9, firstParenthesisIndex)
-//       throw new Error(
-//         `${componentName} is not a valid child of the Form component.`
-//       )
-//     }
-//     // add default values if not provided for options
-//     switch (child.type) {
-//       case FormRadioGroup: {
-//         const props: FormRadioGroupProps = child.props
+function validateChild(child: any) {
+  if (!ValidFormComponents.includes(child.type)) {
+    // fn = "Error: function FormHeader({ ...etc }) { }"
+    const fn: string = child.type.toString()
+    const firstParenthesisIndex = fn.indexOf('(')
+    // 9 = "function ".length
+    const componentName: string = fn.slice(9, firstParenthesisIndex)
+    throw new Error(
+      `${componentName} is not a valid child of the Form component.`
+    )
+  }
+}
 
-//         const noDefaultValueForRadioGroup =
-//           !defaultValues || !defaultValues[props.name]
+function initializeOptionInForm(child: any, defaultValues: any) {
+  switch (child.type) {
+    case FormRadioGroup: {
+      const props: FormRadioGroupProps = child.props
 
-//         // default to first value
-//         if (noDefaultValueForRadioGroup) {
-//           Object.assign(defaultValues, {
-//             [props.name]: props.options[0].id
-//           })
-//         }
-//       }
-//     }
-//   })
-// }
+      const noDefaultValueForRadioGroup =
+        !defaultValues || !defaultValues[props.name]
+
+      // default to first value
+      if (noDefaultValueForRadioGroup) {
+        Object.assign(defaultValues, {
+          [props.name]: props.options[0].id
+        })
+      }
+    }
+  }
+}
+
+// currently causes errors with storybook
+const VALIDATE_CHILDREN = false
+
+function validateChildrenAndInitializeOptionForm(
+  children: React.ReactElement | React.ReactElement[],
+  defaultValues?: { [key: string]: any }
+) {
+  React.Children.map(children, (child) => {
+    // make sure valid child
+    if (VALIDATE_CHILDREN) {
+      validateChild(child)
+    }
+    // add default values if not provided for options
+    initializeOptionInForm(child, defaultValues)
+  })
+}
 
 export function Form({
   id,
@@ -83,7 +96,7 @@ export function Form({
   defaultValues
 }: FormProps) {
   //
-  // validateChildrenAndInitializeOptionForm(children, defaultValues)
+  validateChildrenAndInitializeOptionForm(children, defaultValues)
 
   const methods = RHForm.useForm({ defaultValues })
   const { handleSubmit, reset, setValue, formState } = methods
@@ -138,15 +151,6 @@ export function Form({
     }
   }
 
-  // const button = React.Children.toArray(children).find(
-  //   (child: any) => child.type === FormButton
-  // )
-  // <Button
-  //         loading={formState.isSubmitting}
-  //         label={saveMessage || 'Save'}
-  //         type='submit'
-  //       />
-
   // TODO: test this for form id...
   // const ref = useRef<any>()
   // ref.current = Math.random()
@@ -185,21 +189,5 @@ export function Form({
 
       <Toasts />
     </form>
-  )
-}
-
-interface FormHeaderProps {
-  title: string
-  description?: string
-}
-
-function FormHeader({ title, description }: FormHeaderProps) {
-  return (
-    <div>
-      <h3 className='text-lg leading-6 font-medium text-gray-900'>{title}</h3>
-      {description ? (
-        <p className='mt-1 text-sm text-gray-500'>{description}</p>
-      ) : null}
-    </div>
   )
 }
