@@ -20,6 +20,7 @@ export function FormRadioOption(
 
   const wrapperClasses = [
     'relative border p-4 flex flex-col md:pl-4 md:pr-6 md:grid md:grid-cols-2',
+    // 'first:rounded-t-md last:rounded-b-md'
     'first:rounded-t-md last:rounded-b-md'
   ]
 

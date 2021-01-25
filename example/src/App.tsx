@@ -81,7 +81,7 @@ const App = () => {
         // }}
         trigger={<button className='bg-red-500'>slideover trigger</button>}
       >
-        <Form onSubmit={onSubmit} defaultValues={defaults}>
+        <Form id='form123' onSubmit={onSubmit} defaultValues={defaults}>
           <FormInput
             name='firstName'
             label='First Name'

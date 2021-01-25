@@ -1,15 +1,16 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import { toast } from 'react-hot-toast'
 import * as RHForm from 'react-hook-form'
+
 //
 import { Toasts } from '../misc/toasts'
-import { FormInput } from './elements/input'
-import { FormToggle } from './elements/toggle'
 import { FormUpload } from './elements/upload'
-import { FormRadioGroup, FormRadioGroupProps } from './elements/radio'
-import { FormSelect } from './elements/select'
 import { FormButton } from './form-button'
-import { FormDivider } from './elements/divider'
+// import { FormInput } from './elements/input'
+// import { FormToggle } from './elements/toggle'
+// import { FormRadioGroup, FormRadioGroupProps } from './elements/radio'
+// import { FormSelect } from './elements/select'
+// import { FormDivider } from './elements/divider'
 
 interface FormProps {
   id: string
@@ -25,50 +26,51 @@ interface FormProps {
 }
 
 // TODO: am i using formsubmitbutton?
-const ValidFormComponents: any = [
-  FormInput,
-  FormUpload,
-  FormToggle,
-  FormButton,
-  FormSelect,
-  FormDivider,
-  FormRadioGroup
-]
+// const ValidFormComponents: any = [
+//   FormInput,
+//   FormUpload,
+//   FormToggle,
+//   FormButton,
+//   FormSelect,
+//   FormDivider,
+//   FormRadioGroup
+// ]
 
-function validateChildrenAndInitializeOptionForm(
-  children: React.ReactElement | React.ReactElement[],
-  defaultValues?: { [key: string]: any }
-) {
-  React.Children.map(children, (child) => {
-    // make sure valid child
-    if (!ValidFormComponents.includes(child.type)) {
-      // fn = "Error: function FormHeader({ ...etc }) { }"
-      const fn: string = child.type.toString()
-      const firstParenthesisIndex = fn.indexOf('(')
-      // 9 = "function ".length
-      const componentName: string = fn.slice(9, firstParenthesisIndex)
-      throw new Error(
-        `${componentName} is not a valid child of the Form component.`
-      )
-    }
-    // add default values if not provided for options
-    switch (child.type) {
-      case FormRadioGroup: {
-        const props: FormRadioGroupProps = child.props
+// function validateChildrenAndInitializeOptionForm(
+//   children: React.ReactElement | React.ReactElement[],
+//   defaultValues?: { [key: string]: any }
+// ) {
+//   React.Children.map(children, (child) => {
+//     console.log(child)
+//     // make sure valid child
+//     if (!ValidFormComponents.includes(child.type)) {
+//       // fn = "Error: function FormHeader({ ...etc }) { }"
+//       const fn: string = child.type.toString()
+//       const firstParenthesisIndex = fn.indexOf('(')
+//       // 9 = "function ".length
+//       const componentName: string = fn.slice(9, firstParenthesisIndex)
+//       throw new Error(
+//         `${componentName} is not a valid child of the Form component.`
+//       )
+//     }
+//     // add default values if not provided for options
+//     switch (child.type) {
+//       case FormRadioGroup: {
+//         const props: FormRadioGroupProps = child.props
 
-        const noDefaultValueForRadioGroup =
-          !defaultValues || !defaultValues[props.name]
+//         const noDefaultValueForRadioGroup =
+//           !defaultValues || !defaultValues[props.name]
 
-        // default to first value
-        if (noDefaultValueForRadioGroup) {
-          Object.assign(defaultValues, {
-            [props.name]: props.options[0].id
-          })
-        }
-      }
-    }
-  })
-}
+//         // default to first value
+//         if (noDefaultValueForRadioGroup) {
+//           Object.assign(defaultValues, {
+//             [props.name]: props.options[0].id
+//           })
+//         }
+//       }
+//     }
+//   })
+// }
 
 export function Form({
   id,
@@ -81,7 +83,7 @@ export function Form({
   defaultValues
 }: FormProps) {
   //
-  validateChildrenAndInitializeOptionForm(children, defaultValues)
+  // validateChildrenAndInitializeOptionForm(children, defaultValues)
 
   const methods = RHForm.useForm({ defaultValues })
   const { handleSubmit, reset, setValue, formState } = methods

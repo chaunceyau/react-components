@@ -2,7 +2,7 @@
 module.exports = {
   variants: {
     extend: {
-      rounded: ['first', 'last']
+      borderRadius: ['first', 'last']
     }
   }
 }
