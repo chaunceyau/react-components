@@ -3,6 +3,7 @@ import * as RHForm from 'react-hook-form'
 import { FormLabel } from '../misc/label'
 
 export interface FormComponentProps {
+  // TODO: rename `name` to `id`?
   name: string
   label: string
   placeholder?: string
@@ -11,7 +12,6 @@ export interface FormComponentProps {
 
 export const FormInput = (props: FormComponentProps) => {
   const ctx = RHForm.useFormContext()
-
   if (ctx === undefined) {
     throw new Error('FormInput must be rendered inside a Form component')
   }
@@ -44,7 +44,12 @@ export const FormInput = (props: FormComponentProps) => {
       {ctx.errors[props.name] ? (
         <InputErrorMessage
           name={props.name}
-          message={ctx.errors[props.name]?.message}
+          message={
+            ctx.errors[props.name]?.message ||
+            ctx.errors[props.name]?.type === 'required'
+              ? 'You must provide a value for this field'
+              : ''
+          }
         />
       ) : null}
     </div>
