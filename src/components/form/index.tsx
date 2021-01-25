@@ -2,7 +2,6 @@ import React from 'react'
 import { toast } from 'react-hot-toast'
 import * as RHForm from 'react-hook-form'
 //
-import { Button } from '../button'
 import { Toasts } from '../misc/toasts'
 import { FormInput } from './elements/input'
 import { FormToggle } from './elements/toggle'
@@ -10,6 +9,8 @@ import { FormUpload } from './elements/upload'
 import { FormRadioGroup, FormRadioGroupProps } from './elements/radio'
 import { FormSubmitButton } from './elements/misc/submit'
 import { FormSelect } from './elements/select'
+import { FormButton } from './form-button'
+import { FormDivider } from './elements/divider'
 
 interface FormProps {
   // children: React.ReactNode | React.ReactNode[];
@@ -28,11 +29,13 @@ interface FormProps {
 // TODO: am i using formsubmitbutton?
 const ValidFormComponents: any = [
   FormInput,
-  FormSubmitButton,
-  FormRadioGroup,
   FormUpload,
   FormToggle,
-  FormSelect
+  FormButton,
+  FormSelect,
+  FormDivider,
+  FormRadioGroup,
+  FormSubmitButton
 ]
 
 function validateChildrenAndInitializeOptionForm(
@@ -77,14 +80,13 @@ export function Form({
   description,
   styled,
   clearValuesOnSubmit,
-  defaultValues,
-  saveMessage
+  defaultValues
 }: FormProps) {
   //
   validateChildrenAndInitializeOptionForm(children, defaultValues)
 
   const methods = RHForm.useForm({ defaultValues })
-  const { handleSubmit, reset, formState, setValue } = methods
+  const { handleSubmit, reset, setValue, formState } = methods
 
   const onSubmit = async (data: any) => {
     const isFunctionAsync = _onSubmit.constructor.name === 'AsyncFunction'
@@ -136,26 +138,43 @@ export function Form({
     }
   }
 
+  // const button = React.Children.toArray(children).find(
+  //   (child: any) => child.type === FormButton
+  // )
+  // <Button
+  //         loading={formState.isSubmitting}
+  //         label={saveMessage || 'Save'}
+  //         type='submit'
+  //       />
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className={styled ? 'border rounded-t-lg bg-white py-6 px-8' : ''}>
         {title ? <FormHeader title={title} description={description} /> : null}
         <div className='flex flex-col space-y-4 py-6'>
-          <RHForm.FormProvider {...methods}>{children}</RHForm.FormProvider>
+          <RHForm.FormProvider {...methods}>
+            {React.Children.map(children, (child) => {
+              switch (child.type) {
+                case FormButton: {
+                  return (
+                    <div
+                      className={
+                        styled
+                          ? 'bg-gray-100 py-4 px-8 rounded-b-lg border border-t-0 flex justify-end'
+                          : 'pt-2'
+                      }
+                    >
+                      {React.cloneElement(child, {
+                        loading: formState.isSubmitting
+                      })}
+                    </div>
+                  )
+                }
+                default:
+                  return child
+              }
+            })}
+          </RHForm.FormProvider>
         </div>
-      </div>
-      <div
-        className={
-          styled
-            ? 'bg-gray-100 py-4 px-8 rounded-b-lg border border-t-0 flex justify-end'
-            : ''
-        }
-      >
-        <Button
-          loading={formState.isSubmitting}
-          label={saveMessage || 'Save'}
-          type='submit'
-        />
       </div>
 
       <Toasts />

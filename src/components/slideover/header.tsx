@@ -6,7 +6,7 @@ interface SlideoverHeaderProps {
 
 export function SlideoverHeader({ onClose }: SlideoverHeaderProps) {
   return (
-    <div className='px-4 py-6 bg-gray-200 sm:px-6'>
+    <div className='px-4 py-6 bg-gray-200 sm:px-6 flex-shrink-0'>
       <div className='flex items-start justify-between space-x-3'>
         <div className='space-y-1'>
           <h2

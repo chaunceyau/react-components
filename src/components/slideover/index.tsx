@@ -2,14 +2,13 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Transition } from '@headlessui/react'
 //
-import { Action } from './interfaces'
-import { SlideoverFooter } from './footer'
+// import { Action } from './interfaces'
 import { SlideoverHeader } from './header'
 import { useClickOutside } from '../../hooks/useClickOutside'
 
 interface SlideoverProps {
   children: React.ReactNode
-  actions?: Action[]
+  // actions?: Action[]
   // onClose: () => any
   trigger: React.ReactNode
 }
@@ -32,10 +31,12 @@ function useSlideover() {
 
 type SlideoverState = 'OPEN' | 'CLOSED' | 'CLOSING'
 
-export function Slideover({ children, actions, trigger }: SlideoverProps) {
+export function Slideover({ children, trigger }: SlideoverProps) {
   const [state, setState] = useSlideover()
 
   const onClose = React.useCallback(() => setState('CLOSING'), [])
+
+  console.log('State => ', state)
 
   return (
     <div>
@@ -45,7 +46,6 @@ export function Slideover({ children, actions, trigger }: SlideoverProps) {
       {/* COULD BE IMPROVED - 2nd time opening doesn't transition */}
       {state === 'CLOSED' ? null : (
         <Portal
-          actions={actions}
           children={children}
           show={state === 'OPEN'}
           onClose={onClose}
@@ -69,7 +69,6 @@ function Portal(props: {
   onClose: () => void
   show: boolean
   children: any
-  actions: any
 }) {
   usePortal()
 
@@ -99,15 +98,12 @@ function Portal(props: {
             leaveTo='translate-x-full'
           >
             <div className='w-screen max-w-md h-screen' ref={slideoverRef}>
-              <form className='h-full flex flex-col bg-white shadow-xl'>
+              <div className='h-full flex flex-col bg-white shadow-xl'>
+                <SlideoverHeader onClose={props.onClose} />
                 <div className='flex-1 overflow-y-scroll'>
-                  <SlideoverHeader onClose={props.onClose} />
-                  <div className='py-4 px-6'>{props.children}</div>
+                  <div className='px-6 pb-6'>{props.children}</div>
                 </div>
-                {props.actions?.length ? (
-                  <SlideoverFooter actions={props.actions} />
-                ) : null}
-              </form>
+              </div>
             </div>
           </Transition>
         </section>

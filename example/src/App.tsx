@@ -7,6 +7,7 @@ import {
   FormUpload,
   FormSelect,
   FormToggle,
+  FormButton,
   FormRadioGroup,
   SectionHeading
 } from '@chaunceyau/react-components'
@@ -74,17 +75,13 @@ const App = () => {
   return (
     <div className='max-w-2xl mx-auto py-8'>
       <Slideover
-        actions={[{ label: 'Create Example', onClick: () => {} }]}
         // onClose={() => {
         //   console.log('CLSOING')
         //   setIsSlideoverOpen(!isSlideoverOpen)
         // }}
         trigger={<button className='bg-red-500'>slideover trigger</button>}
       >
-        <Form
-          onSubmit={onSubmit}
-          defaultValues={defaults}
-        >
+        <Form onSubmit={onSubmit} defaultValues={defaults}>
           <FormInput
             name='firstName'
             label='First Name'
@@ -123,6 +120,7 @@ const App = () => {
               { id: 'c340kc340', value: 'Google Inc' }
             ]}
           />
+          <FormButton label='Save Information' />
         </Form>
       </Slideover>
 

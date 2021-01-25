@@ -1,7 +1,7 @@
 import React from 'react'
 import { LoadingSpinner } from '../misc/spinner'
 
-interface ButtonBaseProps {
+export interface ButtonProps {
   label: string
   className?: string
   // TODO: should seperate loading/disabled to either or
@@ -11,20 +11,13 @@ interface ButtonBaseProps {
   fluid?: boolean
   color?: ButtonColor
   type?: ButtonType // | 'reset'
+  alignRight?: boolean
+  //
+  onClick?: () => void
 }
 
 type ButtonColor = 'primary' | 'default' | 'light'
 type ButtonType = 'submit' | 'button'
-
-interface SubmitButtonProps extends ButtonBaseProps {
-  type: 'submit'
-}
-
-interface NonSubmitButtonProps extends ButtonBaseProps {
-  onClick: () => void
-}
-
-type ButtonProps = SubmitButtonProps | NonSubmitButtonProps
 
 export function Button(props: ButtonProps) {
   const btnClasses = getButtonClasses({
@@ -32,7 +25,8 @@ export function Button(props: ButtonProps) {
     fluid: props.fluid,
     loading: props.loading,
     disabled: props.disabled,
-    className: props.className
+    className: props.className,
+    alignRight: props.alignRight
   })
 
   const spinner = (
@@ -83,10 +77,11 @@ function getButtonClasses({
   fluid,
   loading,
   disabled,
+  alignRight,
   className
 }: Pick<
   ButtonProps,
-  'color' | 'fluid' | 'loading' | 'disabled' | 'className'
+  'color' | 'fluid' | 'loading' | 'disabled' | 'className' | 'alignRight'
 >): string[] {
   const buttonBaseClasses = [
     // padding
@@ -96,7 +91,7 @@ function getButtonClasses({
     'border',
     'border-transparent',
     // flex
-    'inline-flex',
+    'flex',
     'justify-center',
     // text
     'text-sm',
@@ -136,6 +131,10 @@ function getButtonClasses({
       }
       break
     }
+  }
+
+  if (alignRight) {
+    buttonBaseClasses.push('ml-auto')
   }
 
   if (loading || disabled) {
