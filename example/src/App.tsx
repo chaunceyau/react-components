@@ -11,9 +11,9 @@ import {
   FormRadioGroup,
   SectionHeading
 } from '@chaunceyau/react-components'
+import '@chaunceyau/react-components/dist/index.css'
 
 import './assets/generated/style.css'
-import '@chaunceyau/react-components/dist/index.css'
 import { FormOption } from '../../dist/components/form/elements/radio/option'
 
 const App = () => {

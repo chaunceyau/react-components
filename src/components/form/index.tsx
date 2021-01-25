@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { toast } from 'react-hot-toast'
 import * as RHForm from 'react-hook-form'
 //
@@ -7,13 +7,12 @@ import { FormInput } from './elements/input'
 import { FormToggle } from './elements/toggle'
 import { FormUpload } from './elements/upload'
 import { FormRadioGroup, FormRadioGroupProps } from './elements/radio'
-import { FormSubmitButton } from './elements/misc/submit'
 import { FormSelect } from './elements/select'
 import { FormButton } from './form-button'
 import { FormDivider } from './elements/divider'
 
 interface FormProps {
-  // children: React.ReactNode | React.ReactNode[];
+  id: string
   title?: string
   styled?: boolean
   description?: string
@@ -22,7 +21,6 @@ interface FormProps {
   defaultValues?: { [key: string]: any }
   saveMessage?: string
   // UPDATE
-  // onSubmit:;
   onSubmit: (data: any) => void | Promise<void>
 }
 
@@ -34,8 +32,7 @@ const ValidFormComponents: any = [
   FormButton,
   FormSelect,
   FormDivider,
-  FormRadioGroup,
-  FormSubmitButton
+  FormRadioGroup
 ]
 
 function validateChildrenAndInitializeOptionForm(
@@ -74,6 +71,7 @@ function validateChildrenAndInitializeOptionForm(
 }
 
 export function Form({
+  id,
   onSubmit: _onSubmit,
   children,
   title,
@@ -146,8 +144,14 @@ export function Form({
   //         label={saveMessage || 'Save'}
   //         type='submit'
   //       />
+
+  // TODO: test this for form id...
+  // const ref = useRef<any>()
+  // ref.current = Math.random()
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    // todo pass formId to form children
+    <form id={id} onSubmit={handleSubmit(onSubmit)}>
       <div className={styled ? 'border rounded-t-lg bg-white py-6 px-8' : ''}>
         {title ? <FormHeader title={title} description={description} /> : null}
         <div className='flex flex-col space-y-4 py-6'>

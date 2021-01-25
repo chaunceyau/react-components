@@ -61,6 +61,7 @@ function getButtonProps({
   const buttonProps = {
     type,
     className,
+    role: 'button',
     disabled: loading || disabled
   }
 
