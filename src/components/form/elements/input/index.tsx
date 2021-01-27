@@ -2,7 +2,7 @@ import React from 'react'
 import * as RHForm from 'react-hook-form'
 import { FormLabel } from '../misc/label'
 
-export interface FormComponentProps {
+export interface FormInputProps {
   // TODO: rename `name` to `id`?
   name: string
   label: string
@@ -10,7 +10,7 @@ export interface FormComponentProps {
   registerOptions?: RHForm.RegisterOptions
 }
 
-export const FormInput = (props: FormComponentProps) => {
+export const FormInput = (props: FormInputProps) => {
   const ctx = RHForm.useFormContext()
   if (ctx === undefined) {
     throw new Error('FormInput must be rendered inside a Form component')

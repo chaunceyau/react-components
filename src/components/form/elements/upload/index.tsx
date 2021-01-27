@@ -80,7 +80,6 @@ function FormUploadComponent(props: any) {
         onUploadComplete={onUploadComplete}
         allowMultipleFiles={!!props.multiple}
       />
-
       <UploadInput
         hidden={!!props.value.length}
         getRootProps={getRootProps}

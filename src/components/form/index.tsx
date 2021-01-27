@@ -13,7 +13,7 @@ import { FormSelect } from './elements/select'
 import { FormDivider } from './elements/divider'
 import { FormRadioGroup, FormRadioGroupProps } from './elements/radio'
 
-interface FormProps {
+export interface FormProps {
   id: string
   title?: string
   styled?: boolean
@@ -21,7 +21,6 @@ interface FormProps {
   clearValuesOnSubmit?: boolean
   children: React.ReactElement | React.ReactElement[]
   defaultValues?: { [key: string]: any }
-  saveMessage?: string
   // UPDATE
   onSubmit: (data: any) => void | Promise<void>
 }
@@ -158,7 +157,7 @@ export function Form({
   return (
     // todo pass formId to form children
     <form id={id} onSubmit={handleSubmit(onSubmit)}>
-      <div className={styled ? 'border rounded-t-lg bg-white py-6 px-8' : ''}>
+      <div className={styled ? 'border rounded-lg bg-white py-6 px-8' : ''}>
         {title ? <FormHeader title={title} description={description} /> : null}
         <div className='flex flex-col space-y-4 py-6'>
           <RHForm.FormProvider {...methods}>

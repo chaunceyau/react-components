@@ -9,7 +9,8 @@ import {
   FormToggle,
   FormButton,
   FormRadioGroup,
-  SectionHeading
+  SectionHeading,
+  Button
 } from '@chaunceyau/react-components'
 import '@chaunceyau/react-components/dist/index.css'
 
@@ -38,12 +39,12 @@ const App = () => {
       {
         id: '9ca87723-6c2c-434c-8572-0d64864825f6',
         value: 'Monthly Subscription',
-        description: '$5/mo'
+        caption: '$5/mo'
       },
       {
         id: 'b5173512-423e-458d-b55c-151647652dc7',
         value: 'Yearly Subscription',
-        description: '$45/yr'
+        caption: '$45/yr'
       }
     ],
     []
@@ -79,7 +80,7 @@ const App = () => {
         //   console.log('CLSOING')
         //   setIsSlideoverOpen(!isSlideoverOpen)
         // }}
-        trigger={<button className='bg-red-500'>slideover trigger</button>}
+        trigger={<Button label='slideover trigger' />}
       >
         <Form id='form123' onSubmit={onSubmit} defaultValues={defaults}>
           <FormInput

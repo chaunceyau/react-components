@@ -40,7 +40,7 @@ export function Button(props: ButtonProps) {
     loading: props.loading,
     disabled: props.disabled,
     className: btnClasses.join(' '),
-    onClick: props.type === 'button' ? props.onClick : null
+    onClick: props.onClick
   })
 
   return (
@@ -67,6 +67,7 @@ function getButtonProps({
 
   // type === "button"
   if (onClick) {
+    // needed? type === 'button' ? props.onClick : null
     Object.assign(buttonProps, { onClick: onClick })
   }
 

@@ -4,7 +4,7 @@ export interface FormOption {
   id: string
   value: string
   // more description info
-  extraDescription?: string
+  caption?: string
 }
 
 export function FormRadioOption(
@@ -64,9 +64,9 @@ export function FormRadioOption(
         <span className='ml-3 font-medium w-full'>{props.value}</span>
       </label>
       {/* <!-- On: "text-indigo-700", Off: "text-gray-500" --> */}
-      {props.extraDescription ? (
+      {props.caption ? (
         <p id='plan-option-limit-0' className={descriptionClasses.join(' ')}>
-          {props.extraDescription}
+          {props.caption}
         </p>
       ) : null}
     </li>

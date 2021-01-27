@@ -13,7 +13,7 @@ interface SlideoverProps {
   trigger: React.ReactNode
 }
 
-function useSlideover() {
+function useSlideoverState() {
   const state = React.useState<SlideoverState>('CLOSED')
 
   React.useEffect(() => {
@@ -32,11 +32,9 @@ function useSlideover() {
 type SlideoverState = 'OPEN' | 'CLOSED' | 'CLOSING'
 
 export function Slideover({ children, trigger }: SlideoverProps) {
-  const [state, setState] = useSlideover()
+  const [state, setState] = useSlideoverState()
 
   const onClose = React.useCallback(() => setState('CLOSING'), [])
-
-  console.log('State => ', state)
 
   return (
     <div>
@@ -44,13 +42,10 @@ export function Slideover({ children, trigger }: SlideoverProps) {
         onClick: () => setState('OPEN')
       })}
       {/* COULD BE IMPROVED - 2nd time opening doesn't transition */}
-      {state === 'CLOSED' ? null : (
-        <Portal
-          children={children}
-          show={state === 'OPEN'}
-          onClose={onClose}
-        />
-      )}
+      {state !== 'CLOSED' ? (
+        <Portal children={children} open={state === 'OPEN'} onClose={onClose} />
+      ) : null}
+      {/* )} */}
     </div>
   )
 }
@@ -65,11 +60,7 @@ function usePortal() {
   }, [])
 }
 
-function Portal(props: {
-  onClose: () => void
-  show: boolean
-  children: any
-}) {
+function Portal(props: { onClose: () => void; open: boolean; children: any }) {
   usePortal()
 
   const slideoverRef = React.useRef<any>()
@@ -89,7 +80,7 @@ function Portal(props: {
           aria-labelledby='slide-over-heading'
         >
           <Transition
-            show={props.show}
+            show={props.open}
             enter='transform transition ease-in-out duration-500 sm:duration-700'
             enterFrom='translate-x-full'
             enterTo='translate-x-0'
