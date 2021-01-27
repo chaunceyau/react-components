@@ -22,7 +22,9 @@ export function FormSelect(props: FormSelectProps) {
   ]
 
   wrapperClasses.push(formState.isSubmitting ? 'bg-gray-200' : 'bg-white')
-  selectClasses.push(formState.isSubmitting ? 'bg-gray-200 text-gray-400' : 'bg-white')
+  selectClasses.push(
+    formState.isSubmitting ? 'bg-gray-200 text-gray-400' : 'bg-white'
+  )
 
   return (
     <div>
