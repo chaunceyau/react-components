@@ -10,7 +10,8 @@ import {
   FormButton,
   FormRadioGroup,
   SectionHeading,
-  Button
+  Button,
+  DropdownMenu
 } from '@chaunceyau/react-components'
 import '@chaunceyau/react-components/dist/index.css'
 
@@ -84,6 +85,14 @@ const App = () => {
 
   return (
     <div className='max-w-2xl mx-auto py-8'>
+      <DropdownMenu
+        links={[
+          { to: '/tes', label: 'Account Settings' },
+          { to: '/sup', label: 'Support' },
+          { to: '/li', label: 'License' }
+        ]}
+        linkComponent={(link) => <a href={link.to}>{link.label}</a>}
+      />
       <Slideover
         // onClose={() => {
         //   console.log('CLSOING')

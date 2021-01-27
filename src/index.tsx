@@ -9,6 +9,7 @@ export { FormDivider } from './components/form/elements/divider'
 export { FormRadioGroup } from './components/form/elements/radio'
 //
 export { Button } from './components/button'
+export { DropdownMenu } from './components/dropdown'
 export { Statistic } from './components/statistic'
 export { Slideover } from './components/slideover'
 export { SectionHeading } from './components/layout/headings'
