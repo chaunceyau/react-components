@@ -4,8 +4,8 @@ import { useFormContext } from 'react-hook-form'
 import { ProgressBar } from './progress'
 import { CheckIcon } from '../../../icons/check'
 import { ArchiveSvg } from '../../../icons/archive'
-import { useUploadReducer } from './useUploadReducer'
 import { LoadingSpinner } from '../../../misc/spinner'
+import { OnUploadCompleteFunction, useUploadReducer } from './useUploadReducer'
 
 interface FileListItemProps {
   remoteFileId: string
@@ -13,7 +13,7 @@ interface FileListItemProps {
   fileName: string
   status: string
   variableName: string
-  onUploadComplete: (fileId: string) => any
+  onUploadComplete: OnUploadCompleteFunction
 }
 
 export function FileListItem(props: FileListItemProps) {
@@ -28,7 +28,8 @@ export function FileListItem(props: FileListItemProps) {
   const state = useUploadReducer(
     props.file || null,
     props.variableName,
-    props.remoteFileId
+    props.remoteFileId,
+    props.onUploadComplete
   )
 
   const liClasses = ['flex items-center']

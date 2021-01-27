@@ -13,6 +13,8 @@ interface UploadFileAction {
   payload?: any
 }
 
+export type OnUploadCompleteFunction = (fileId: string) => any
+
 function uploadReducer(
   state: UploadReducerState,
   action: UploadFileAction
@@ -48,6 +50,7 @@ async function getSignedUrl(file: File, remoteFileId: string) {
           data: {
             fileName: file.name,
             remoteFileId: remoteFileId,
+            // TODO: update this url
             signedUploadUrl: `https://quicktestbucket1234.s3.us-east-1.amazonaws.com/${remoteFileId}/${file.name}`
           }
         }),
@@ -64,7 +67,9 @@ export function useUploadReducer(
   // variable name in rhf
   variableName: string,
   // id in database
-  remoteFileId: string
+  remoteFileId: string,
+  // function to update a record with newly uploaded s3 id
+  onUploadComplete: OnUploadCompleteFunction
 ): UploadReducerState {
   const [state, dispatch] = React.useReducer(uploadReducer, {
     loading: false,
@@ -97,7 +102,10 @@ export function useUploadReducer(
               'Content-Disposition': contentDisposition(file.name)
             }
           })
-          .then(() => dispatch({ type: 'UPLOAD_COMPLETE' }))
+          .then(() => {
+            dispatch({ type: 'UPLOAD_COMPLETE' })
+            onUploadComplete(remoteFileId)
+          })
           .catch((err) => dispatch({ type: 'ERROR', payload: err }))
 
         return response

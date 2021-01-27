@@ -13,7 +13,8 @@ interface FormUploadBasics {
   name: string
   label: string
   onDeleteMutation: () => void
-  onUploadComplete: (...args: any[]) => any | Promise<any>
+  // ideally return fileId?
+  onUploadComplete: (...args: any[]) => Promise<{ fileId: string }>
 }
 
 interface FileState {
@@ -44,6 +45,8 @@ function FormUploadComponent(props: any) {
         fileName: file.name,
         status: 'IDLE'
       }))
+
+      // const { fileId } = await props.uploadFile()
 
       props.onChange([...currentFiles, ...newFiles])
     },

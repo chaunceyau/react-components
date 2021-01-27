@@ -18,7 +18,7 @@ import './assets/generated/style.css'
 import { FormOption } from '../../dist/components/form/elements/radio/option'
 
 const App = () => {
-  async function onSubmit(data: any) {
+  async function onSubmitForm(data: any) {
     // call mutation here
     await new Promise((res) => {
       setTimeout(() => {
@@ -29,9 +29,18 @@ const App = () => {
   }
 
   const onDelete = React.useCallback(() => {}, [])
-  const onUploadComplete = React.useCallback(async () => {
-    // await new Promise((res, rej) => setTimeout(() => res({}), 1000));
-    return {}
+  const onUploadComplete: () => Promise<{
+    fileId: string
+  }> = React.useCallback(async () => {
+    return await new Promise((res) =>
+      setTimeout(
+        () =>
+          res({
+            fileId: '123'
+          }),
+        1000
+      )
+    )
   }, [])
 
   const options: FormOption[] = React.useMemo(
@@ -82,7 +91,7 @@ const App = () => {
         // }}
         trigger={<Button label='slideover trigger' />}
       >
-        <Form id='form123' onSubmit={onSubmit} defaultValues={defaults}>
+        <Form id='form123' onSubmit={onSubmitForm} defaultValues={defaults}>
           <FormInput
             name='firstName'
             label='First Name'
