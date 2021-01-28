@@ -73,7 +73,7 @@ function FormUploadComponent(props: any) {
 
   return (
     <div>
-      <FormLabel name={props.name} label={props.label} error={props.error} />
+      <FormLabel name={name} label={label} error={props.error} />
       <ExistingFiles
         name={name}
         value={value}
@@ -84,6 +84,8 @@ function FormUploadComponent(props: any) {
         allowMultipleFiles={!!props.multiple}
       />
       <UploadInput
+        id={id}
+        name={name}
         hidden={!!props.value.length}
         getRootProps={getRootProps}
         getInputProps={getInputProps}

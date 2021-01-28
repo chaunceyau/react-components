@@ -1,6 +1,7 @@
 import React from 'react'
 import * as RHForm from 'react-hook-form'
 import { FormLabel } from '../misc/label'
+import { FormInputErrorMessage } from './error-message'
 
 export interface FormInputProps {
   // TODO: rename `name` to `id`?
@@ -8,52 +9,6 @@ export interface FormInputProps {
   label: string
   placeholder?: string
   registerOptions?: RHForm.RegisterOptions
-}
-
-export const FormInput = (props: FormInputProps) => {
-  const ctx = RHForm.useFormContext()
-  if (ctx === undefined) {
-    throw new Error('FormInput must be rendered inside a Form component')
-  }
-
-  const styles = getFormInputStyles({
-    loading: ctx.formState.isSubmitting,
-    error: ctx.errors[props.name]
-  })
-
-  return (
-    <div className={styles.textColor}>
-      <FormLabel
-        name={props.name}
-        label={props.label}
-        error={!!ctx.errors[props.name]}
-      />
-      <div className='relative rounded-md shadow-sm'>
-        <input
-          type='text'
-          id={props.name}
-          name={props.name}
-          ref={ctx.register(props.registerOptions)}
-          disabled={ctx.formState.isSubmitting}
-          placeholder={props.placeholder}
-          className={styles.inputBaseClasses.join(' ')}
-          aria-describedby={props.name + '-error'}
-          aria-invalid={!!ctx.errors[props.name]}
-        />
-      </div>
-      {ctx.errors[props.name] ? (
-        <InputErrorMessage
-          name={props.name}
-          message={
-            ctx.errors[props.name]?.message ||
-            ctx.errors[props.name]?.type === 'required'
-              ? 'You must provide a value for this field'
-              : ''
-          }
-        />
-      ) : null}
-    </div>
-  )
 }
 
 function getFormInputStyles({ loading, error }: any) {
@@ -102,15 +57,48 @@ function getFormInputStyles({ loading, error }: any) {
   }
 }
 
-interface InputErrorMessageProps {
-  message?: string
-  name: string
-}
+export const FormInput = (props: FormInputProps) => {
+  const ctx = RHForm.useFormContext()
+  if (ctx === undefined) {
+    throw new Error('FormInput must be rendered inside a Form component')
+  }
 
-function InputErrorMessage({ message, name }: InputErrorMessageProps) {
+  const styles = getFormInputStyles({
+    loading: ctx.formState.isSubmitting,
+    error: ctx.errors[props.name]
+  })
+
   return (
-    <p className='mt-2 text-sm text-red-600' id={name + '-error'} role='alert'>
-      {message || 'There is an issue with this input'}
-    </p>
+    <div className={styles.textColor}>
+      <FormLabel
+        name={props.name}
+        label={props.label}
+        error={!!ctx.errors[props.name]}
+      />
+      <div className='relative rounded-md shadow-sm'>
+        <input
+          type='text'
+          id={props.name}
+          name={props.name}
+          ref={ctx.register(props.registerOptions)}
+          disabled={ctx.formState.isSubmitting}
+          placeholder={props.placeholder}
+          className={styles.inputBaseClasses.join(' ')}
+          aria-describedby={props.name + '-error'}
+          aria-invalid={!!ctx.errors[props.name]}
+        />
+      </div>
+      {ctx.errors[props.name] ? (
+        <FormInputErrorMessage
+          name={props.name}
+          message={
+            ctx.errors[props.name]?.message ||
+            ctx.errors[props.name]?.type === 'required'
+              ? 'You must provide a value for this field'
+              : ''
+          }
+        />
+      ) : null}
+    </div>
   )
 }

@@ -19,38 +19,6 @@ export interface ButtonProps {
 type ButtonColor = 'primary' | 'default' | 'light'
 type ButtonType = 'submit' | 'button'
 
-export function Button(props: ButtonProps) {
-  const btnClasses = getButtonClasses({
-    color: props.color,
-    fluid: props.fluid,
-    loading: props.loading,
-    disabled: props.disabled,
-    className: props.className,
-    alignRight: props.alignRight
-  })
-
-  const spinner = (
-    <div className='absolute w-full h-full flex items-center justify-center -mt-2'>
-      <LoadingSpinner color='white' />
-    </div>
-  )
-
-  const buttonProps = getButtonProps({
-    type: props.type,
-    loading: props.loading,
-    disabled: props.disabled,
-    className: btnClasses.join(' '),
-    onClick: props.onClick
-  })
-
-  return (
-    <button {...buttonProps}>
-      {props.loading ? spinner : null}
-      {<span className={props.loading ? 'opacity-0' : ''}>{props.label}</span>}
-    </button>
-  )
-}
-
 function getButtonProps({
   type = 'button',
   className,
@@ -154,19 +122,34 @@ function getButtonClasses({
   return buttonBaseClasses
 }
 
-export function ButtonGroup({ children }: any) {
-  return (
-    <div className='flex space-x-2'>
-      {React.Children.map(children, (child) => {
-        if (child === null) {
-          return null
-        } else if (child.type !== Button) {
-          throw new Error(
-            `${child.type} is not a valid child of the ButtonGroup component.`
-          )
-        }
-        return child
-      })}
+export function Button(props: ButtonProps) {
+  const btnClasses = getButtonClasses({
+    color: props.color,
+    fluid: props.fluid,
+    loading: props.loading,
+    disabled: props.disabled,
+    className: props.className,
+    alignRight: props.alignRight
+  })
+
+  const spinner = (
+    <div className='absolute w-full h-full flex items-center justify-center -mt-2'>
+      <LoadingSpinner color='white' />
     </div>
+  )
+
+  const buttonProps = getButtonProps({
+    type: props.type,
+    loading: props.loading,
+    disabled: props.disabled,
+    className: btnClasses.join(' '),
+    onClick: props.onClick
+  })
+
+  return (
+    <button {...buttonProps}>
+      {props.loading ? spinner : null}
+      <span className={props.loading ? 'opacity-0' : ''}>{props.label}</span>
+    </button>
   )
 }

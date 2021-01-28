@@ -1,3 +1,5 @@
+import React from 'react'
+
 interface CardProps {
   title?: string
   description?: string
@@ -12,7 +14,10 @@ export function Card({ title, description, actions }: CardProps) {
 
   const Actions =
     actions?.map((action) => (
-      <button className='bg-green-500 py-2 px-4 rounded text-white font-semibold'>
+      <button
+        key={action}
+        className='bg-green-500 py-2 px-4 rounded text-white font-semibold'
+      >
         {action} interest
       </button>
     )) || null

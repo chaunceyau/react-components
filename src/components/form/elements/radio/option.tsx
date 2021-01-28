@@ -42,11 +42,7 @@ export function FormRadioOption(
     descriptionClasses.push('text-gray-500')
   }
 
-  {
-    /* <!-- On: "bg-indigo-50 border-indigo-200 z-10", Off: "border-gray-200" --> */
-  }
-
-  console.log({ props })
+  /* <!-- On: "bg-indigo-50 border-indigo-200 z-10", Off: "border-gray-200" --> */
 
   return (
     <li key={props.id} className={wrapperClasses.join(' ')}>

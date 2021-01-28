@@ -8,14 +8,15 @@ export function Activity(props: ActivityProps) {
   return (
     <div className='flow-root'>
       <ul className='-mb-8'>
-        {props.items.map((step, index) => (
-          <li>
+        {props.items.map((_, index) => (
+          // TODO: update key
+          <li key={index}>
             <div className='relative pb-8'>
               {index < props.items.length - 1 ? (
                 <span
                   className='absolute top-5 left-5 -ml-px h-full w-0.5 bg-gray-200'
                   aria-hidden='true'
-                ></span>
+                />
               ) : null}
               <div className='relative flex items-start space-x-3'>
                 <div>
@@ -30,9 +31,9 @@ export function Activity(props: ActivityProps) {
                         aria-hidden='true'
                       >
                         <path
-                          fill-rule='evenodd'
+                          fillRule='evenodd'
                           d='M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z'
-                          clip-rule='evenodd'
+                          clipRule='evenodd'
                         />
                       </svg>
                     </div>

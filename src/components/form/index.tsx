@@ -103,7 +103,7 @@ export function Form({
   const onSubmit = async (data: any) => {
     const isFunctionAsync = _onSubmit.constructor.name === 'AsyncFunction'
 
-    let deleteFiles: { [key: string]: string[] } = {}
+    const deleteFiles: { [key: string]: string[] } = {}
 
     React.Children.forEach(children, async (child) => {
       if (child.type === FormUpload) {
@@ -118,9 +118,9 @@ export function Form({
 
     try {
       for (const [, value] of Object.entries(deleteFiles)) {
-        await new Promise((res) =>
+        await new Promise((resolve) =>
           setTimeout(() => {
-            res(value)
+            resolve(value)
           }, 500)
         )
       }

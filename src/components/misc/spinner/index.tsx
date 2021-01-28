@@ -32,7 +32,7 @@ export function LoadingSpinner({ color }: LoadingSpinnerProps) {
         r='20'
         fill='none'
         strokeWidth='5'
-      ></circle>
+      />
     </svg>
   )
 }

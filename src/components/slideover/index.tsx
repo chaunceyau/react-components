@@ -7,7 +7,6 @@ import { SlideoverHeader } from './header'
 import { useClickOutside } from '../../hooks/useClickOutside'
 
 interface SlideoverProps {
-  children: React.ReactNode
   // actions?: Action[]
   // onClose: () => any
   trigger: React.ReactNode
@@ -17,13 +16,14 @@ function useSlideoverState() {
   const state = React.useState<SlideoverState>('CLOSED')
 
   React.useEffect(() => {
-    if (state[0] === 'CLOSING') {
-      const timeout = setTimeout(() => {
-        state[1]('CLOSED')
-      }, 500)
-      return () => clearTimeout(timeout)
+    if (state[0] !== 'CLOSING') {
+      return
     }
-    return
+
+    const timeout = setTimeout(() => {
+      state[1]('CLOSED')
+    }, 500)
+    return () => clearTimeout(timeout)
   }, [state])
 
   return state
@@ -31,7 +31,10 @@ function useSlideoverState() {
 
 type SlideoverState = 'OPEN' | 'CLOSED' | 'CLOSING'
 
-export function Slideover({ children, trigger }: SlideoverProps) {
+export function Slideover({
+  children,
+  trigger
+}: React.PropsWithChildren<SlideoverProps>) {
   const [state, setState] = useSlideoverState()
 
   const onClose = React.useCallback(() => setState('CLOSING'), [])
@@ -43,7 +46,9 @@ export function Slideover({ children, trigger }: SlideoverProps) {
       })}
       {/* COULD BE IMPROVED - 2nd time opening doesn't transition */}
       {state !== 'CLOSED' ? (
-        <Portal children={children} open={state === 'OPEN'} onClose={onClose} />
+        <Portal open={state === 'OPEN'} onClose={onClose}>
+          {children}
+        </Portal>
       ) : null}
       {/* )} */}
     </div>
@@ -60,7 +65,9 @@ function usePortal() {
   }, [])
 }
 
-function Portal(props: { onClose: () => void; open: boolean; children: any }) {
+function Portal(
+  props: React.PropsWithChildren<{ onClose: () => void; open: boolean }>
+) {
   usePortal()
 
   const slideoverRef = React.useRef<any>()
@@ -73,7 +80,7 @@ function Portal(props: { onClose: () => void; open: boolean; children: any }) {
         <div
           className='absolute inset-0 bg-gray-300 bg-opacity-75 transition-opacity'
           aria-hidden='true'
-        ></div>
+        />
 
         <section
           className='absolute inset-y-0 right-0 pl-10 max-w-full flex sm:pl-16'

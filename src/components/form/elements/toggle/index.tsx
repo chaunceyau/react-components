@@ -78,7 +78,7 @@ function Toggle({
           disabled={ctx.formState.isSubmitting}
         >
           <span className='sr-only'>Use setting</span>
-          <span aria-hidden={!value} className={circleClasses.join(' ')}></span>
+          <span aria-hidden={!value} className={circleClasses.join(' ')} />
         </button>
         {description ? (
           <span className={descriptionClasses.join(' ')}>{description}</span>

@@ -57,8 +57,13 @@ const children = (
     <FormUpload
       name='profilePhoto'
       label='Profile Photo'
-      onDeleteMutation={() => {}}
-      onUploadComplete={() => {}}
+      onDeleteMutation={() => {
+        //
+      }}
+      onUploadComplete={async () => {
+        //
+        return { fileId: '' }
+      }}
       multiple={true}
     />
     <FormSelect
@@ -98,7 +103,9 @@ Basic.args = {
   styled: false,
   title: 'Unstyled Form',
   description: 'This form has no added styling',
-  onSubmit: () => {}
+  onSubmit: () => {
+    console.log('')
+  }
 }
 
 export const Styled = Template.bind({})
@@ -109,5 +116,7 @@ Styled.args = {
   styled: true,
   title: 'Styled Form',
   description: 'This form has additional styling added',
-  onSubmit: () => {}
+  onSubmit: () => {
+    console.log('')
+  }
 }
