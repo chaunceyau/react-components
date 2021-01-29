@@ -11,7 +11,8 @@ import {
   FormRadioGroup,
   SectionHeading,
   Button,
-  DropdownMenu
+  DropdownMenu,
+  Toasts
 } from '@chaunceyau/react-components'
 import '@chaunceyau/react-components/dist/index.css'
 
@@ -85,6 +86,7 @@ const App = () => {
 
   return (
     <div className='max-w-2xl mx-auto py-8'>
+      <Toasts />
       <DropdownMenu
         links={[
           { to: '/tes', label: 'Account Settings' },
