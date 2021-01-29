@@ -2,21 +2,22 @@ import React from 'react'
 import { LoadingSpinner } from '../misc/spinner'
 
 export interface ButtonProps {
-  label: string
+  children: React.ReactNode
   className?: string
   // TODO: should seperate loading/disabled to either or
   loading?: boolean
   disabled?: boolean
   // full-width?
   fluid?: boolean
-  color?: ButtonColor
+  buttonStyle: ButtonStyle
   type?: ButtonType // | 'reset'
   alignRight?: boolean
   //
   onClick?: () => void
 }
 
-type ButtonColor = 'primary' | 'default' | 'light'
+type ButtonStyle = 'primary' | 'positive' | 'negative' | 'secondary'
+
 type ButtonType = 'submit' | 'button'
 
 function getButtonProps({
@@ -43,15 +44,15 @@ function getButtonProps({
 }
 
 function getButtonClasses({
-  color,
   fluid,
   loading,
   disabled,
+  className,
   alignRight,
-  className
+  buttonStyle
 }: Pick<
   ButtonProps,
-  'color' | 'fluid' | 'loading' | 'disabled' | 'className' | 'alignRight'
+  'fluid' | 'loading' | 'disabled' | 'className' | 'alignRight' | 'buttonStyle'
 >): string[] {
   const buttonBaseClasses = [
     // padding
@@ -76,19 +77,27 @@ function getButtonClasses({
     'focus:ring-indigo-500'
   ]
 
-  switch (color) {
-    case 'light': {
-      buttonBaseClasses.push('bg-gray-200 text-gray-500')
+  switch (buttonStyle) {
+    case 'secondary': {
+      buttonBaseClasses.push('border border-gray-300 bg-white text-gray-700')
       if (!disabled) {
-        buttonBaseClasses.push('hover:bg-gray-300')
+        buttonBaseClasses.push('hover:bg-gray-50')
       }
       break
     }
 
-    case 'default': {
-      buttonBaseClasses.push('bg-gray-400 text-gray-600')
+    case 'positive': {
+      buttonBaseClasses.push('bg-green-600 text-white')
       if (!disabled) {
-        buttonBaseClasses.push('hover:bg-gray-600')
+        buttonBaseClasses.push('hover:bg-green-700')
+      }
+      break
+    }
+
+    case 'negative': {
+      buttonBaseClasses.push('bg-red-600 text-white')
+      if (!disabled) {
+        buttonBaseClasses.push('hover:bg-red-700')
       }
       break
     }
@@ -124,12 +133,12 @@ function getButtonClasses({
 
 export function Button(props: ButtonProps) {
   const btnClasses = getButtonClasses({
-    color: props.color,
     fluid: props.fluid,
     loading: props.loading,
     disabled: props.disabled,
     className: props.className,
-    alignRight: props.alignRight
+    alignRight: props.alignRight,
+    buttonStyle: props.buttonStyle
   })
 
   const spinner = (
@@ -149,7 +158,7 @@ export function Button(props: ButtonProps) {
   return (
     <button {...buttonProps}>
       {props.loading ? spinner : null}
-      <span className={props.loading ? 'opacity-0' : ''}>{props.label}</span>
+      <span className={props.loading ? 'opacity-0' : ''}>{props.children}</span>
     </button>
   )
 }

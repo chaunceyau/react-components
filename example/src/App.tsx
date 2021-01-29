@@ -12,7 +12,8 @@ import {
   SectionHeading,
   Button,
   DropdownMenu,
-  Toasts
+  Toasts,
+  Modal
 } from '@chaunceyau/react-components'
 import '@chaunceyau/react-components/dist/index.css'
 
@@ -83,24 +84,36 @@ const App = () => {
   )
 
   // const [isSlideoverOpen, setIsSlideoverOpen] = React.useState(true)
-
+  const [showModal, setShowModal] = React.useState(true)
   return (
     <div className='max-w-2xl mx-auto py-8'>
       <Toasts />
+      <Modal
+        title='Delete account'
+        description='Are you sure you want to deactivate your account? All of
+                    your data will be permanently removed. This action cannot be
+                    undone.'
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        action={{
+          label: 'Deactivate',
+          func: () => {}
+        }}
+      />
       <DropdownMenu
         links={[
           { to: '/tes', label: 'Account Settings' },
           { to: '/sup', label: 'Support' },
           { to: '/li', label: 'License' }
         ]}
-        linkComponent={(link) => <a href={link.to}>{link.label}</a>}
+        linkComponent={(link: any) => <a href={link.to}>{link.label}</a>}
       />
       <Slideover
         // onClose={() => {
         //   console.log('CLSOING')
         //   setIsSlideoverOpen(!isSlideoverOpen)
         // }}
-        trigger={<Button label='slideover trigger' />}
+        trigger={<Button buttonStyle='primary'>slideover trigger</Button>}
       >
         <Form id='form123' onSubmit={onSubmitForm} defaultValues={defaults}>
           <FormInput
@@ -141,7 +154,7 @@ const App = () => {
               { id: 'c340kc340', value: 'Google Inc' }
             ]}
           />
-          <FormButton label='Save Information' />
+          <FormButton buttonStyle='primary'>Save Information</FormButton>
         </Form>
       </Slideover>
 

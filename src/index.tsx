@@ -8,10 +8,12 @@ export { FormSelect } from './components/form/elements/select'
 export { FormDivider } from './components/form/elements/divider'
 export { FormRadioGroup } from './components/form/elements/radio'
 //
+export { Modal } from './components/modal'
 export { Button } from './components/button'
-export { DropdownMenu } from './components/dropdown'
+export { Toasts } from './components/misc/toasts'
 export { Statistic } from './components/statistic'
 export { Slideover } from './components/slideover'
+export { DropdownMenu } from './components/dropdown'
 export { SectionHeading } from './components/layout/headings'
 //
 export { LoadingSpinner } from './components/misc/spinner'
