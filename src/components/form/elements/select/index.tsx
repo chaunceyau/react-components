@@ -21,10 +21,13 @@ export function FormSelect(props: FormSelectProps) {
     'pl-3 pr-4 py-2 border border-gray-300 rounded-md flex items-center'
   ]
 
-  wrapperClasses.push(formState.isSubmitting ? 'bg-gray-200' : 'bg-white')
-  selectClasses.push(
-    formState.isSubmitting ? 'bg-gray-200 text-gray-400' : 'bg-white'
-  )
+  if (formState.isSubmitting) {
+    selectClasses.push('bg-gray-200 text-gray-400 cursor-not-allowed')
+    wrapperClasses.push('bg-gray-200')
+  } else {
+    selectClasses.push('bg-white')
+    wrapperClasses.push('bg-white')
+  }
 
   return (
     <div>
@@ -34,6 +37,7 @@ export function FormSelect(props: FormSelectProps) {
           ref={register}
           id={props.name}
           name={props.name}
+          disabled={formState.isSubmitting}
           className={selectClasses.join(' ')}
         >
           {props.options.map((opt) => (
