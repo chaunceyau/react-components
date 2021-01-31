@@ -19,27 +19,31 @@ export function FormRadioOption(
   }
 
   const wrapperClasses = [
-    'relative border p-4 flex flex-col md:pl-4 md:pr-6 md:grid md:grid-cols-2',
+    'p-4 flex w-full'
+    // 'md:pl-4 md:pr-6 md:grid md:grid-cols-2',
     // 'first:rounded-t-md last:rounded-b-md'
-    'first:rounded-t-md last:rounded-b-md'
+    // 'first:rounded-t-md last:rounded-b-md'
   ]
 
   const inputClasses = [
     'focus:ring-indigo-500 h-5 w-5 cursor-pointer border-gray-300'
   ]
-  const labelClasses = ['flex items-center text-sm']
-  const descriptionClasses = ['ml-6 pl-1 text-sm md:ml-0 md:pl-0 md:text-right']
+  const labelClasses = ['flex items-center text-sm w-full']
+  const captionClasses = [
+    'text-sm',
+    'md:ml-0 md:pl-0 md:text-right',
+    'ml-6 pl-1'
+  ]
 
   if (ctx.formState.isSubmitting) {
     labelClasses.push('cursor-not-allowed')
-    descriptionClasses.push('text-gray-400')
+    captionClasses.push('text-gray-400')
     wrapperClasses.push('bg-gray-200 text-gray-400')
     inputClasses.push('text-gray-400 cursor-not-allowed')
   } else {
-    wrapperClasses.push('bg-white')
     labelClasses.push('cursor-pointer')
+    captionClasses.push('text-gray-500')
     inputClasses.push('text-indigo-600')
-    descriptionClasses.push('text-gray-500')
   }
 
   /* <!-- On: "bg-indigo-50 border-indigo-200 z-10", Off: "border-gray-200" --> */
@@ -57,14 +61,19 @@ export function FormRadioOption(
           className={inputClasses.join(' ')}
           aria-describedby='plan-option-pricing-0 plan-option-limit-0'
         />
-        <span className='ml-3 font-medium w-full'>{props.value}</span>
+        <div className='flex justify-between pl-2 -mt-px w-full'>
+          <span className='font-medium'>{props.value}</span>
+          {props.caption ? (
+            <span
+              // id='plan-option-limit-0'
+              className={captionClasses.join(' ')}
+            >
+              {props.caption}
+            </span>
+          ) : null}
+        </div>
       </label>
       {/* <!-- On: "text-indigo-700", Off: "text-gray-500" --> */}
-      {props.caption ? (
-        <p id='plan-option-limit-0' className={descriptionClasses.join(' ')}>
-          {props.caption}
-        </p>
-      ) : null}
     </li>
   )
 }

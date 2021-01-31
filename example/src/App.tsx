@@ -68,16 +68,16 @@ const App = () => {
       lastName: 'chauncey',
       allowNotifications: true,
       profilePhoto: [
-        {
-          id: '8cd306aa-9fe1-445b-bb45-56e49786a317',
-          fileName: 'interesting.png',
-          status: 'IDLE'
-        },
-        {
-          id: '84282870-fbeb-47df-a05b-b5924586a634',
-          fileName: 'another.pdf',
-          status: 'IDLE'
-        }
+        // {
+        //   id: '8cd306aa-9fe1-445b-bb45-56e49786a317',
+        //   fileName: 'interesting.png',
+        //   status: 'IDLE'
+        // },
+        // {
+        //   id: '84282870-fbeb-47df-a05b-b5924586a634',
+        //   fileName: 'another.pdf',
+        //   status: 'IDLE'
+        // }
       ]
     }),
     []
@@ -152,6 +152,7 @@ const App = () => {
             name='profilePhoto'
             label='Profile Photo'
             onDeleteMutation={onDelete}
+            // upload={() => {}}
             onUploadComplete={onUploadComplete}
             multiple={true}
           />

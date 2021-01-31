@@ -19,7 +19,7 @@ export function FormRadioGroup(props: FormRadioGroupProps) {
     <fieldset>
       <FormLabel name={props.label} label={props.label} error={false} />
       <legend className='sr-only'>{props.label}</legend>
-      <ul className='relative bg-white rounded-md -space-y-px shadow-sm'>
+      <ul className='relative bg-white -space-y-px shadow-sm divide-y border rounded-lg'>
         {props.options.map((option) => (
           <FormRadioOption
             {...option}

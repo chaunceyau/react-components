@@ -30,11 +30,11 @@ export function UploadInput(props: UploadInputProps) {
   }
 
   if (ctx.formState.isSubmitting) {
-    containerClasses.push('bg-gray-200 cursor-not-allowed')
+    containerClasses.push('bg-gray-200 cursor-not-allowed shadow-sm')
     flexWrapper.push('opacity-25')
     svgClasses.push('opacity-25')
   } else {
-    containerClasses.push('bg-gray-100')
+    containerClasses.push('bg-white')
   }
 
   if (props.hidden) {
