@@ -10,8 +10,9 @@ interface ModalProps {
   title: string
   description: string
   type?: ModalType
-  onClose: () => void
-  show: boolean
+  trigger: any // React.ReactNode
+  // onClose: () => void
+  // show: boolean
   action?: {
     label: string
     func: () => Promise<void>
@@ -19,6 +20,20 @@ interface ModalProps {
 }
 
 export function Modal(props: ModalProps) {
+  const [isOpen, setIsOpen] = React.useState(false)
+  return (
+    <div>
+      {React.cloneElement(props.trigger as any, {
+        onClick: () => setIsOpen(true)
+      })}
+      <Portal {...props} isOpen={isOpen} onClose={() => setIsOpen(false)} />
+    </div>
+  )
+}
+
+function Portal(
+  props: Omit<ModalProps, 'trigger'> & { isOpen: boolean; onClose: () => void }
+) {
   const textColor = () => {
     switch (props.type) {
       case 'info': {
@@ -35,12 +50,11 @@ export function Modal(props: ModalProps) {
       }
     }
   }
-
   const [actionLoading, setActionLoading] = React.useState(false)
 
   return ReactDOM.createPortal(
     <Transition
-      show={props.show}
+      show={props.isOpen}
       enter='ease-out duration-300'
       className='fixed z-10 inset-0 overflow-y-auto'
       enterFrom='opacity-0'
@@ -63,7 +77,7 @@ export function Modal(props: ModalProps) {
         </span>
 
         <Transition
-          show={props.show}
+          show={props.isOpen}
           enter='ease-out duration-300'
           enterFrom='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'
           enterTo='opacity-100 translate-y-0 sm:scale-100'
@@ -97,8 +111,9 @@ export function Modal(props: ModalProps) {
               {props.type ? <ModalIcon type={props.type} /> : null}
               <div className='mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left'>
                 <h3
-                  className={'text-lg leading-6 font-medium ' + textColor()}
+                  role='heading'
                   id='modal-headline'
+                  className={'text-lg leading-6 font-medium ' + textColor()}
                 >
                   {props.title}
                 </h3>

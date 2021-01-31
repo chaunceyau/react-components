@@ -84,7 +84,7 @@ const App = () => {
   )
 
   // const [isSlideoverOpen, setIsSlideoverOpen] = React.useState(true)
-  const [showModal, setShowModal] = React.useState(true)
+  // const [showModal, setShowModal] = React.useState(true)
   return (
     <div className='max-w-2xl mx-auto py-8'>
       <Toasts />
@@ -93,8 +93,11 @@ const App = () => {
         description='Are you sure you want to deactivate your account? All of
                     your data will be permanently removed. This action cannot be
                     undone.'
-        show={showModal}
-        onClose={() => setShowModal(false)}
+        // show={showModal}
+        // onClose={() => setShowModal(false)}
+        trigger={
+          <button>modal clicker</button>
+        }
         action={{
           label: 'Deactivate',
           func: async () => {
