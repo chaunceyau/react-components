@@ -3,7 +3,7 @@ import styles from './styles.module.css'
 
 export const CheckIcon = () => (
   <svg
-    className={styles.checkmark + ' w-4 h-4 mr-2'}
+    className={styles.checkmark + ' w-4 h-4'}
     xmlns='http://www.w3.org/2000/svg'
     viewBox='0 0 52 52'
   >

@@ -97,7 +97,13 @@ const App = () => {
         onClose={() => setShowModal(false)}
         action={{
           label: 'Deactivate',
-          func: () => {}
+          func: async () => {
+            return new Promise((resolve) => {
+              setTimeout(() => {
+                resolve({} as any)
+              }, 2000)
+            })
+          }
         }}
       />
       <DropdownMenu

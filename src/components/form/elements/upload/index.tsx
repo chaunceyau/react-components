@@ -143,12 +143,9 @@ function ExistingFiles(props: {
         ))}
       </ul>
       {ctx.formState.isSubmitting || !props.allowMultipleFiles ? null : (
-        <Button
-          fluid
-          color='light'
-          label='Add another file'
-          onClick={onClickAddImageButton}
-        />
+        <Button fluid buttonStyle='secondary' onClick={onClickAddImageButton}>
+          Add another file
+        </Button>
       )}
     </div>
   ) : null

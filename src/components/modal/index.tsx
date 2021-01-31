@@ -2,7 +2,9 @@ import { Transition } from '@headlessui/react'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Button } from '../button'
+import { AsyncButton } from '../button/async-button'
 import { ButtonGroup } from '../button/group'
+import { CheckIcon } from '../icons/check'
 
 interface ModalProps {
   title: string
@@ -12,12 +14,11 @@ interface ModalProps {
   show: boolean
   action?: {
     label: string
-    func: () => void
+    func: () => Promise<void>
   }
 }
 
 export function Modal(props: ModalProps) {
-  console.log(props)
   const textColor = () => {
     switch (props.type) {
       case 'info': {
@@ -35,96 +36,113 @@ export function Modal(props: ModalProps) {
     }
   }
 
-  return props.show
-    ? ReactDOM.createPortal(
-        <div className='fixed z-10 inset-0 overflow-y-auto'>
-          <Transition
-            show={true}
-            className='flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0'
-            enter='ease-out duration-300'
-            enterFrom='opacity-0'
-            enterTo='opacity-100'
-            leave='ease-in duration-200'
-            leaveFrom='opacity-100'
-            leaveTo='opacity-0'
+  const [actionLoading, setActionLoading] = React.useState(false)
+
+  return ReactDOM.createPortal(
+    <Transition
+      show={props.show}
+      enter='ease-out duration-300'
+      className='fixed z-10 inset-0 overflow-y-auto'
+      enterFrom='opacity-0'
+      enterTo='opacity-100'
+      leave='ease-in duration-200'
+      leaveFrom='opacity-100'
+      leaveTo='opacity-0'
+    >
+      <div className='flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0'>
+        <div className='fixed inset-0 transition-opacity' aria-hidden='true'>
+          <div className='absolute inset-0 bg-gray-500 opacity-75'></div>
+        </div>
+
+        {/* <!-- This element is to trick the browser into centering the modal contents. --> */}
+        <span
+          className='hidden sm:inline-block sm:align-middle sm:h-screen'
+          aria-hidden='true'
+        >
+          &#8203;
+        </span>
+
+        <Transition
+          show={props.show}
+          enter='ease-out duration-300'
+          enterFrom='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'
+          enterTo='opacity-100 translate-y-0 sm:scale-100'
+          leave='ease-in duration-200'
+          leaveFrom='opacity-100 translate-y-0 sm:scale-100'
+          leaveTo='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'
+          className='inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-sm transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full'
+          role='dialog'
+          aria-modal='true'
+          aria-labelledby='modal-headline'
+        >
+          <div
+            className={`bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 relative ${
+              actionLoading ? 'opacity-50' : ''
+            }`}
           >
-            <div
-              className='fixed inset-0 transition-opacity'
-              aria-hidden='true'
-            >
-              <div className='absolute inset-0 bg-gray-500 opacity-75'></div>
+            <div className='absolute top-0 right-0'>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                viewBox='0 0 20 20'
+                fill='currentColor'
+              >
+                <path
+                  fillRule='evenodd'
+                  d='M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z'
+                  clipRule='evenodd'
+                />
+              </svg>
             </div>
-
-            {/* <!-- This element is to trick the browser into centering the modal contents. --> */}
-            <span
-              className='hidden sm:inline-block sm:align-middle sm:h-screen'
-              aria-hidden='true'
-            >
-              &#8203;
-            </span>
-
-            <Transition
-              show={true}
-              enter='ease-out duration-300'
-              enterFrom='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'
-              enterTo='opacity-100 translate-y-0 sm:scale-100'
-              leave='ease-in duration-200'
-              leaveFrom='opacity-100 translate-y-0 sm:scale-100'
-              leaveTo='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'
-              className='inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full'
-              role='dialog'
-              aria-modal='true'
-              aria-labelledby='modal-headline'
-            >
-              <div className='bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 relative'>
-                <div className='absolute top-0 right-0'>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    viewBox='0 0 20 20'
-                    fill='currentColor'
-                  >
-                    <path
-                      fillRule='evenodd'
-                      d='M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z'
-                      clipRule='evenodd'
-                    />
-                  </svg>
+            <div className='sm:flex sm:items-start'>
+              {props.type ? <ModalIcon type={props.type} /> : null}
+              <div className='mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left'>
+                <h3
+                  className={'text-lg leading-6 font-medium ' + textColor()}
+                  id='modal-headline'
+                >
+                  {props.title}
+                </h3>
+                <div className='mt-2'>
+                  <p className='text-sm text-gray-500'>{props.description}</p>
                 </div>
-                <div className='sm:flex sm:items-start'>
-                  {props.type ? <ModalIcon type={props.type} /> : null}
-                  <div className='mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left'>
-                    <h3
-                      className={'text-lg leading-6 font-medium ' + textColor()}
-                      id='modal-headline'
-                    >
-                      {props.title}
-                    </h3>
-                    <div className='mt-2'>
-                      <p className='text-sm text-gray-500'>
-                        {props.description}
-                      </p>
+              </div>
+            </div>
+          </div>
+          <div className='bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse'>
+            <ButtonGroup>
+              <Button
+                buttonStyle='secondary'
+                onClick={props.onClose}
+                disabled={actionLoading}
+              >
+                {props.action ? 'Cancel' : 'Close'}
+              </Button>
+              {props.action ? (
+                <AsyncButton
+                  buttonStyle='negative'
+                  onClick={async () => {
+                    setActionLoading(true)
+                    await props.action?.func()
+                    setTimeout(() => {
+                      props.onClose()
+                      setActionLoading(false)
+                    }, 2150)
+                  }}
+                >
+                  {props.action.label || (
+                    <div className='text-red-400 flex items-center justify-center'>
+                      <CheckIcon />
                     </div>
-                  </div>
-                </div>
-              </div>
-              <div className='bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse'>
-                <ButtonGroup>
-                  <Button buttonStyle='secondary' onClick={props.onClose}>
-                    {props.action ? 'Cancel' : 'Close'}
-                  </Button>
-                  {props.action ? (
-                    <Button buttonStyle='negative' onClick={props.action.func}>
-                      {props.action.label}
-                    </Button>
-                  ) : null}
-                </ButtonGroup>
-              </div>
-            </Transition>
-          </Transition>
-        </div>,
-        document.body
-      )
-    : null
+                  )}
+                </AsyncButton>
+              ) : null}
+            </ButtonGroup>
+          </div>
+        </Transition>
+      </div>
+    </Transition>,
+    document.body
+  )
 }
 
 type ModalType = 'info' | 'positive' | 'negative'
