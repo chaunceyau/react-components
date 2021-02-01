@@ -1,6 +1,7 @@
 import { Transition } from '@headlessui/react'
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { useClickOutside } from '../../hooks/useClickOutside'
 import { Button } from '../button'
 import { AsyncButton } from '../button/async-button'
 import { ButtonGroup } from '../button/group'
@@ -51,6 +52,9 @@ function Portal(
     }
   }
   const [actionLoading, setActionLoading] = React.useState(false)
+  const modalRef = React.useRef<HTMLDivElement>(null)
+
+  useClickOutside(modalRef, () => props.onClose())
 
   return ReactDOM.createPortal(
     <Transition
@@ -93,6 +97,7 @@ function Portal(
             className={`bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 relative ${
               actionLoading ? 'opacity-50' : ''
             }`}
+            ref={modalRef}
           >
             <div className='absolute top-0 right-0'>
               <svg
