@@ -74,6 +74,7 @@ export const FormInput = (props: FormInputProps) => {
         name={props.name}
         label={props.label}
         error={!!ctx.errors[props.name]}
+        required={Boolean(props.registerOptions?.required)}
       />
       <div className='relative rounded-md shadow-sm'>
         <input
@@ -84,7 +85,9 @@ export const FormInput = (props: FormInputProps) => {
           disabled={ctx.formState.isSubmitting}
           placeholder={props.placeholder}
           className={styles.inputBaseClasses.join(' ')}
-          aria-describedby={props.name + '-error'}
+          aria-describedby={
+            ctx.formState.errors ? props.name + '-error' : props.name
+          }
           aria-invalid={!!ctx.errors[props.name]}
         />
       </div>
