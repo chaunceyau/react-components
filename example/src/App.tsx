@@ -95,9 +95,7 @@ const App = () => {
                     undone.'
         // show={showModal}
         // onClose={() => setShowModal(false)}
-        trigger={
-          <button>modal clicker</button>
-        }
+        trigger={<button>modal clicker</button>}
         action={{
           label: 'Deactivate',
           func: async () => {
@@ -155,6 +153,13 @@ const App = () => {
             // upload={() => {}}
             onUploadComplete={onUploadComplete}
             multiple={true}
+            imageUploadUrl={async () => {
+              return new Promise((resolve) => {
+                setTimeout(() => {
+                  resolve('https://google.com')
+                }, 500)
+              })
+            }}
           />
           <FormSelect
             name='company'

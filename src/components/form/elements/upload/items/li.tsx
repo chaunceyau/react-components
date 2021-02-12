@@ -1,11 +1,11 @@
 import React from 'react'
 import { useFormContext } from 'react-hook-form'
 //
-import { ProgressBar } from './progress'
-import { CheckIcon } from '../../../icons/check'
-import { ArchiveSvg } from '../../../icons/archive'
-import { LoadingSpinner } from '../../../misc/spinner'
-import { OnUploadCompleteFunction, useUploadReducer } from './useUploadReducer'
+import { ProgressBar } from '../../../../misc/progress-bar'
+import { CheckIcon } from '../../../../icons/check'
+import { ArchiveSvg } from '../../../../icons/archive'
+import { LoadingSpinner } from '../../../../misc/spinner'
+import { OnUploadCompleteFunction, useUploadReducer } from '../useUploadReducer'
 
 interface FileListItemProps {
   remoteFileId: string

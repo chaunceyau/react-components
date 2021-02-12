@@ -1,27 +1,32 @@
 import * as React from 'react'
 import { useDropzone } from 'react-dropzone'
-import { Controller, useFormContext } from 'react-hook-form'
+import { Controller } from 'react-hook-form'
 //
-import { FileListItem } from './li'
-import { UploadInput } from './input'
-import { Button } from '../../../button'
-import { FormLabel } from '../misc/label'
+import { FileList } from './items/list'
 
-type FormUploadProps = FormUploadBasics & Partial<HTMLInputElement>
+import { UploadInput } from './input'
+import { FormLabel } from '../misc/label'
+// import contentDisposition from 'content-disposition'
+
+type FormUploadProps = FormUploadBasics &
+  Partial<Omit<HTMLInputElement, 'value'>>
+export type ImageUploadUrl = (file: File) => Promise<string> //| string
 
 interface FormUploadBasics {
   name: string
   label: string
   onDeleteMutation: () => void
   // ideally return fileId?
-  onUploadComplete: (...args: any[]) => Promise<{ fileId: string }>
+  imageUploadUrl: ImageUploadUrl
+  onUploadComplete: (file: File) => Promise<any>
 }
 
-interface FileState {
+export interface FileContextData {
   id: string
   file?: File
   fileName: string
   status: 'IDLE' | 'PENDING_REMOVAL'
+  progress: number
 }
 
 export function FormUpload(props: FormUploadProps) {
@@ -35,9 +40,14 @@ export function FormUpload(props: FormUploadProps) {
   )
 }
 
-function FormUploadComponent(props: any) {
+function FormUploadComponent(
+  props: FormUploadProps & {
+    value: FileContextData[]
+    onChange: (...event: any[]) => void
+  }
+) {
   const onDrop = React.useCallback(
-    (acceptedFiles) => {
+    async (acceptedFiles) => {
       const currentFiles = props.value
       const newFiles = acceptedFiles.map((file: File) => ({
         id: Math.random().toString(), // TODO: update,
@@ -46,9 +56,46 @@ function FormUploadComponent(props: any) {
         status: 'IDLE'
       }))
 
-      // const { fileId } = await props.uploadFile()
-
       props.onChange([...currentFiles, ...newFiles])
+
+      // const uploadUrls = await Promise.all(
+      //   acceptedFiles.map(async (file: any) => {
+      //     const url = await props.imageUploadUrl(file)
+      //     // upload to S3
+      //     if (file) {
+      //       // dispatch({ type: 'START_UPLOAD' })
+
+      //       const fileForm = new FormData()
+      //       fileForm.append('file', file)
+
+      //       const response = await fetch({
+      //         url: url,
+      //         formData: async () => fileForm,
+      //         onUploadProgress: (progressEvent: number) => {
+      //           // dispatch({
+      //           //   type: 'INCREASE_PROGRESS',
+      //           //   payload: (progressEvent.loaded / progressEvent.total) * 100
+      //           // })
+      //         },
+      //         headers: {
+      //           // @ts-ignore
+      //           'Content-Type': 'multipart/form-data',
+      //           // @ts-ignore
+      //           'Content-Disposition': contentDisposition(file.name)
+      //         }
+      //       })
+      //         .then(() => {
+      //           // dispatch({ type: 'UPLOAD_COMPLETE' })
+      //           onUploadComplete(file)
+      //         })
+      //         .catch((err) => {
+      //           // dispatch({ type: 'ERROR', payload: err })
+      //         })
+
+      //       return response
+      //     }
+      //   })
+      // )
     },
     [props]
   )
@@ -62,6 +109,7 @@ function FormUploadComponent(props: any) {
     onChange,
     onUploadComplete,
     onDeleteMutation,
+    imageUploadUrl,
     ...inputProps
   } = props
 
@@ -73,18 +121,20 @@ function FormUploadComponent(props: any) {
 
   return (
     <div>
-      <FormLabel name={name} label={label} error={props.error} />
-      <ExistingFiles
+      {/* TODO: FIX ERROR */}
+      <FormLabel name={name} label={label} error={false} />
+      <FileList
         name={name}
         value={value}
         onChange={onChange}
         uploadInputRef={inputRef}
+        imageUploadUrl={imageUploadUrl}
         onDeleteMutation={onDeleteMutation}
         onUploadComplete={onUploadComplete}
         allowMultipleFiles={!!props.multiple}
       />
       <UploadInput
-        id={id}
+        id={id || 'todo: fix me'}
         name={name}
         hidden={!!props.value.length}
         getRootProps={getRootProps}
@@ -92,61 +142,4 @@ function FormUploadComponent(props: any) {
       />
     </div>
   )
-}
-
-function ExistingFiles(props: {
-  name: any
-  value: any
-  onChange: any
-  uploadInputRef: any
-  onDeleteMutation: any
-  onUploadComplete: any
-  allowMultipleFiles: boolean
-}) {
-  const ctx = useFormContext()
-
-  if (ctx === undefined) {
-    throw new Error('FormToggle must be rendered inside a Form component')
-  }
-
-  const onClickAddImageButton = React.useCallback(
-    () => props.uploadInputRef.current?.click(),
-    [props.uploadInputRef]
-  )
-
-  const ulClasses = ['space-y-4']
-
-  if (!props.allowMultipleFiles || ctx.formState.isSubmitting) {
-    ulClasses.push('mb-1')
-  } else {
-    ulClasses.push('mb-5')
-  }
-
-  const wrapperClasses = ['w-full px-6 py-4 border rounded-lg shadow-sm']
-  if (ctx.formState.isSubmitting) {
-    wrapperClasses.push('bg-gray-200')
-  }
-
-  return props.value.length ? (
-    <div className={wrapperClasses.join(' ')}>
-      <ul className={ulClasses.join(' ')}>
-        {props.value.map((file: FileState) => (
-          <FileListItem
-            key={file.id}
-            file={file.file}
-            status={file.status}
-            remoteFileId={file.id}
-            fileName={file.fileName}
-            variableName={props.name}
-            onUploadComplete={props.onUploadComplete}
-          />
-        ))}
-      </ul>
-      {ctx.formState.isSubmitting || !props.allowMultipleFiles ? null : (
-        <Button fluid buttonStyle='secondary' onClick={onClickAddImageButton}>
-          Add another file
-        </Button>
-      )}
-    </div>
-  ) : null
 }
