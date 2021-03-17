@@ -19,18 +19,19 @@ interface FileListItemProps {
 export function FileListItem(props: FileListItemProps) {
   const ctx = useFormContext()
 
+  const state = useUploadReducer(
+    props.file || null,
+    props.variableName,
+    props.remoteFileId,
+    props.onUploadComplete,
+    async () => ""
+  )
+
   if (ctx === undefined) {
     throw new Error('FileListItem must be rendered inside a Form component')
   }
 
   const pendingRemoval = props.status === 'PENDING_REMOVAL'
-
-  const state = useUploadReducer(
-    props.file || null,
-    props.variableName,
-    props.remoteFileId,
-    props.onUploadComplete
-  )
 
   const liClasses = ['flex items-center']
 
@@ -77,11 +78,11 @@ export function FileListItem(props: FileListItemProps) {
               props.variableName,
               ctx
                 .getValues()
-                [props.variableName].map((val: any) =>
-                  val.id === props.remoteFileId
-                    ? Object.assign({}, val, { status: 'IDLE' })
-                    : val
-                )
+              [props.variableName].map((val: any) =>
+                val.id === props.remoteFileId
+                  ? Object.assign({}, val, { status: 'IDLE' })
+                  : val
+              )
             )
           }}
         >
@@ -113,11 +114,11 @@ export function FileListItem(props: FileListItemProps) {
               // map through existing and update statuss
               ctx
                 .getValues()
-                [props.variableName].map((val: any) =>
-                  val.id === props.remoteFileId
-                    ? Object.assign({}, val, { status: 'PENDING_REMOVAL' })
-                    : val
-                )
+              [props.variableName].map((val: any) =>
+                val.id === props.remoteFileId
+                  ? Object.assign({}, val, { status: 'PENDING_REMOVAL' })
+                  : val
+              )
             )
           }}
         >
