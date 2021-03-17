@@ -36,10 +36,10 @@ export function FormRadioOption(
   ]
 
   if (ctx.formState.isSubmitting) {
-    labelClasses.push('cursor-not-allowed')
+    labelClasses.push('cursor-wait')
     captionClasses.push('text-gray-400')
     wrapperClasses.push('bg-gray-200 text-gray-400')
-    inputClasses.push('text-gray-400 cursor-not-allowed')
+    inputClasses.push('text-gray-400 cursor-wait')
   } else {
     labelClasses.push('cursor-pointer')
     captionClasses.push('text-gray-500')

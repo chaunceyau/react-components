@@ -22,7 +22,7 @@ export function FormSelect(props: FormSelectProps) {
   ]
 
   if (formState.isSubmitting) {
-    selectClasses.push('bg-gray-200 text-gray-400 cursor-not-allowed')
+    selectClasses.push('bg-gray-200 text-gray-400 cursor-wait')
     wrapperClasses.push('bg-gray-200')
   } else {
     selectClasses.push('bg-white')

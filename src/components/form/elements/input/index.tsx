@@ -26,7 +26,7 @@ function getFormInputStyles({ loading, error }: any) {
   ]
 
   if (loading) {
-    inputBaseClasses.push('bg-gray-200 text-gray-400')
+    inputBaseClasses.push('bg-gray-200 text-gray-400 cursor-wait')
   } else {
     inputBaseClasses.push('bg-white')
   }

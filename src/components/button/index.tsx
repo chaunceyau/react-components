@@ -116,8 +116,12 @@ function getButtonClasses({
     buttonBaseClasses.push('ml-auto')
   }
 
-  if (loading || disabled) {
-    buttonBaseClasses.push('opacity-50', 'cursor-not-allowed', 'relative')
+  if (loading) {
+    buttonBaseClasses.push('opacity-50', 'relative', 'cursor-wait')
+  }
+  
+  if (disabled) {
+    buttonBaseClasses.push('opacity-50', 'relative', 'cursor-not-allowed')
   }
 
   if (fluid) {

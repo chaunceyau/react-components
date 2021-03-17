@@ -30,21 +30,17 @@ function Toggle({
   onChange: (isActive: boolean) => void
 }) {
   const btnClasses = [
-    'relative inline-flex flex-shrink-0',
-    'h-6 w-10',
-    'border-2 border-transparent',
-    'rounded-full cursor-pointer',
+    'h-6 w-10 relative inline-flex flex-shrink-0',
+    'border-2 border-transparent rounded-full',
     'transition-colors ease-in-out duration-200',
     'focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
   ]
 
   const circleClasses = [
-    'h-5 w-5',
-    'inline-block rounded-full bg-white shadow',
+    'h-5 w-5 inline-block rounded-full shadow',
     'transform ring-0 transition ease-in-out duration-200'
   ]
 
-  btnClasses.push(value ? 'bg-indigo-600' : 'bg-gray-300')
   circleClasses.push(value ? 'translate-x-4' : 'translate-x-0')
 
   const ctx = useFormContext()
@@ -62,8 +58,12 @@ function Toggle({
   if (ctx.formState.isSubmitting) {
     wrapperClasses.push('bg-gray-200')
     descriptionClasses.push('text-gray-400')
+    btnClasses.push('bg-gray-300 cursor-wait')
+    circleClasses.push('bg-gray-200')
   } else {
+    btnClasses.push('cursor-pointer', value ? 'bg-indigo-600' : 'bg-gray-300')
     descriptionClasses.push('text-gray-500')
+    circleClasses.push('bg-white')
   }
 
   return (
