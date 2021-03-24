@@ -49,7 +49,7 @@ export function useUploadReducer(
   // variable name in rhf
   variableName: string,
   // id in database
-  remoteFileId: string,
+  awsFileKey: string,
   // function to update a record with newly uploaded s3 id
   onUploadComplete: OnUploadCompleteFunction,
   // imageUploadUrl: ImageUploadUrl
@@ -67,12 +67,14 @@ export function useUploadReducer(
         dispatch({ type: 'START_UPLOAD' })
 
         // TODO: ERROR handling here...
-        // const res = await getSignedUrl(file, remoteFileId)
+        // const res = await getSignedUrl(file, awsFileKey)
         const res = await presignedUpload(file)
 
         const fileForm = new FormData()
 
-        res.data.presignedUpload.fields.forEach(({ key, value }) => fileForm.append(key, value))
+        res.data.presignedUpload.fields.forEach(({ key, value }) =>
+          fileForm.append(key, value)
+        )
 
         fileForm.append('file', file)
 
@@ -88,12 +90,12 @@ export function useUploadReducer(
             },
             headers: {
               'Content-Type': 'multipart/form-data',
-              'Content-Disposition': contentDisposition(file.name),
+              'Content-Disposition': contentDisposition(file.name)
             }
           })
           .then(() => {
             dispatch({ type: 'UPLOAD_COMPLETE' })
-            onUploadComplete(remoteFileId)
+            onUploadComplete(awsFileKey)
           })
           .catch((err) => dispatch({ type: 'ERROR', payload: err }))
 
@@ -104,7 +106,7 @@ export function useUploadReducer(
     if (file) {
       uploadFileToS3()
     }
-  }, [file, variableName, remoteFileId])
+  }, [file, variableName, awsFileKey])
 
   return state
 }

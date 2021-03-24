@@ -13,7 +13,17 @@ import { FormLabel } from '../misc/label'
 type FormUploadProps = FormUploadBasics &
   Partial<Omit<HTMLInputElement, 'value'>>
 export type ImageUploadUrl = (file: File) => Promise<string> //| string
-export type PresignedUpload = (file: File) => Promise<{ data: { presignedUpload: { url: string, fileId: string, fields: Array<{ [key: string]: string }> } } }>
+export type PresignedUpload = (
+  file: File
+) => Promise<{
+  data: {
+    presignedUpload: {
+      url: string
+      fileId: string
+      fields: Array<{ [key: string]: string }>
+    }
+  }
+}>
 
 interface FormUploadBasics {
   name: string
@@ -40,7 +50,7 @@ export interface FileContextData {
 // 4. run callback post-upload with file id
 // 5. show upload complete
 
-// opt. 
+// opt.
 // . 2 files exist, add one new one
 
 export function FormUpload(props: FormUploadProps) {
@@ -79,7 +89,7 @@ export function FormUpload(props: FormUploadProps) {
     label,
     onUploadComplete,
     onDeleteMutation,
-    presignedUpload,
+    presignedUpload
   } = props
 
   const { getRootProps, getInputProps, inputRef } = useDropzone({

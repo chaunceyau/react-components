@@ -119,7 +119,7 @@ function getButtonClasses({
   if (loading) {
     buttonBaseClasses.push('opacity-50', 'relative', 'cursor-wait')
   }
-  
+
   if (disabled) {
     buttonBaseClasses.push('opacity-50', 'relative', 'cursor-not-allowed')
   }

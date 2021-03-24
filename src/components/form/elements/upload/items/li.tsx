@@ -9,7 +9,7 @@ import { OnUploadCompleteFunction, useUploadReducer } from '../useUploadReducer'
 import { PresignedUpload } from '..'
 
 interface FileListItemProps {
-  remoteFileId: string
+  remoteFileKey: string
   file?: File
   fileName: string
   status: string
@@ -24,7 +24,7 @@ export function FileListItem(props: FileListItemProps) {
   const state = useUploadReducer(
     props.file || null,
     props.variableName,
-    props.remoteFileId,
+    props.remoteFileKey,
     props.onUploadComplete,
     props.presignedUpload
   )
@@ -55,7 +55,7 @@ export function FileListItem(props: FileListItemProps) {
   const showLoading = !state.error && props.file && state.progress !== 100
 
   return (
-    <li key={props.remoteFileId} className={liClasses.join(' ')}>
+    <li key={props.remoteFileKey} className={liClasses.join(' ')}>
       {showLoading ? <LoadingSpinner color='currentColor' /> : <CheckIcon />}
 
       <p className='flex-shrink-0 flex-grow mr-8 ml-3 overflow-hidden text-sm tracking-wide'>
@@ -80,11 +80,11 @@ export function FileListItem(props: FileListItemProps) {
               props.variableName,
               ctx
                 .getValues()
-              [props.variableName].map((val: any) =>
-                val.id === props.remoteFileId
-                  ? Object.assign({}, val, { status: 'IDLE' })
-                  : val
-              )
+                [props.variableName].map((val: any) =>
+                  val.id === props.remoteFileKey
+                    ? Object.assign({}, val, { status: 'IDLE' })
+                    : val
+                )
             )
           }}
         >
@@ -116,11 +116,11 @@ export function FileListItem(props: FileListItemProps) {
               // map through existing and update statuss
               ctx
                 .getValues()
-              [props.variableName].map((val: any) =>
-                val.id === props.remoteFileId
-                  ? Object.assign({}, val, { status: 'PENDING_REMOVAL' })
-                  : val
-              )
+                [props.variableName].map((val: any) =>
+                  val.id === props.remoteFileKey
+                    ? Object.assign({}, val, { status: 'PENDING_REMOVAL' })
+                    : val
+                )
             )
           }}
         >

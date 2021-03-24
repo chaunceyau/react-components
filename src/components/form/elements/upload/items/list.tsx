@@ -50,7 +50,7 @@ export function FileList(props: FileListProps) {
             key={file.id}
             file={file.file}
             status={file.status}
-            remoteFileId={file.id}
+            remoteFileKey={file.id + '/' + file.fileName}
             fileName={file.fileName}
             variableName={props.name}
             presignedUpload={props.presignedUpload}
