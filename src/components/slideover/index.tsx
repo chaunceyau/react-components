@@ -95,7 +95,10 @@ function Portal(
             leaveFrom='translate-x-0'
             leaveTo='translate-x-full'
           >
-            <div className='w-screen max-w-md h-screen' ref={slideoverRef}>
+            <div
+              className='w-screen max-w-md h-screen bg-white z-50'
+              ref={slideoverRef}
+            >
               <div className='h-full flex flex-col bg-white shadow-xl'>
                 <SlideoverHeader onClose={props.onClose} />
                 <div className='flex-1 overflow-y-scroll'>

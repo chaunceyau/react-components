@@ -104,9 +104,10 @@ function getButtonClasses({
 
     case 'primary':
     default: {
-      buttonBaseClasses.push('bg-indigo-600 text-white')
+      buttonBaseClasses.push('bg-primary text-white')
       if (!disabled) {
-        buttonBaseClasses.push('hover:bg-indigo-700')
+        // buttonBaseClasses.push('hover:bg-indigo-700')
+        buttonBaseClasses.push('hover:bg-primary')
       }
       break
     }
