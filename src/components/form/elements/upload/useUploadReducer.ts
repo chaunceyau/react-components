@@ -1,7 +1,7 @@
 import axios from 'axios'
 import * as React from 'react'
 import contentDisposition from 'content-disposition'
-import { ImageUploadUrl } from '.'
+import { PresignedUpload } from '.'
 
 interface UploadReducerState {
   error: any
@@ -52,7 +52,8 @@ export function useUploadReducer(
   remoteFileId: string,
   // function to update a record with newly uploaded s3 id
   onUploadComplete: OnUploadCompleteFunction,
-  imageUploadUrl: ImageUploadUrl
+  // imageUploadUrl: ImageUploadUrl
+  presignedUpload: PresignedUpload
 ): UploadReducerState {
   const [state, dispatch] = React.useReducer(uploadReducer, {
     loading: false,
@@ -67,23 +68,27 @@ export function useUploadReducer(
 
         // TODO: ERROR handling here...
         // const res = await getSignedUrl(file, remoteFileId)
-        const res = await imageUploadUrl(file)
+        const res = await presignedUpload(file)
 
         const fileForm = new FormData()
+
+        res.data.presignedUpload.fields.forEach(({ key, value }) => fileForm.append(key, value))
+
         fileForm.append('file', file)
 
+        console.log({ res })
+
         const response = await axios
-          .put(res, fileForm, {
+          .post(res.data.presignedUpload.url, fileForm, {
             onUploadProgress: (progressEvent) => {
               dispatch({
                 type: 'INCREASE_PROGRESS',
                 payload: (progressEvent.loaded / progressEvent.total) * 100
               })
             },
-            // TOOD: FIX TYPE in s3
             headers: {
               'Content-Type': 'multipart/form-data',
-              'Content-Disposition': contentDisposition(file.name)
+              'Content-Disposition': contentDisposition(file.name),
             }
           })
           .then(() => {

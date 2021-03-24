@@ -6,6 +6,7 @@ import { CheckIcon } from '../../../../icons/check'
 import { ArchiveSvg } from '../../../../icons/archive'
 import { LoadingSpinner } from '../../../../misc/spinner'
 import { OnUploadCompleteFunction, useUploadReducer } from '../useUploadReducer'
+import { PresignedUpload } from '..'
 
 interface FileListItemProps {
   remoteFileId: string
@@ -14,6 +15,7 @@ interface FileListItemProps {
   status: string
   variableName: string
   onUploadComplete: OnUploadCompleteFunction
+  presignedUpload: PresignedUpload
 }
 
 export function FileListItem(props: FileListItemProps) {
@@ -24,7 +26,7 @@ export function FileListItem(props: FileListItemProps) {
     props.variableName,
     props.remoteFileId,
     props.onUploadComplete,
-    async () => ""
+    props.presignedUpload
   )
 
   if (ctx === undefined) {

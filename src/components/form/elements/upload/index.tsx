@@ -1,6 +1,8 @@
 import * as React from 'react'
 import { useDropzone } from 'react-dropzone'
-import { Controller } from 'react-hook-form'
+import { useController } from 'react-hook-form'
+// import { Controller, useController, useFormContext } from 'react-hook-form'
+import { nanoid } from 'nanoid'
 //
 import { FileList } from './items/list'
 
@@ -11,14 +13,17 @@ import { FormLabel } from '../misc/label'
 type FormUploadProps = FormUploadBasics &
   Partial<Omit<HTMLInputElement, 'value'>>
 export type ImageUploadUrl = (file: File) => Promise<string> //| string
+export type PresignedUpload = (file: File) => Promise<{ data: { presignedUpload: { url: string, fileId: string, fields: Array<{ [key: string]: string }> } } }>
 
 interface FormUploadBasics {
   name: string
   label: string
+  required: boolean
   onDeleteMutation: () => void
   // ideally return fileId?
-  imageUploadUrl: ImageUploadUrl
-  onUploadComplete: (file: File) => Promise<any>
+  // imageUploadUrl: ImageUploadUrl
+  presignedUpload: PresignedUpload
+  onUploadComplete: (key: string) => Promise<any>
 }
 
 export interface FileContextData {
@@ -29,94 +34,58 @@ export interface FileContextData {
   progress: number
 }
 
+// 1. add file to state
+// 2. run query for signed url (include client-side generated id?)
+// 3. upload files to s3
+// 4. run callback post-upload with file id
+// 5. show upload complete
+
+// opt. 
+// . 2 files exist, add one new one
+
 export function FormUpload(props: FormUploadProps) {
-  return (
-    <Controller
-      name={props.name}
-      render={({ onChange, value }) => (
-        <FormUploadComponent {...props} value={value} onChange={onChange} />
-      )}
-    />
-  )
-}
+  const {
+    field: { ref, ...inputProps }
+  } = useController({
+    name: props.name,
+    rules: { required: props.required },
+    defaultValue: []
+  })
 
-function FormUploadComponent(
-  props: FormUploadProps & {
-    value: FileContextData[]
-    onChange: (...event: any[]) => void
+  // const ctx = useFormContext()
+
+  const onDrop = async (acceptedFiles: File[]) => {
+    const currentFiles = inputProps.value
+    const newFiles = acceptedFiles.map((file) => ({
+      id: nanoid(),
+      file: file,
+      fileName: file.name,
+      status: 'IDLE'
+    }))
+
+    // ctx.setValue('files', [...currentFiles, ...newFiles])
+    inputProps.onChange([...currentFiles, ...newFiles])
+
+    // TODO: remove next line
+    // props.onChange([...currentFiles, ...newFiles])
+
+    // removed from here
   }
-) {
-  const onDrop = React.useCallback(
-    async (acceptedFiles) => {
-      const currentFiles = props.value
-      const newFiles = acceptedFiles.map((file: File) => ({
-        id: Math.random().toString(), // TODO: update,
-        file: file,
-        fileName: file.name,
-        status: 'IDLE'
-      }))
-
-      props.onChange([...currentFiles, ...newFiles])
-
-      // const uploadUrls = await Promise.all(
-      //   acceptedFiles.map(async (file: any) => {
-      //     const url = await props.imageUploadUrl(file)
-      //     // upload to S3
-      //     if (file) {
-      //       // dispatch({ type: 'START_UPLOAD' })
-
-      //       const fileForm = new FormData()
-      //       fileForm.append('file', file)
-
-      //       const response = await fetch({
-      //         url: url,
-      //         formData: async () => fileForm,
-      //         onUploadProgress: (progressEvent: number) => {
-      //           // dispatch({
-      //           //   type: 'INCREASE_PROGRESS',
-      //           //   payload: (progressEvent.loaded / progressEvent.total) * 100
-      //           // })
-      //         },
-      //         headers: {
-      //           // @ts-ignore
-      //           'Content-Type': 'multipart/form-data',
-      //           // @ts-ignore
-      //           'Content-Disposition': contentDisposition(file.name)
-      //         }
-      //       })
-      //         .then(() => {
-      //           // dispatch({ type: 'UPLOAD_COMPLETE' })
-      //           onUploadComplete(file)
-      //         })
-      //         .catch((err) => {
-      //           // dispatch({ type: 'ERROR', payload: err })
-      //         })
-
-      //       return response
-      //     }
-      //   })
-      // )
-    },
-    [props]
-  )
 
   // should destructure all props of FormUploadProps
   const {
     id,
     name,
     label,
-    value,
-    onChange,
     onUploadComplete,
     onDeleteMutation,
-    imageUploadUrl,
-    ...inputProps
+    presignedUpload,
   } = props
 
   const { getRootProps, getInputProps, inputRef } = useDropzone({
     onDrop,
     ...inputProps,
-    multiple: !!inputProps.multiple
+    multiple: !!props.multiple
   })
 
   return (
@@ -124,11 +93,12 @@ function FormUploadComponent(
       {/* TODO: FIX ERROR */}
       <FormLabel name={name} label={label} error={false} />
       <FileList
-        name={name}
-        value={value}
-        onChange={onChange}
+        name={props.name}
+        value={inputProps.value}
+        onChange={inputProps.onChange}
         uploadInputRef={inputRef}
-        imageUploadUrl={imageUploadUrl}
+        // imageUploadUrl={async () => await presignedUpload(inputProps.value).then(data => data.url)}
+        presignedUpload={presignedUpload}
         onDeleteMutation={onDeleteMutation}
         onUploadComplete={onUploadComplete}
         allowMultipleFiles={!!props.multiple}
@@ -136,7 +106,7 @@ function FormUploadComponent(
       <UploadInput
         id={id || 'todo: fix me'}
         name={name}
-        hidden={!!props.value.length}
+        hidden={!!inputProps.value.length}
         getRootProps={getRootProps}
         getInputProps={getInputProps}
       />

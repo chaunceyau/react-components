@@ -19,6 +19,7 @@ import '@chaunceyau/react-components/dist/index.css'
 
 import './assets/generated/style.css'
 import { FormOption } from '../../dist/components/form/elements/radio/option'
+import { nanoid } from 'nanoid'
 
 const App = () => {
   async function onSubmitForm(data: any) {
@@ -31,19 +32,20 @@ const App = () => {
     })
   }
 
-  const onDelete = React.useCallback(() => {}, [])
-  const onUploadComplete: () => Promise<{
-    fileId: string
-  }> = React.useCallback(async () => {
-    return await new Promise((res) =>
+  const onDelete = React.useCallback(() => { }, [])
+  // const onUploadComplete: (fileId: string)
+  //  => Promise<{
+  //   fileId: string
+  // }> 
+  const onUploadComplete = React.useCallback(async (key: string) => {
+    // return await new Promise((res) =>
       setTimeout(
-        () =>
-          res({
-            fileId: '123'
-          }),
+        () => {
+          console.log("FILEMAFDSLMAFLSD", key)
+        },
         1000
       )
-    )
+    // )
   }, [])
 
   const options: FormOption[] = React.useMemo(
@@ -147,18 +149,51 @@ const App = () => {
             options={options}
           />
           <FormUpload
+            required={false}
             name='profilePhoto'
             label='Profile Photo'
             onDeleteMutation={onDelete}
             // upload={() => {}}
-            onUploadComplete={onUploadComplete}
             multiple={true}
-            imageUploadUrl={async () => {
-              return new Promise((resolve) => {
-                setTimeout(() => {
-                  resolve('https://google.com')
-                }, 500)
-              })
+            onUploadComplete={onUploadComplete}
+            presignedUpload={async (file: File) => {
+              return await fetch('http://localhost:3000/graphql', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  query: `
+                    # Write your query or mutation here
+                    query(
+                      $size: Int!
+                      $type: String!
+                      $fileId: String!
+                      $fileName: String!
+                    ) {
+                      presignedUpload(
+                        input: {
+                          type: $type
+                          size: $size
+                          fileId: $fileId
+                          fileName: $fileName
+                        }
+                      ) {
+                        url
+                        fileId
+                        fields {
+                          key
+                          value
+                        }
+                      }
+                    }
+                  `,
+                  variables: {
+                    type: file.type,
+                    size: file.size,
+                    fileId: nanoid(),
+                    fileName: file.name,
+                  }
+                })
+              }).then(res => res.json())
             }}
           />
           <FormSelect
@@ -176,7 +211,7 @@ const App = () => {
       <SectionHeading
         title='Hello There'
         description='lfmsdalfmds'
-        action={{ label: 'Create Something', onClick: () => {} }}
+        action={{ label: 'Create Something', onClick: () => { } }}
       />
     </div>
   )

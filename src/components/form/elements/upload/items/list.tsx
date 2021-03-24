@@ -3,7 +3,7 @@ import { useFormContext } from 'react-hook-form'
 //
 import { FileListItem } from './li'
 import { Button } from '../../../../button'
-import { FileContextData, ImageUploadUrl } from '../'
+import { FileContextData, PresignedUpload } from '../'
 
 interface FileListProps {
   name: any
@@ -13,7 +13,8 @@ interface FileListProps {
   onDeleteMutation: any
   onUploadComplete: any
   allowMultipleFiles: boolean
-  imageUploadUrl: ImageUploadUrl
+  // imageUploadUrl: ImageUploadUrl
+  presignedUpload: PresignedUpload
 }
 
 export function FileList(props: FileListProps) {
@@ -52,6 +53,7 @@ export function FileList(props: FileListProps) {
             remoteFileId={file.id}
             fileName={file.fileName}
             variableName={props.name}
+            presignedUpload={props.presignedUpload}
             onUploadComplete={props.onUploadComplete}
           />
         ))}

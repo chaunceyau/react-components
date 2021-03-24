@@ -98,7 +98,7 @@ export function Form({
   validateChildrenAndInitializeOptionForm(children, defaultValues)
 
   const methods = RHForm.useForm({ defaultValues })
-  const { handleSubmit, reset, setValue, formState } = methods
+  const { handleSubmit, reset, setValue } = methods
 
   const onSubmit = async (data: any) => {
     const isFunctionAsync = _onSubmit.constructor.name === 'AsyncFunction'
@@ -172,9 +172,7 @@ export function Form({
                           : 'pt-2'
                       }
                     >
-                      {React.cloneElement(child, {
-                        loading: formState.isSubmitting
-                      })}
+                      {child}
                     </div>
                   )
                 }
