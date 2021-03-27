@@ -66,7 +66,6 @@ export function FormUpload(props: FormUploadProps) {
       <FileListComponent
         name={props.name}
         value={inputProps.value}
-        onChange={inputProps.onChange}
         uploadInputRef={inputRef}
         presignedUpload={presignedUpload}
         onDeleteMutation={onDeleteMutation}
@@ -83,7 +82,9 @@ export function FormUpload(props: FormUploadProps) {
   )
 }
 
-const mapDroppedFilesToState = (acceptedFiles: File[]): Array<FileStateObject> =>
+const mapDroppedFilesToState = (
+  acceptedFiles: File[]
+): Array<FileStateObject> =>
   acceptedFiles.map((file) => ({
     id: nanoid(),
     file: file,

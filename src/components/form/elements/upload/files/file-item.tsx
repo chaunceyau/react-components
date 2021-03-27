@@ -6,7 +6,11 @@ import { CheckIcon } from '../../../../icons/check'
 import { ArchiveSvg } from '../../../../icons/archive'
 import { LoadingSpinner } from '../../../../misc/spinner'
 import { useUpload } from '../hooks/useUpload'
-import { FileStateObject, OnUploadCompleteFunction, PresignedUpload } from '../types'
+import {
+  FileStateObject,
+  OnUploadCompleteFunction,
+  PresignedUpload
+} from '../types'
 
 interface FileListItemProps extends FileStateObject {
   name: string
@@ -17,11 +21,7 @@ interface FileListItemProps extends FileStateObject {
 export function FileListItem(props: FileListItemProps) {
   const ctx = useFormContext()
 
-  const state = useUpload(
-    props,
-    props.onUploadComplete,
-    props.presignedUpload
-  )
+  const state = useUpload(props, props.onUploadComplete, props.presignedUpload)
 
   if (typeof ctx === 'undefined') {
     throw new Error('FileListItem must be rendered inside a Form component')
@@ -47,7 +47,7 @@ export function FileListItem(props: FileListItemProps) {
 
   // TODO: error on liClasses... i.e. progress not 100 and error
   const showLoading = !state.error && props.file && state.progress !== 100
-  console.log({  props })
+  console.log({ props })
 
   return (
     <li key={props.id} className={liClasses.join(' ')}>
@@ -75,11 +75,11 @@ export function FileListItem(props: FileListItemProps) {
               props.name,
               ctx
                 .getValues()
-              [props.name].map((val: any) =>
-                val.id === props.id
-                  ? Object.assign({}, val, { status: 'IDLE' })
-                  : val
-              )
+                [props.name].map((val: any) =>
+                  val.id === props.id
+                    ? Object.assign({}, val, { status: 'IDLE' })
+                    : val
+                )
             )
           }}
         >
@@ -111,11 +111,11 @@ export function FileListItem(props: FileListItemProps) {
               // map through existing and update statuss
               ctx
                 .getValues()
-              [props.name].map((val: any) =>
-                val.id === props.id
-                  ? Object.assign({}, val, { status: 'PENDING_REMOVAL' })
-                  : val
-              )
+                [props.name].map((val: any) =>
+                  val.id === props.id
+                    ? Object.assign({}, val, { status: 'PENDING_REMOVAL' })
+                    : val
+                )
             )
           }}
         >
