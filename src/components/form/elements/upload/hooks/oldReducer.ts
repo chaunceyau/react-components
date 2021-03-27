@@ -14,18 +14,18 @@ export const k = 1
 //       progress: 0,
 //       error: undefined
 //     })
-  
+
 //     React.useEffect(() => {
 //       async function uploadFileToS3() {
 //         if (file) {
 //           dispatch({ type: 'START_UPLOAD' })
-  
+
 //           // TODO: ERROR handling here...
 //           const res = { signedUploadUrl: '' } //await getSignedUrl(file, remoteFileId)
-  
+
 //           const fileForm = new FormData()
 //           fileForm.append('file', file)
-  
+
 //           const response = await axios
 //             .put(res.signedUploadUrl, fileForm, {
 //               onUploadProgress: (progressEvent) => {
@@ -45,16 +45,15 @@ export const k = 1
 //               onUploadComplete(remoteFileId)
 //             })
 //             .catch((err) => dispatch({ type: 'ERROR', payload: err }))
-  
+
 //           return response
 //         }
 //       }
-  
+
 //       if (file) {
 //         uploadFileToS3()
 //       }
 //     }, [file, variableName, remoteFileId])
-  
+
 //     return state
 //   }
-  

@@ -76,11 +76,11 @@ export function FileListItem(props: FileListItemProps) {
               props.variableName,
               ctx
                 .getValues()
-              [props.variableName].map((val: any) =>
-                val.id === fileState.id
-                  ? Object.assign({}, val, { status: 'IDLE' })
-                  : val
-              )
+                [props.variableName].map((val: any) =>
+                  val.id === fileState.id
+                    ? Object.assign({}, val, { status: 'IDLE' })
+                    : val
+                )
             )
           }}
         >
@@ -112,11 +112,11 @@ export function FileListItem(props: FileListItemProps) {
               // map through existing and update statuss
               ctx
                 .getValues()
-              [props.variableName].map((val: any) =>
-                val.id === fileState.id
-                  ? Object.assign({}, val, { status: 'PENDING_REMOVAL' })
-                  : val
-              )
+                [props.variableName].map((val: any) =>
+                  val.id === fileState.id
+                    ? Object.assign({}, val, { status: 'PENDING_REMOVAL' })
+                    : val
+                )
             )
           }}
         >

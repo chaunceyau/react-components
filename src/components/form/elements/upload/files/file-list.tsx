@@ -23,10 +23,9 @@ export function FileList(props: FileListProps) {
     throw new Error('FormToggle must be rendered inside a Form component')
   }
 
-  const onClickAddImageButton = React.useCallback(
-    () => { props.uploadInputRef.current?.click() },
-    [props.uploadInputRef]
-  )
+  const onClickAddImageButton = React.useCallback(() => {
+    props.uploadInputRef.current?.click()
+  }, [props.uploadInputRef])
 
   const ulClasses = ['space-y-4']
 

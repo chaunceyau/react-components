@@ -1,8 +1,16 @@
 import axios from 'axios'
 import * as React from 'react'
 import contentDisposition from 'content-disposition'
-import { OnUploadCompleteFunction, FileStateObject, PresignedUpload } from '../types'
-import { UploadReducerState, UploadFileAction, useUploadReducer } from './reducer'
+import {
+  OnUploadCompleteFunction,
+  FileStateObject,
+  PresignedUpload
+} from '../types'
+import {
+  UploadReducerState,
+  UploadFileAction,
+  useUploadReducer
+} from './reducer'
 
 // TODO: check args
 export function useUpload(
@@ -17,12 +25,17 @@ export function useUpload(
     if (fileState.file) {
       uploadFileToS3(fileState, onUploadComplete, presignedUpload, dispatch)
     }
-  }, [fileState,])
+  }, [fileState])
 
   return state
 }
 
-async function uploadFileToS3(fileState: FileStateObject, onUploadComplete: OnUploadCompleteFunction, presignedUpload: PresignedUpload, dispatch: React.Dispatch<UploadFileAction>) {
+async function uploadFileToS3(
+  fileState: FileStateObject,
+  onUploadComplete: OnUploadCompleteFunction,
+  presignedUpload: PresignedUpload,
+  dispatch: React.Dispatch<UploadFileAction>
+) {
   if (fileState.file) {
     dispatch({ type: 'START_UPLOAD' })
 
@@ -46,12 +59,17 @@ async function uploadFileToS3(fileState: FileStateObject, onUploadComplete: OnUp
 
     console.log({ res })
 
-    const response = postFileToS3(fileState.file.name, res.data.presignedUpload.url, fileForm, (progressEvent) => {
-      dispatch({
-        type: 'INCREASE_PROGRESS',
-        payload: (progressEvent.loaded / progressEvent.total) * 100
-      })
-    })
+    const response = postFileToS3(
+      fileState.file.name,
+      res.data.presignedUpload.url,
+      fileForm,
+      (progressEvent) => {
+        dispatch({
+          type: 'INCREASE_PROGRESS',
+          payload: (progressEvent.loaded / progressEvent.total) * 100
+        })
+      }
+    )
       .then(() => {
         dispatch({ type: 'UPLOAD_COMPLETE' })
         // aws s3 file key
@@ -63,14 +81,18 @@ async function uploadFileToS3(fileState: FileStateObject, onUploadComplete: OnUp
   }
 }
 
-async function postFileToS3(fileName: string, url: string, formData: FormData, onUploadProgress: (progressEvent: ProgressEvent) => void) {
-  const response = await axios
-    .post(url, formData, {
-      onUploadProgress,
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        'Content-Disposition': contentDisposition(fileName)
-      }
-    })
+async function postFileToS3(
+  fileName: string,
+  url: string,
+  formData: FormData,
+  onUploadProgress: (progressEvent: ProgressEvent) => void
+) {
+  const response = await axios.post(url, formData, {
+    onUploadProgress,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      'Content-Disposition': contentDisposition(fileName)
+    }
+  })
   return response
 }

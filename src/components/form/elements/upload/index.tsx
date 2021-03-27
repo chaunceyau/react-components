@@ -11,10 +11,8 @@ import { FormLabel } from '../misc/label'
 import { FileStateObject, PresignedUpload } from './types'
 // import contentDisposition from 'content-disposition'
 
-
 type FormUploadProps = FormUploadBasics &
   Partial<Omit<HTMLInputElement, 'value'>>
-
 
 interface FormUploadBasics {
   name: string
@@ -24,8 +22,6 @@ interface FormUploadBasics {
   presignedUpload: PresignedUpload
   onUploadComplete: (key: string) => Promise<any>
 }
-
-
 
 // 1. add file to state
 // 2. run query for signed url (include client-side generated id?)

@@ -75,7 +75,8 @@ export function UploadInput(props: UploadInputProps) {
           <p className='pl-1'>or drag and drop</p>
         </div>
         <p className='text-xs text-gray-500 mt-px'>
-          {props.allowedFileTypes?.join(', ') || 'Any file type'} up to {props.maxFileSize || 5}MB
+          {props.allowedFileTypes?.join(', ') || 'Any file type'} up to{' '}
+          {props.maxFileSize || 5}MB
         </p>
       </div>
     </div>
