@@ -6,9 +6,8 @@ import { Button } from '../../../../button'
 import { FileStateObject, PresignedUpload } from '../types'
 
 interface FileListProps {
-  name: any
-  value: any
-  onChange: any
+  name: string
+  value: FileStateObject[]
   uploadInputRef: any
   onDeleteMutation: any
   onUploadComplete: any
@@ -43,11 +42,11 @@ export function FileList(props: FileListProps) {
   return props.value.length ? (
     <div className={wrapperClasses.join(' ')}>
       <ul className={ulClasses.join(' ')}>
-        {props.value.map((file: FileStateObject) => (
+        {props.value.map((fileState) => (
           <FileListItem
-            key={file.id}
-            {...file}
-            variableName={props.name}
+            {...fileState}
+            key={fileState.id}
+            name={props.name}
             presignedUpload={props.presignedUpload}
             onUploadComplete={props.onUploadComplete}
           />

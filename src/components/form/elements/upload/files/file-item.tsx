@@ -6,10 +6,10 @@ import { CheckIcon } from '../../../../icons/check'
 import { ArchiveSvg } from '../../../../icons/archive'
 import { LoadingSpinner } from '../../../../misc/spinner'
 import { useUpload } from '../hooks/useUpload'
-import { OnUploadCompleteFunction, PresignedUpload } from '../types'
+import { FileStateObject, OnUploadCompleteFunction, PresignedUpload } from '../types'
 
-interface FileListItemProps {
-  variableName: string
+interface FileListItemProps extends FileStateObject {
+  name: string
   onUploadComplete: OnUploadCompleteFunction
   presignedUpload: PresignedUpload
 }
@@ -17,10 +17,8 @@ interface FileListItemProps {
 export function FileListItem(props: FileListItemProps) {
   const ctx = useFormContext()
 
-  const fileState = ctx.getValues()[props.variableName]
-
   const state = useUpload(
-    fileState,
+    props,
     props.onUploadComplete,
     props.presignedUpload
   )
@@ -29,7 +27,7 @@ export function FileListItem(props: FileListItemProps) {
     throw new Error('FileListItem must be rendered inside a Form component')
   }
 
-  const pendingRemoval = fileState.status === 'PENDING_REMOVAL'
+  const pendingRemoval = props.status === 'PENDING_REMOVAL'
 
   const liClasses = ['flex items-center']
 
@@ -41,22 +39,23 @@ export function FileListItem(props: FileListItemProps) {
     liClasses.push('text-gray-400')
   } else if (state.error) {
     liClasses.push('text-red-500')
-  } else if (!fileState.file || state.progress === 100) {
+  } else if (!props.file || state.progress === 100) {
     liClasses.push('text-green-500')
   } else {
     liClasses.push('text-gray-400')
   }
 
   // TODO: error on liClasses... i.e. progress not 100 and error
-  const showLoading = !state.error && fileState.file && state.progress !== 100
+  const showLoading = !state.error && props.file && state.progress !== 100
+  console.log({  props })
 
   return (
-    <li key={fileState.id} className={liClasses.join(' ')}>
+    <li key={props.id} className={liClasses.join(' ')}>
       {showLoading ? <LoadingSpinner color='currentColor' /> : <CheckIcon />}
 
       <p className='flex-shrink-0 flex-grow mr-8 ml-3 overflow-hidden text-sm tracking-wide'>
-        {fileState.fileName.slice(0, 15)}
-        {fileState.fileName.length > 15 ? '...' : null}
+        {props.fileName.slice(0, 15)}
+        {props.fileName.length > 15 ? '...' : null}
       </p>
 
       {showLoading ? (
@@ -73,14 +72,14 @@ export function FileListItem(props: FileListItemProps) {
             // map through existing and update statuss
 
             ctx.setValue(
-              props.variableName,
+              props.name,
               ctx
                 .getValues()
-                [props.variableName].map((val: any) =>
-                  val.id === fileState.id
-                    ? Object.assign({}, val, { status: 'IDLE' })
-                    : val
-                )
+              [props.name].map((val: any) =>
+                val.id === props.id
+                  ? Object.assign({}, val, { status: 'IDLE' })
+                  : val
+              )
             )
           }}
         >
@@ -108,15 +107,15 @@ export function FileListItem(props: FileListItemProps) {
           disabled={ctx.formState.isSubmitting}
           onClick={() => {
             ctx.setValue(
-              props.variableName,
+              props.name,
               // map through existing and update statuss
               ctx
                 .getValues()
-                [props.variableName].map((val: any) =>
-                  val.id === fileState.id
-                    ? Object.assign({}, val, { status: 'PENDING_REMOVAL' })
-                    : val
-                )
+              [props.name].map((val: any) =>
+                val.id === props.id
+                  ? Object.assign({}, val, { status: 'PENDING_REMOVAL' })
+                  : val
+              )
             )
           }}
         >

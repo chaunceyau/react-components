@@ -19,6 +19,7 @@ import '@chaunceyau/react-components/dist/index.css'
 
 import './assets/generated/style.css'
 import { FormOption } from '../../dist/components/form/elements/radio/option'
+import { FileStateObject } from '../../dist/components/form/elements/upload/types'
 
 const App = () => {
   async function onSubmitForm(data: any) {
@@ -38,12 +39,12 @@ const App = () => {
   // }> 
   const onUploadComplete = React.useCallback(async (key: string) => {
     // return await new Promise((res) =>
-      setTimeout(
-        () => {
-          console.log("FILEMAFDSLMAFLSD", key)
-        },
-        1000
-      )
+    setTimeout(
+      () => {
+        console.log("FILEMAFDSLMAFLSD", key)
+      },
+      1000
+    )
     // )
   }, [])
 
@@ -155,7 +156,7 @@ const App = () => {
             // upload={() => {}}
             multiple={true}
             onUploadComplete={onUploadComplete}
-            presignedUpload={async (fileData: any) => {
+            presignedUpload={async (fileData: FileStateObject) => {
               return await fetch('http://localhost:3000/graphql', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -186,10 +187,10 @@ const App = () => {
                     }
                   `,
                   variables: {
-                    type: fileData.file.type,
-                    size: fileData.file.size,
-                    fileId: fileData.remoteFileKey,
-                    fileName: fileData.file.name,
+                    fileId: fileData.id,
+                    type: fileData.file?.type,
+                    size: fileData.file?.size,
+                    fileName: fileData.file?.name,
                   }
                 })
               }).then(res => res.json())

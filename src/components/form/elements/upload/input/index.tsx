@@ -3,7 +3,6 @@ import { useFormContext } from 'react-hook-form'
 import { DropzoneInputProps } from 'react-dropzone'
 
 interface UploadInputProps {
-  id: string
   name: string
   hidden: boolean
   getRootProps?: any
@@ -65,7 +64,7 @@ export function UploadInput(props: UploadInputProps) {
             Upload a file
           </span>
           <input
-            id={props.id}
+            id={props.name}
             name={props.name}
             type='file'
             className='sr-only'
