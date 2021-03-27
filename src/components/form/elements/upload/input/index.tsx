@@ -9,6 +9,8 @@ interface UploadInputProps {
   getRootProps?: any
   horizontal?: boolean
   getInputProps: (props?: DropzoneInputProps | undefined) => DropzoneInputProps
+  allowedFileTypes?: Array<'image/png' | 'image/jpg' | 'image/gif'>
+  maxFileSize?: number
 }
 
 export function UploadInput(props: UploadInputProps) {
@@ -72,7 +74,9 @@ export function UploadInput(props: UploadInputProps) {
           />
           <p className='pl-1'>or drag and drop</p>
         </div>
-        <p className='text-xs text-gray-500 mt-px'>PNG, JPG, GIF up to 10MB</p>
+        <p className='text-xs text-gray-500 mt-px'>
+          {props.allowedFileTypes?.join(', ') || 'Any file type'} up to {props.maxFileSize || 5}MB
+        </p>
       </div>
     </div>
   )

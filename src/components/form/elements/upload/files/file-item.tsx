@@ -5,14 +5,10 @@ import { ProgressBar } from '../../../../misc/progress-bar'
 import { CheckIcon } from '../../../../icons/check'
 import { ArchiveSvg } from '../../../../icons/archive'
 import { LoadingSpinner } from '../../../../misc/spinner'
-import { OnUploadCompleteFunction, useUploadReducer } from '../useUploadReducer'
-import { PresignedUpload } from '..'
+import { useUpload } from '../hooks/useUpload'
+import { OnUploadCompleteFunction, PresignedUpload } from '../types'
 
 interface FileListItemProps {
-  remoteFileKey: string
-  file?: File
-  fileName: string
-  status: string
   variableName: string
   onUploadComplete: OnUploadCompleteFunction
   presignedUpload: PresignedUpload
@@ -21,19 +17,19 @@ interface FileListItemProps {
 export function FileListItem(props: FileListItemProps) {
   const ctx = useFormContext()
 
-  const state = useUploadReducer(
-    props.file || null,
-    props.variableName,
-    props.remoteFileKey,
+  const fileState = ctx.getValues()[props.variableName]
+
+  const state = useUpload(
+    fileState,
     props.onUploadComplete,
     props.presignedUpload
   )
 
-  if (ctx === undefined) {
+  if (typeof ctx === 'undefined') {
     throw new Error('FileListItem must be rendered inside a Form component')
   }
 
-  const pendingRemoval = props.status === 'PENDING_REMOVAL'
+  const pendingRemoval = fileState.status === 'PENDING_REMOVAL'
 
   const liClasses = ['flex items-center']
 
@@ -45,22 +41,22 @@ export function FileListItem(props: FileListItemProps) {
     liClasses.push('text-gray-400')
   } else if (state.error) {
     liClasses.push('text-red-500')
-  } else if (!props.file || state.progress === 100) {
+  } else if (!fileState.file || state.progress === 100) {
     liClasses.push('text-green-500')
   } else {
     liClasses.push('text-gray-400')
   }
 
   // TODO: error on liClasses... i.e. progress not 100 and error
-  const showLoading = !state.error && props.file && state.progress !== 100
+  const showLoading = !state.error && fileState.file && state.progress !== 100
 
   return (
-    <li key={props.remoteFileKey} className={liClasses.join(' ')}>
+    <li key={fileState.id} className={liClasses.join(' ')}>
       {showLoading ? <LoadingSpinner color='currentColor' /> : <CheckIcon />}
 
       <p className='flex-shrink-0 flex-grow mr-8 ml-3 overflow-hidden text-sm tracking-wide'>
-        {props.fileName.slice(0, 15)}
-        {props.fileName.length > 15 ? '...' : null}
+        {fileState.fileName.slice(0, 15)}
+        {fileState.fileName.length > 15 ? '...' : null}
       </p>
 
       {showLoading ? (
@@ -80,11 +76,11 @@ export function FileListItem(props: FileListItemProps) {
               props.variableName,
               ctx
                 .getValues()
-                [props.variableName].map((val: any) =>
-                  val.id === props.remoteFileKey
-                    ? Object.assign({}, val, { status: 'IDLE' })
-                    : val
-                )
+              [props.variableName].map((val: any) =>
+                val.id === fileState.id
+                  ? Object.assign({}, val, { status: 'IDLE' })
+                  : val
+              )
             )
           }}
         >
@@ -116,11 +112,11 @@ export function FileListItem(props: FileListItemProps) {
               // map through existing and update statuss
               ctx
                 .getValues()
-                [props.variableName].map((val: any) =>
-                  val.id === props.remoteFileKey
-                    ? Object.assign({}, val, { status: 'PENDING_REMOVAL' })
-                    : val
-                )
+              [props.variableName].map((val: any) =>
+                val.id === fileState.id
+                  ? Object.assign({}, val, { status: 'PENDING_REMOVAL' })
+                  : val
+              )
             )
           }}
         >

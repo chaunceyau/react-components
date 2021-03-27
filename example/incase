@@ -1,0 +1,72 @@
+return await fetch('http://localhost:3000/graphql', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      query: `
+        # Write your query or mutation here
+        query(
+          $size: Int!
+          $type: String!
+          $fileId: String!
+          $fileName: String!
+        ) {
+          presignedUpload(
+            input: {
+              type: $type
+              size: $size
+              fileId: $fileId
+              fileName: $fileName
+            }
+          ) {
+            url
+            fileId
+            fields {
+              key
+              value
+            }
+          }
+        }
+      `,
+      variables: {
+        type: file.type,
+        size: file.size,
+        fileId: nanoid(),
+        fileName: file.name,
+      }
+    })
+  }).then(res => res.json())
+
+
+  client.query({
+    query: `
+      # Write your query or mutation here
+      query(
+        $size: Int!
+        $type: String!
+        $fileId: String!
+        $fileName: String!
+      ) {
+        presignedUpload(
+          input: {
+            type: $type
+            size: $size
+            fileId: $fileId
+            fileName: $fileName
+          }
+        ) {
+          url
+          fileId
+          fields {
+            key
+            value
+          }
+        }
+      }
+    `,
+    variables: {
+      type: file.type,
+      size: file.size,
+      fileId: nanoid(),
+      fileName: file.name,
+    }
+  })

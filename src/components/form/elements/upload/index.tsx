@@ -4,45 +4,28 @@ import { useController } from 'react-hook-form'
 // import { Controller, useController, useFormContext } from 'react-hook-form'
 import { nanoid } from 'nanoid'
 //
-import { FileList } from './items/list'
+import { FileList } from './files/file-list'
 
 import { UploadInput } from './input'
 import { FormLabel } from '../misc/label'
+import { FileStateObject, PresignedUpload } from './types'
 // import contentDisposition from 'content-disposition'
+
 
 type FormUploadProps = FormUploadBasics &
   Partial<Omit<HTMLInputElement, 'value'>>
-export type ImageUploadUrl = (file: File) => Promise<string> //| string
-export type PresignedUpload = (
-  file: File
-) => Promise<{
-  data: {
-    presignedUpload: {
-      url: string
-      fileId: string
-      fields: Array<{ [key: string]: string }>
-    }
-  }
-}>
+
 
 interface FormUploadBasics {
   name: string
   label: string
   required: boolean
   onDeleteMutation: () => void
-  // ideally return fileId?
-  // imageUploadUrl: ImageUploadUrl
   presignedUpload: PresignedUpload
   onUploadComplete: (key: string) => Promise<any>
 }
 
-export interface FileContextData {
-  id: string
-  file?: File
-  fileName: string
-  status: 'IDLE' | 'PENDING_REMOVAL'
-  progress: number
-}
+
 
 // 1. add file to state
 // 2. run query for signed url (include client-side generated id?)
@@ -59,26 +42,32 @@ export function FormUpload(props: FormUploadProps) {
   } = useController({
     name: props.name,
     rules: { required: props.required },
-    defaultValue: []
+    defaultValue: [
+      //   {
+      //   file: undefined,
+      //   fileName: 'string',
+      //   remoteFileKey: 'f2o4',
+      //   status: 'UPLOAD_COMPLETE',
+      //   progress: 100
+      // }
+    ]
   })
 
   // const ctx = useFormContext()
 
   const onDrop = async (acceptedFiles: File[]) => {
     const currentFiles = inputProps.value
-    const newFiles = acceptedFiles.map((file) => ({
+    const mapFilesToState: FileStateObject[] = acceptedFiles.map((file) => ({
       id: nanoid(),
       file: file,
       fileName: file.name,
-      status: 'IDLE'
+      status: 'UPLOADING',
+      progress: 0
     }))
-
-    // ctx.setValue('files', [...currentFiles, ...newFiles])
-    inputProps.onChange([...currentFiles, ...newFiles])
-
+    // ctx.setValue('files', [...currentFiles, ...mapFilesToState])
+    inputProps.onChange([...currentFiles, ...mapFilesToState])
     // TODO: remove next line
-    // props.onChange([...currentFiles, ...newFiles])
-
+    // props.onChange([...currentFiles, ...mapFilesToState])
     // removed from here
   }
 
@@ -107,7 +96,6 @@ export function FormUpload(props: FormUploadProps) {
         value={inputProps.value}
         onChange={inputProps.onChange}
         uploadInputRef={inputRef}
-        // imageUploadUrl={async () => await presignedUpload(inputProps.value).then(data => data.url)}
         presignedUpload={presignedUpload}
         onDeleteMutation={onDeleteMutation}
         onUploadComplete={onUploadComplete}
@@ -123,3 +111,4 @@ export function FormUpload(props: FormUploadProps) {
     </div>
   )
 }
+// export type ImageUploadUrl = (file: File) => Promise<string> //| string

@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { useFormContext } from 'react-hook-form'
 //
-import { FileListItem } from './li'
+import { FileListItem } from './file-item'
 import { Button } from '../../../../button'
-import { FileContextData, PresignedUpload } from '../'
+import { FileStateObject, PresignedUpload } from '../types'
 
 interface FileListProps {
   name: any
@@ -13,7 +13,6 @@ interface FileListProps {
   onDeleteMutation: any
   onUploadComplete: any
   allowMultipleFiles: boolean
-  // imageUploadUrl: ImageUploadUrl
   presignedUpload: PresignedUpload
 }
 
@@ -25,7 +24,7 @@ export function FileList(props: FileListProps) {
   }
 
   const onClickAddImageButton = React.useCallback(
-    () => props.uploadInputRef.current?.click(),
+    () => { props.uploadInputRef.current?.click() },
     [props.uploadInputRef]
   )
 
@@ -45,13 +44,10 @@ export function FileList(props: FileListProps) {
   return props.value.length ? (
     <div className={wrapperClasses.join(' ')}>
       <ul className={ulClasses.join(' ')}>
-        {props.value.map((file: FileContextData) => (
+        {props.value.map((file: FileStateObject) => (
           <FileListItem
             key={file.id}
-            file={file.file}
-            status={file.status}
-            remoteFileKey={file.id + '/' + file.fileName}
-            fileName={file.fileName}
+            {...file}
             variableName={props.name}
             presignedUpload={props.presignedUpload}
             onUploadComplete={props.onUploadComplete}

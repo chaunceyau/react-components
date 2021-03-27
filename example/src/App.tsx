@@ -19,7 +19,6 @@ import '@chaunceyau/react-components/dist/index.css'
 
 import './assets/generated/style.css'
 import { FormOption } from '../../dist/components/form/elements/radio/option'
-import { nanoid } from 'nanoid'
 
 const App = () => {
   async function onSubmitForm(data: any) {
@@ -156,7 +155,7 @@ const App = () => {
             // upload={() => {}}
             multiple={true}
             onUploadComplete={onUploadComplete}
-            presignedUpload={async (file: File) => {
+            presignedUpload={async (fileData: any) => {
               return await fetch('http://localhost:3000/graphql', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -187,10 +186,10 @@ const App = () => {
                     }
                   `,
                   variables: {
-                    type: file.type,
-                    size: file.size,
-                    fileId: nanoid(),
-                    fileName: file.name,
+                    type: fileData.file.type,
+                    size: fileData.file.size,
+                    fileId: fileData.remoteFileKey,
+                    fileName: fileData.file.name,
                   }
                 })
               }).then(res => res.json())
