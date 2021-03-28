@@ -7,6 +7,7 @@ export { FormUpload } from './components/form/elements/upload'
 export { FormSelect } from './components/form/elements/select'
 export { FormDivider } from './components/form/elements/divider'
 export { FormTextarea } from './components/form/elements/textarea'
+export { FormDateInput } from './components/form/elements/date'
 export { FormRadioGroup } from './components/form/elements/radio'
 //
 export { Modal } from './components/modal'

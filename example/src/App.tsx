@@ -1,26 +1,27 @@
 import * as React from 'react'
 
 import {
-  Form,
+  Modal,
+  Button,
+  Toasts,
   Slideover,
+  DropdownMenu,
+  SectionHeading,
+  //
+  Form,
   FormInput,
   FormUpload,
   FormSelect,
   FormToggle,
   FormButton,
-  FormRadioGroup,
-  SectionHeading,
-  Button,
-  DropdownMenu,
-  Toasts,
-  Modal,
-  FormTextarea
+  FormTextarea,
+  FormDateInput,
+  FormRadioGroup
 } from '@chaunceyau/react-components'
 import '@chaunceyau/react-components/dist/index.css'
 
 import './assets/generated/style.css'
 import { FormOption } from '../../dist/components/form/elements/radio/option'
-import { FileStateObject } from '../../dist/components/form/elements/upload/types'
 
 const App = () => {
   async function onSubmitForm(data: any) {
@@ -154,7 +155,7 @@ const App = () => {
             // upload={() => {}}
             multiple={true}
             onUploadComplete={onUploadComplete}
-            presignedUpload={async (fileData: FileStateObject) => {
+            presignedUpload={async (fileData: { id: string; file: File }) => {
               return await fetch('http://localhost:3000/graphql', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -203,6 +204,7 @@ const App = () => {
             ]}
           />
           <FormTextarea name='description' label='Description' />
+          <FormDateInput name='eventDate' label='Event Start' />
           <FormButton buttonStyle='primary'>Save Information</FormButton>
         </Form>
       </Slideover>

@@ -13,6 +13,7 @@ import { FormSelect } from './elements/select'
 import { FormDivider } from './elements/divider'
 import { FormRadioGroup, FormRadioGroupProps } from './elements/radio'
 import { FormTextarea } from './elements/textarea'
+import { FormDateInput } from './elements/date'
 
 export interface FormProps {
   id: string
@@ -35,6 +36,7 @@ const ValidFormComponents: any = [
   FormSelect,
   FormDivider,
   FormTextarea,
+  FormDateInput,
   FormRadioGroup
 ]
 
