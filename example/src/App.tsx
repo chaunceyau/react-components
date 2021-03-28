@@ -13,7 +13,8 @@ import {
   Button,
   DropdownMenu,
   Toasts,
-  Modal
+  Modal,
+  FormTextarea
 } from '@chaunceyau/react-components'
 import '@chaunceyau/react-components/dist/index.css'
 
@@ -32,19 +33,16 @@ const App = () => {
     })
   }
 
-  const onDelete = React.useCallback(() => { }, [])
+  const onDelete = React.useCallback(() => {}, [])
   // const onUploadComplete: (fileId: string)
   //  => Promise<{
   //   fileId: string
-  // }> 
+  // }>
   const onUploadComplete = React.useCallback(async (key: string) => {
     // return await new Promise((res) =>
-    setTimeout(
-      () => {
-        console.log("FILEMAFDSLMAFLSD", key)
-      },
-      1000
-    )
+    setTimeout(() => {
+      console.log('FILEMAFDSLMAFLSD', key)
+    }, 1000)
     // )
   }, [])
 
@@ -190,10 +188,10 @@ const App = () => {
                     fileId: fileData.id,
                     type: fileData.file?.type,
                     size: fileData.file?.size,
-                    fileName: fileData.file?.name,
+                    fileName: fileData.file?.name
                   }
                 })
-              }).then(res => res.json())
+              }).then((res) => res.json())
             }}
           />
           <FormSelect
@@ -204,6 +202,7 @@ const App = () => {
               { id: 'c340kc340', value: 'Google Inc' }
             ]}
           />
+          <FormTextarea name='description' label='Description' />
           <FormButton buttonStyle='primary'>Save Information</FormButton>
         </Form>
       </Slideover>
@@ -211,7 +210,7 @@ const App = () => {
       <SectionHeading
         title='Hello There'
         description='lfmsdalfmds'
-        action={{ label: 'Create Something', onClick: () => { } }}
+        action={{ label: 'Create Something', onClick: () => {} }}
       />
     </div>
   )

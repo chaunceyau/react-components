@@ -12,6 +12,7 @@ import { FormToggle } from './elements/toggle'
 import { FormSelect } from './elements/select'
 import { FormDivider } from './elements/divider'
 import { FormRadioGroup, FormRadioGroupProps } from './elements/radio'
+import { FormTextarea } from './elements/textarea'
 
 export interface FormProps {
   id: string
@@ -33,7 +34,8 @@ const ValidFormComponents: any = [
   FormButton,
   FormSelect,
   FormDivider,
-  FormRadioGroup
+  FormTextarea,
+  FormRadioGroup,
 ]
 
 function validateChild(child: any) {
