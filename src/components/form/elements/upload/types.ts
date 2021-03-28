@@ -1,6 +1,6 @@
 export interface FileStateObject extends RemoteFile {
   file?: File
-  status: 'COMPLETE' | 'PENDING_REMOVAL' | 'UPLOADING' | 'ERROR'
+  status: 'IDLE' | 'COMPLETE' | 'PENDING_REMOVAL' | 'UPLOADING' | 'ERROR'
   progress: number
 }
 
@@ -10,15 +10,17 @@ interface RemoteFile {
 }
 
 export type PresignedUpload = (
-  file: FileStateObject
+  file: { id: string, file: File }
 ) => Promise<{
   data: {
-    presignedUpload: {
-      url: string
-      fileId: string
-      fields: Array<{ [key: string]: string }>
-    }
+    presignedUpload: PresignedUploadPayload
   }
 }>
 
 export type OnUploadCompleteFunction = (fileId: string) => any
+
+interface PresignedUploadPayload {
+  url: string
+  fileId: string
+  fields: Array<{ [key: string]: string }>
+}

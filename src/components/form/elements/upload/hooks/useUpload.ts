@@ -22,11 +22,10 @@ export function useUpload(
 ): UploadReducerState {
   const [state, dispatch] = useUploadReducer()
   React.useEffect(() => {
-    if (fileState.file) {
+    if (fileState.file && !state.loading && state.progress !== 100) {
       uploadFileToS3(fileState, onUploadComplete, presignedUpload, dispatch)
     }
   }, [fileState])
-
   return state
 }
 
@@ -38,23 +37,17 @@ async function uploadFileToS3(
 ) {
   if (fileState.file) {
     dispatch({ type: 'START_UPLOAD' })
-
     // TODO: ERROR handling here...
     // const res = await getSignedUrl(file, awsFileKey)
     const res = await presignedUpload({
       id: fileState.id,
       file: fileState.file,
-      fileName: fileState.file.name,
-      // TODO: file key
-      status: 'UPLOADING',
-      progress: 0
     })
-    const fileForm = new FormData()
 
+    const fileForm = new FormData()
     res.data.presignedUpload.fields.forEach(({ key, value }) =>
       fileForm.append(key, value)
     )
-
     fileForm.append('file', fileState.file)
 
     console.log({ res })

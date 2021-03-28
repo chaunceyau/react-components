@@ -89,6 +89,6 @@ const mapDroppedFilesToState = (
     id: nanoid(),
     file: file,
     fileName: file.name,
-    status: 'UPLOADING',
+    status: 'IDLE',
     progress: 0
   }))
