@@ -41,7 +41,7 @@ async function uploadFileToS3(
     // const res = await getSignedUrl(file, awsFileKey)
     const res = await presignedUpload({
       id: fileState.id,
-      file: fileState.file,
+      file: fileState.file
     })
 
     const fileForm = new FormData()

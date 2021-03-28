@@ -9,9 +9,10 @@ interface RemoteFile {
   fileName: string
 }
 
-export type PresignedUpload = (
-  file: { id: string, file: File }
-) => Promise<{
+export type PresignedUpload = (file: {
+  id: string
+  file: File
+}) => Promise<{
   data: {
     presignedUpload: PresignedUploadPayload
   }
