@@ -37,8 +37,7 @@ async function uploadFileToS3(
 ) {
   if (fileState.file) {
     dispatch({ type: 'START_UPLOAD' })
-    // TODO: ERROR handling here...
-    // const res = await getSignedUrl(file, awsFileKey)
+
     const res = await presignedUpload({
       id: fileState.id,
       file: fileState.file
@@ -50,13 +49,12 @@ async function uploadFileToS3(
     )
     fileForm.append('file', fileState.file)
 
-    console.log({ res })
-
     const response = postFileToS3(
       fileState.file.name,
       res.data.presignedUpload.url,
       fileForm,
       (progressEvent) => {
+        console.log({ payload: (progressEvent.loaded / progressEvent.total) * 100 })
         dispatch({
           type: 'INCREASE_PROGRESS',
           payload: (progressEvent.loaded / progressEvent.total) * 100
@@ -64,6 +62,7 @@ async function uploadFileToS3(
       }
     )
       .then(() => {
+        console.log('UPLOAD_COMPLETE')
         dispatch({ type: 'UPLOAD_COMPLETE' })
         // aws s3 file key
         onUploadComplete(fileState.id + '/' + fileState.fileName)

@@ -41,9 +41,7 @@ const App = () => {
   // }>
   const onUploadComplete = React.useCallback(async (key: string) => {
     // return await new Promise((res) =>
-    setTimeout(() => {
-      console.log('FILEMAFDSLMAFLSD', key)
-    }, 1000)
+    console.log('FILEMAFDSLMAFLSD', key)
     // )
   }, [])
 

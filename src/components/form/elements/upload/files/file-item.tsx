@@ -47,15 +47,14 @@ export function FileListItem(props: FileListItemProps) {
 
   // TODO: error on liClasses... i.e. progress not 100 and error
   const showLoading = !state.error && props.file && state.progress !== 100
-  console.log({ props })
 
   return (
     <li key={props.id} className={liClasses.join(' ')}>
       {showLoading ? <LoadingSpinner color='currentColor' /> : <CheckIcon />}
 
       <p className='flex-shrink-0 flex-grow mr-8 ml-3 overflow-hidden text-sm tracking-wide'>
-        {props.fileName.slice(0, 15)}
-        {props.fileName.length > 15 ? '...' : null}
+        {props.fileName.slice(0, 20)}
+        {props.fileName.length > 20 ? '...' : null}
       </p>
 
       {showLoading ? (

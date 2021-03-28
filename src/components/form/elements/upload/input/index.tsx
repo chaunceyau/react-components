@@ -9,7 +9,7 @@ interface UploadInputProps {
   horizontal?: boolean
   getInputProps: (props?: DropzoneInputProps | undefined) => DropzoneInputProps
   allowedFileTypes?: Array<'image/png' | 'image/jpg' | 'image/gif'>
-  maxFileSize?: number
+  maxFileSizeBytes?: number
 }
 
 export function UploadInput(props: UploadInputProps) {
@@ -75,9 +75,19 @@ export function UploadInput(props: UploadInputProps) {
         </div>
         <p className='text-xs text-gray-500 mt-px'>
           {props.allowedFileTypes?.join(', ') || 'Any file type'} up to{' '}
-          {props.maxFileSize || 5}MB
+          {formatBytes(props.maxFileSizeBytes || 1024 * 1024 * 5)}
         </p>
       </div>
     </div>
+  )
+}
+function formatBytes(a: number, b: number = 2) {
+  if (0 === a) return '0 Bytes'
+  const c = 0 > b ? 0 : b,
+    d = Math.floor(Math.log(a) / Math.log(1024))
+  return (
+    parseFloat((a / Math.pow(1024, d)).toFixed(c)) +
+    ' ' +
+    ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'][d]
   )
 }
