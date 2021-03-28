@@ -35,7 +35,7 @@ const ValidFormComponents: any = [
   FormSelect,
   FormDivider,
   FormTextarea,
-  FormRadioGroup,
+  FormRadioGroup
 ]
 
 function validateChild(child: any) {
