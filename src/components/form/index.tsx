@@ -4,7 +4,7 @@ import * as RHForm from 'react-hook-form'
 
 //
 import { Toasts } from '../misc/toasts'
-import { FormButton } from './form-button'
+import { FormButton } from './elements/button'
 import { FormUpload } from './elements/upload'
 import { FormHeader } from './elements/misc/header'
 import { FormInput } from './elements/input'

@@ -163,7 +163,7 @@ export function Button(props: ButtonProps) {
   return (
     <button {...buttonProps}>
       {props.loading ? spinner : null}
-      <span className={props.loading ? 'opacity-0' : ''}>{props.children}</span>
+      <span className={props.loading ? 'opacity-0' : 'font-bold'}>{props.children}</span>
     </button>
   )
 }

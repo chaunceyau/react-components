@@ -10,6 +10,10 @@ export interface FormRadioGroupProps {
 }
 
 // TODO: a11y friendly
+/**
+ * select one of multiple options
+ * @param props 
+ */
 export function FormRadioGroup(props: FormRadioGroupProps) {
   if (props.options.length === 0) {
     throw new Error('you must provide atleast one option')

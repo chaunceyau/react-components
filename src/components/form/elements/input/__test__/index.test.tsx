@@ -4,7 +4,7 @@ import { act, fireEvent, render, waitFor } from '@testing-library/react'
 //
 import { FormInput } from '..'
 import { Form } from '../../..'
-import { FormButton } from '../../../form-button'
+import { FormButton } from '../../button'
 
 beforeEach(() => {
   require('mutationobserver-shim')

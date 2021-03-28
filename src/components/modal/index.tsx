@@ -32,25 +32,26 @@ export function Modal(props: ModalProps) {
   )
 }
 
+const textColor = (type?: 'info' | 'positive' | 'negative' | undefined) => {
+  switch (type) {
+    case 'info': {
+      return 'text-blue-600'
+    }
+    case 'positive': {
+      return 'text-green-600'
+    }
+    case 'negative': {
+      return 'text-red-600'
+    }
+    default: {
+      return 'text-gray-900'
+    }
+  }
+}
+
 function Portal(
   props: Omit<ModalProps, 'trigger'> & { isOpen: boolean; onClose: () => void }
 ) {
-  const textColor = () => {
-    switch (props.type) {
-      case 'info': {
-        return 'text-blue-600'
-      }
-      case 'positive': {
-        return 'text-green-600'
-      }
-      case 'negative': {
-        return 'text-red-600'
-      }
-      default: {
-        return 'text-gray-900'
-      }
-    }
-  }
   const [actionLoading, setActionLoading] = React.useState(false)
   const modalRef = React.useRef<HTMLDivElement>(null)
 
@@ -118,7 +119,9 @@ function Portal(
                 <h3
                   role='heading'
                   id='modal-headline'
-                  className={'text-lg leading-6 font-medium ' + textColor()}
+                  className={
+                    'text-lg leading-6 font-medium ' + textColor(props.type)
+                  }
                 >
                   {props.title}
                 </h3>

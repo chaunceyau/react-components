@@ -1,6 +1,6 @@
 // form
 export { Form } from './components/form'
-export { FormButton } from './components/form/form-button'
+export { FormButton } from './components/form/elements/button'
 export { FormInput } from './components/form/elements/input'
 export { FormToggle } from './components/form/elements/toggle'
 export { FormUpload } from './components/form/elements/upload'
