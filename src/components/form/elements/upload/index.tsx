@@ -59,7 +59,7 @@ export function FormUpload(props: FormUploadProps) {
     multiple: !!props.multiple
   })
 
-  console.log({value: inputProps.value})
+  console.log({ value: inputProps.value })
 
   return (
     <div>

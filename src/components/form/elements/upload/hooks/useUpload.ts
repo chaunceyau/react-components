@@ -54,7 +54,9 @@ async function uploadFileToS3(
       res.data.presignedUpload.url,
       fileForm,
       (progressEvent) => {
-        console.log({ payload: (progressEvent.loaded / progressEvent.total) * 100 })
+        console.log({
+          payload: (progressEvent.loaded / progressEvent.total) * 100
+        })
         dispatch({
           type: 'INCREASE_PROGRESS',
           payload: (progressEvent.loaded / progressEvent.total) * 100
