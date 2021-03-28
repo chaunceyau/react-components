@@ -1,6 +1,6 @@
 {
   "name": "@chaunceyau/react-components",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Easy-to-use react component library",
   "author": "chaunceyau",
   "license": "MIT",
@@ -35,9 +35,9 @@
     "@babel/core": "^7.12.10",
     "@babel/preset-typescript": "^7.12.7",
     "@storybook/addon-actions": "^6.1.15",
-    "@storybook/addon-essentials": "^6.1.15",
+    "@storybook/addon-essentials": "^6.1.21",
     "@storybook/addon-links": "^6.1.15",
-    "@storybook/react": "^6.1.15",
+    "@storybook/react": "^6.1.21",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
@@ -71,7 +71,7 @@
     "prettier": "2.2.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "^3.4.1",
+    "react-scripts": "^4.0.3",
     "tailwindcss": "^2.0.2",
     "typescript": "^3.7.5"
   },
