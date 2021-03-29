@@ -12,7 +12,7 @@ export interface FormRadioGroupProps {
 // TODO: a11y friendly
 /**
  * select one of multiple options
- * @param props 
+ * @param props
  */
 export function FormRadioGroup(props: FormRadioGroupProps) {
   if (props.options.length === 0) {
