@@ -8,6 +8,7 @@ import { Controller, useFormContext } from 'react-hook-form'
 interface FormDateInputProps {
   name: string
   label: string
+  showHours?: boolean
 }
 
 export function FormDateInput(props: FormDateInputProps) {
@@ -28,7 +29,7 @@ export function FormDateInput(props: FormDateInputProps) {
             onChange={onChange}
             timeInputLabel='Time:'
             dateFormat='MM/dd/yyyy h:mm aa'
-            showTimeSelect
+            showTimeSelect={!!props.showHours}
             autoComplete='false'
           />
         )}

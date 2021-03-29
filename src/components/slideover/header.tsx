@@ -1,10 +1,19 @@
 import React from 'react'
 
-interface SlideoverHeaderProps {
+export interface SlideoverHeaderProps {
+  title: string
+  description: string
+}
+
+type SlideoverHeaderComponentProps = SlideoverHeaderProps & {
   onClose: () => any
 }
 
-export function SlideoverHeader({ onClose }: SlideoverHeaderProps) {
+export function SlideoverHeader({
+  onClose,
+  title,
+  description
+}: SlideoverHeaderComponentProps) {
   return (
     <div className='px-4 py-6 bg-gray-200 sm:px-6 flex-shrink-0'>
       <div className='flex items-start justify-between space-x-3'>
@@ -13,12 +22,9 @@ export function SlideoverHeader({ onClose }: SlideoverHeaderProps) {
             id='slide-over-heading'
             className='text-lg font-medium text-gray-900'
           >
-            New project
+            {title}
           </h2>
-          <p className='text-sm text-gray-500'>
-            Get started by filling in the information below to create your new
-            project.
-          </p>
+          <p className='text-sm text-gray-500'>{description}</p>
         </div>
         <div className='h-7 flex items-center'>
           <button

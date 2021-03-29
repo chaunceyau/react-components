@@ -4,9 +4,9 @@ import { FormLabel } from '../misc/label'
 import { FormInputErrorMessage } from './error-message'
 
 export interface FormInputProps {
-  // TODO: rename `name` to `id`?
   name: string
   label: string
+  type?: 'text' | 'number'
   placeholder?: string
   registerOptions?: RHForm.RegisterOptions
 }
@@ -78,7 +78,7 @@ export const FormInput = (props: FormInputProps) => {
       />
       <div className='relative rounded-md shadow-sm'>
         <input
-          type='text'
+          type={props.type || 'text'}
           id={props.name}
           name={props.name}
           ref={ctx.register(props.registerOptions)}

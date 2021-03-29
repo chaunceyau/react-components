@@ -115,6 +115,8 @@ const App = () => {
         linkComponent={(link: any) => <a href={link.to}>{link.label}</a>}
       />
       <Slideover
+        title='cool test slideover'
+        description='lorem ispumfsdlkamfdlsamfldsmalfmsdl'
         // onClose={() => {
         //   console.log('CLSOING')
         //   setIsSlideoverOpen(!isSlideoverOpen)

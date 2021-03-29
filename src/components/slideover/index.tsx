@@ -3,53 +3,65 @@ import ReactDOM from 'react-dom'
 import { Transition } from '@headlessui/react'
 //
 // import { Action } from './interfaces'
-import { SlideoverHeader } from './header'
+import { SlideoverHeader, SlideoverHeaderProps } from './header'
 import { useClickOutside } from '../../hooks/useClickOutside'
 
-interface SlideoverProps {
+interface SlideoverProps extends SlideoverHeaderProps {
   // actions?: Action[]
   // onClose: () => any
-  trigger: React.ReactNode
+  isOpen: boolean
+  setIsOpen: (setIsOpen: boolean) => void
+  // slideoverState: SlideoverState
+  // setSlideoverState: (state: SlideoverState) => void
 }
 
-function useSlideoverState() {
-  const state = React.useState<SlideoverState>('CLOSED')
+// function useSlideoverState(isOpenState: boolean) {
+//   const state = React.useState<SlideoverState>('CLOSED')
 
-  React.useEffect(() => {
-    if (state[0] !== 'CLOSING') {
-      return
-    }
+//   React.useEffect(() => {
+//     if (state[0] !== 'CLOSING') {
+//       return
+//     }
 
-    const timeout = setTimeout(() => {
-      state[1]('CLOSED')
-    }, 500)
-    return () => clearTimeout(timeout)
-  }, [state])
+//     const timeout = setTimeout(() => {
+//       state[1]('CLOSED')
+//     }, 500)
+//     return () => clearTimeout(timeout)
+//   }, [state])
 
-  return state
-}
+//   // React.useEffect(() => {
+//   //   if (isOpenState) {
+//   //     setSt
+//   //   }
+//   // },[isOpenState])
 
-type SlideoverState = 'OPEN' | 'CLOSED' | 'CLOSING'
+//   return state
+// }
+
+// type SlideoverState = 'OPEN' | 'CLOSED' | 'CLOSING'
 
 export function Slideover({
   children,
-  trigger
-}: React.PropsWithChildren<SlideoverProps>) {
-  const [state, setState] = useSlideoverState()
-
-  const onClose = React.useCallback(() => setState('CLOSING'), [])
-
+  title,
+  description,
+  setIsOpen,
+  isOpen
+}: React.PropsWithChildren<SlideoverProps & SlideoverHeaderProps>) {
+  const onClose = React.useCallback(() => setIsOpen(false), [])
+  // const slideoverState = useSlideoverState(isOpen)
   return (
     <div>
-      {React.cloneElement(trigger as any, {
-        onClick: () => setState('OPEN')
-      })}
       {/* COULD BE IMPROVED - 2nd time opening doesn't transition */}
-      {state !== 'CLOSED' ? (
-        <Portal open={state === 'OPEN'} onClose={onClose}>
-          {children}
-        </Portal>
-      ) : null}
+      {/* {slideoverState !== 'CLOSED' ? ( */}
+      <Portal
+        open={isOpen}
+        // open={slideoverState === 'OPEN'}
+        onClose={onClose}
+        title={title}
+        description={description}
+      >
+        {children}
+      </Portal>
       {/* )} */}
     </div>
   )
@@ -65,9 +77,14 @@ function usePortal() {
   }, [])
 }
 
-function Portal(
-  props: React.PropsWithChildren<{ onClose: () => void; open: boolean }>
-) {
+type SlideoverPortalProps = React.PropsWithChildren<
+  SlideoverHeaderProps & {
+    onClose: () => void
+    open: boolean
+  }
+>
+
+function Portal(props: SlideoverPortalProps) {
   usePortal()
 
   const slideoverRef = React.useRef<any>()
@@ -100,7 +117,11 @@ function Portal(
               ref={slideoverRef}
             >
               <div className='h-full flex flex-col bg-white shadow-xl'>
-                <SlideoverHeader onClose={props.onClose} />
+                <SlideoverHeader
+                  onClose={props.onClose}
+                  title={props.title}
+                  description={props.description}
+                />
                 <div className='flex-1 overflow-y-scroll'>
                   <div className='px-6 pb-6'>{props.children}</div>
                 </div>
