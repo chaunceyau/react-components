@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { nanoid } from 'nanoid'
+import nanoid from 'nanoid'
 import { useDropzone } from 'react-dropzone'
 import { useController } from 'react-hook-form'
 //
