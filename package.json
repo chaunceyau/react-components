@@ -1,6 +1,6 @@
 {
   "name": "@chaunceyau/react-components",
-  "version": "0.2.7",
+  "version": "0.2.10",
   "description": "Easy-to-use react component library",
   "author": "chaunceyau",
   "license": "MIT",
@@ -79,9 +79,7 @@
   ],
   "dependencies": {
     "@headlessui/react": "^0.2.0",
-    "@types/nanoid": "^2.1.0",
     "axios": "^0.21.1",
-    "cuid": "^2.1.8",
     "nanoid": "^3.1.22",
     "path": "^0.12.7",
     "react-datepicker": "^3.6.0",

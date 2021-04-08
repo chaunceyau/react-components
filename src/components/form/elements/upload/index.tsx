@@ -1,5 +1,5 @@
 import * as React from 'react'
-import nanoid from 'nanoid'
+import { nanoid } from 'nanoid'
 import { useDropzone } from 'react-dropzone'
 import { useController } from 'react-hook-form'
 //
@@ -16,6 +16,9 @@ interface FormUploadBasics {
   name: string
   label: string
   required: boolean
+  maxFiles?: number
+  allowedFileTypes?: string[]
+  defaultValue: FileStateObject[]
   onDeleteMutation: () => void
   presignedUpload: PresignedUpload
   onUploadComplete: (key: string) => Promise<any>
@@ -27,15 +30,9 @@ export function FormUpload(props: FormUploadProps) {
   } = useController({
     name: props.name,
     rules: { required: props.required },
-    defaultValue: [
-      //   {
-      //   file: undefined,
-      //   fileName: 'string',
-      //   remoteFileKey: 'f2o4',
-      //   status: 'UPLOAD_COMPLETE',
-      //   progress: 100
-      // }
-    ]
+    defaultValue: Array.isArray(props.defaultValue)
+      ? props.defaultValue
+      : [props.defaultValue]
   })
 
   const onDrop = async (acceptedFiles: File[]) => {
@@ -56,10 +53,10 @@ export function FormUpload(props: FormUploadProps) {
   const { getRootProps, getInputProps, inputRef } = useDropzone({
     onDrop,
     ...inputProps,
-    multiple: !!props.multiple
+    multiple: !!props.multiple,
+    maxFiles: props.maxFiles,
+    accept: props.allowedFileTypes
   })
-
-  console.log({ value: inputProps.value })
 
   return (
     <div>
