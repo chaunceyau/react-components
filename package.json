@@ -79,6 +79,7 @@
   ],
   "dependencies": {
     "@headlessui/react": "^0.2.0",
+    "@types/nanoid": "^2.1.0",
     "axios": "^0.21.1",
     "cuid": "^2.1.8",
     "nanoid": "^3.1.22",
