@@ -25,6 +25,26 @@ class Example extends Component {
 }
 ```
 
+## Current Components
+
+Button
+Card
+Dropdown
+Form
+FormButton
+FormDate
+FormDivider
+FormInput
+FormRadioButtonGroup
+FormSelect
+FormTextArea
+FormToggle
+FormUpload
+Layout
+Modal
+Slideover
+Statistic
+
 ## License
 
 MIT © [chaunceyau](https://github.com/chaunceyau)
