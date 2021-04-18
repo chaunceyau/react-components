@@ -1,5 +1,5 @@
+import cuid from 'cuid';
 import * as React from 'react'
-import { nanoid } from 'nanoid'
 import { useDropzone } from 'react-dropzone'
 import { useController } from 'react-hook-form'
 //
@@ -85,7 +85,7 @@ const mapDroppedFilesToState = (
   acceptedFiles: File[]
 ): Array<FileStateObject> =>
   acceptedFiles.map((file) => ({
-    id: nanoid(),
+    id: cuid(),
     file: file,
     fileName: file.name,
     status: 'IDLE',
