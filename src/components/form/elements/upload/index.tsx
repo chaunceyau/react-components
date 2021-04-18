@@ -1,4 +1,4 @@
-import cuid from 'cuid';
+import cuid from 'cuid'
 import * as React from 'react'
 import { useDropzone } from 'react-dropzone'
 import { useController } from 'react-hook-form'
