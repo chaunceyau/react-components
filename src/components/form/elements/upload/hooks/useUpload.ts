@@ -1,6 +1,5 @@
 import axios from 'axios'
 import * as React from 'react'
-import contentDisposition from 'content-disposition'
 import {
   OnUploadCompleteFunction,
   FileStateObject,
@@ -50,7 +49,7 @@ async function uploadFileToS3(
     fileForm.append('file', fileState.file)
 
     const response = postFileToS3(
-      fileState.file.name,
+      fileState.file,
       res.data.presignedUpload.url,
       fileForm,
       (progressEvent) => {
@@ -76,7 +75,7 @@ async function uploadFileToS3(
 }
 
 async function postFileToS3(
-  fileName: string,
+  file: File,
   url: string,
   formData: FormData,
   onUploadProgress: (progressEvent: ProgressEvent) => void
@@ -85,7 +84,12 @@ async function postFileToS3(
     onUploadProgress,
     headers: {
       'Content-Type': 'multipart/form-data',
-      'Content-Disposition': contentDisposition(fileName)
+      // 'Content-Disposition': contentDisposition(fileName)
+      // NOTE/TODO: no content-dispo might break upload
+      'Content-Disposition': `attachment; filename=${
+        file.name //+ '.' + file.type
+      }`
+      // Content-Disposition: form-data; name="fieldName"; filename="filename.jpg"
     }
   })
   return response
