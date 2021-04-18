@@ -27,8 +27,8 @@
     "build-storybook": "build-storybook"
   },
   "peerDependencies": {
-    "react": "^16.0.0",
-    "react-dom": "^16.8.0",
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0",
     "tailwindcss": "^2.0.2"
   },
   "devDependencies": {
@@ -80,7 +80,6 @@
   "dependencies": {
     "@headlessui/react": "^0.2.0",
     "axios": "^0.21.1",
-    "nanoid": "^3.1.22",
     "path": "^0.12.7",
     "react-datepicker": "^3.6.0",
     "react-dropzone": "^11.2.4",
