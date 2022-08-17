@@ -3,12 +3,23 @@ import * as RHForm from 'react-hook-form'
 import { FormLabel } from '../misc/label'
 import { FormInputErrorMessage } from './error-message'
 
-export interface FormInputProps {
+export type FormInputProps = FormInputTextProps | FormInputNumberProps
+
+export interface FormInputCommonProps {
   name: string
   label: string
   type?: 'text' | 'number'
   placeholder?: string
   registerOptions?: RHForm.RegisterOptions
+}
+
+export interface FormInputTextProps extends FormInputCommonProps {
+  type?: 'text'
+}
+
+export interface FormInputNumberProps extends FormInputCommonProps {
+  type?: 'number'
+  step: number | string
 }
 
 function getFormInputStyles({ loading, error }: any) {
@@ -78,6 +89,7 @@ export const FormInput = (props: FormInputProps) => {
       />
       <div className='relative rounded-md shadow-sm'>
         <input
+          step={'step' in props ? props.step : undefined}
           type={props.type || 'text'}
           id={props.name}
           name={props.name}
